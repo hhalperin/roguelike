@@ -1,6 +1,7 @@
 ---
 description: Neow's blessing — scan this repo, detect its class, and deal it a starter deck of Claude config (CLAUDE.md relics + .claude/skills cards) tracked in .claude/deck.json. Run once to start a run.
 disable-model-invocation: true
+allowed-tools: Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/scan.py" *), Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" *)
 ---
 
 # /deck-builder — Neow's blessing
@@ -43,7 +44,14 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
    overwrite). Record each with
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-relic --path "${CLAUDE_PROJECT_DIR}" --id <relic-id>`.
 
-6. **Deal cards → skills.** Gather the cards from the class file(s). In a
+6. **Deal the play-tracking helper.** Copy
+   `${CLAUDE_SKILL_DIR}/../../scripts/record_play.py` to
+   `${CLAUDE_PROJECT_DIR}/.claude/deck-builder/record_play.py` verbatim (create
+   the directory if needed). This file is intentionally self-contained — it
+   keeps working even if the deck-builder plugin is later uninstalled, because
+   the save file must not depend on the engine that dealt it.
+
+7. **Deal cards → skills.** Gather the cards from the class file(s). In a
    dual-class run, **de-duplicate by card name** — if both classes define a card
    with the same name (e.g. `run-tests`), deal it once, keeping the primary
    class's version. This keeps the dealt `SKILL.md` files in sync with the deck,
@@ -51,11 +59,20 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
 
    For each unique card, create
    `${CLAUDE_PROJECT_DIR}/.claude/skills/<card-name>/SKILL.md` with this exact
-   shape (frontmatter from the card's `description`, body from the card's `body`):
+   shape (frontmatter from the card's `description`, body from the card's
+   `body`, and a **skill-scoped Stop hook** that credits a play whenever this
+   card was active — this is what makes `plays`/`last_played` in `deck.json`
+   real instead of always zero):
 
    ```
    ---
    description: <card.description>
+   hooks:
+     Stop:
+       - matcher: "*"
+         hooks:
+           - type: command
+             command: python3 "${CLAUDE_PROJECT_DIR}/.claude/deck-builder/record_play.py" --name <card-name>
    ---
    <card.body>
    ```
@@ -63,7 +80,7 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
    Then record it:
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-card --path "${CLAUDE_PROJECT_DIR}" --name <card-name> --type skill --floor 0`.
 
-7. **Bless the run.** Finish by running
+8. **Bless the run.** Finish by running
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" show --path "${CLAUDE_PROJECT_DIR}"`
    and present a short, in-theme summary: the class dealt, the relics and cards,
    and a nudge that new cards are earned by clearing rooms (shipping real work).
