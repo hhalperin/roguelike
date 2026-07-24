@@ -1,0 +1,49 @@
+# The Defect — python / backend.
+# A starter deck dealt into repos that look like Python services.
+class: defect
+name: The Defect
+detected_by: [pyproject.toml, setup.py, requirements.txt, Pipfile]
+flavor: >-
+  Python and backend work. You fight with focus: type hints, a green test
+  suite, and clean lint. Precision over flash.
+
+# Relics become rules written into the target repo's CLAUDE.md.
+relics:
+  - id: ruff-strict
+    rule: "Lint and format with Ruff; resolve every warning before committing."
+  - id: typed-public-api
+    rule: "Type-hint public functions and keep the type checker (mypy/pyright) clean."
+  - id: no-mocks-in-prod
+    rule: "Never ship mock, stub, or placeholder data in production code paths."
+
+# Cards become skills dealt into the target repo's .claude/skills/<name>/SKILL.md.
+# Each card's `description` is the skill frontmatter; `body` is the skill body.
+cards:
+  - name: run-tests
+    description: "Run the project's test suite and triage any failures. Use when asked to test, verify, or check that changes pass."
+    body: |
+      # Run tests
+
+      1. Detect the runner (pytest is typical for a Defect: check `pyproject.toml`
+         `[tool.pytest]`, `tox.ini`, or a `tests/` directory).
+      2. Run the full suite (e.g. `python -m pytest -q`). Prefer the project's
+         documented command if one exists.
+      3. If anything fails, summarize each failure: the test name, the assertion,
+         and the most likely cause. Fix the root cause, not the test, unless the
+         test itself is wrong.
+      4. Re-run until green, then report a one-line pass/fail summary.
+
+  - name: add-endpoint
+    description: "Scaffold a new API endpoint together with its test. Use when adding a route, handler, or service method to a backend."
+    body: |
+      # Add an endpoint
+
+      1. Find the existing endpoint/route pattern and copy its structure — router
+         registration, request/response models, error handling, and typing.
+      2. Implement the handler with full type hints and input validation.
+      3. Add a matching test that covers the happy path plus at least one error
+         case, following the repo's existing test style.
+      4. Run the test suite and confirm the new test passes before finishing.
+
+powers: []   # no hooks in the Act 1 starter deck
+agent: null
