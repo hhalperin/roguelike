@@ -124,3 +124,108 @@ def test_bool_not_accepted_as_int(tmp_path):
     bad["floor"] = True   # bool must be rejected for an int field
     errors = deck.validate(bad)
     assert any("floor" in e for e in errors)
+
+
+# --------------------------------------------------------------------------- #
+# Act 2 mutators: rewards, removal, play-crediting
+# --------------------------------------------------------------------------- #
+
+def test_bump_reward(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    assert deck.bump_reward(str(tmp_path), "offered", 2) == 2
+    assert deck.bump_reward(str(tmp_path), "offered", 1) == 3
+    assert read_deck(tmp_path)["rewards"]["offered"] == 3
+
+
+def test_mark_offered_taken_skipped_cli(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["mark-offered", "--path", str(tmp_path), "--count", "2"])
+    deck.main(["mark-taken", "--path", str(tmp_path)])
+    deck.main(["mark-skipped", "--path", str(tmp_path)])
+    rewards = read_deck(tmp_path)["rewards"]
+    assert rewards == {"offered": 2, "taken": 1, "skipped": 1}
+
+
+def test_remove_card(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    assert deck.remove_card(str(tmp_path), "run-tests") is True
+    assert read_deck(tmp_path)["cards"] == []
+    assert deck.remove_card(str(tmp_path), "run-tests") is False  # already gone
+
+
+def test_remove_relic(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-relic", "--path", str(tmp_path), "--id", "ruff-strict"])
+    assert deck.remove_relic(str(tmp_path), "ruff-strict") is True
+    assert read_deck(tmp_path)["relics"] == []
+    assert deck.remove_relic(str(tmp_path), "ruff-strict") is False
+
+
+def test_remove_card_cli_exit_codes(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    assert deck.main(["remove-card", "--path", str(tmp_path), "--name", "run-tests"]) == 0
+    assert deck.main(["remove-card", "--path", str(tmp_path), "--name", "run-tests"]) == 1
+
+
+def test_record_play_function(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    assert deck.record_play(str(tmp_path), "run-tests") is True
+    card = read_deck(tmp_path)["cards"][0]
+    assert card["plays"] == 1
+    assert card["last_played"] == "2026-07-24"
+    assert deck.record_play(str(tmp_path), "ghost") is False
+
+
+# --------------------------------------------------------------------------- #
+# Act 3: deck stats
+# --------------------------------------------------------------------------- #
+
+def test_stats_summary_empty_deck(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    s = deck.stats_summary(read_deck(tmp_path))
+    assert s["card_count"] == 0
+    assert s["total_plays"] == 0
+    assert s["most_played"] is None
+    assert s["unplayed"] == []
+    assert s["reward_take_rate"] is None
+    assert s["over_soft_cap"] is False
+
+
+def test_stats_summary_mixed_deck(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "add-endpoint"])
+    deck.record_play(str(tmp_path), "run-tests")
+    deck.record_play(str(tmp_path), "run-tests")
+    deck.bump_reward(str(tmp_path), "offered", 3)
+    deck.bump_reward(str(tmp_path), "taken", 1)
+
+    s = deck.stats_summary(read_deck(tmp_path))
+    assert s["card_count"] == 2
+    assert s["total_plays"] == 2
+    assert s["most_played"] == ("run-tests", 2)
+    assert s["unplayed"] == ["add-endpoint"]
+    assert s["reward_take_rate"] == pytest.approx(1 / 3)
+
+
+def test_stats_summary_soft_cap(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    for i in range(12):
+        deck.main(["add-card", "--path", str(tmp_path), "--name", f"card-{i}"])
+    assert deck.stats_summary(read_deck(tmp_path))["over_soft_cap"] is True
+
+
+def test_stats_cli_without_deck_errors(tmp_path):
+    assert deck.main(["stats", "--path", str(tmp_path)]) == 1
+
+
+def test_stats_cli_renders(tmp_path, capsys):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    assert deck.main(["stats", "--path", str(tmp_path)]) == 0
+    out = capsys.readouterr().out
+    assert "Unplayed cards (1): run-tests" in out
+    assert "no rewards offered yet" in out
