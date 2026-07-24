@@ -18,6 +18,9 @@ name: The <Name>         # display name
 detected_by: [ ... ]     # human-readable list of the signals that pick this class
 flavor: >-               # one or two sentences of theme
   ...
+commands:                # used by /deck-builder:ascend to build gate hooks;
+  lint: "..."            #   null if no command is universal enough for this
+  test: "..."            #   class to enforce automatically (e.g. Colorless)
 relics:                  # rules written into the target repo's CLAUDE.md
   - id: <kebab-id>
     rule: "A durable rule or boundary."
@@ -35,7 +38,9 @@ Keep starter decks **small and sharp** — a couple of relics and cards. Players
 earn more by clearing rooms; don't front-load. If you add a brand-new class name,
 also register it in `scripts/scan.py` (`FAMILY`, and detection signals) and
 `scripts/deck.py` (`CLASS_NAMES`); the tests in `tests/test_classes.py` enforce
-that the data and code agree.
+that the data and code agree. Only set `commands.lint`/`commands.test` to a
+command you're confident is reasonably universal for that class — `null` (and
+a warn-only gate at that tier) is the honest choice when it isn't.
 
 ### Add a card pack
 
@@ -47,9 +52,13 @@ issue template.
 
 ### Improve the engine
 
-`scripts/scan.py` (detection) and `scripts/deck.py` (the save file) are pure
-standard library — **no third-party runtime dependencies**. Follow the relics
-this repo deals itself (see `CLAUDE.md`): Ruff-clean, typed, no placeholder data.
+`scripts/scan.py`, `scripts/deck.py`, and `scripts/ascend.py` (plus anything
+dealt into target repos: `record_play.py`, `ascension_gate.py`) are pure
+standard library — **no third-party runtime dependencies**. `scripts/curator.py`
+is the one documented exception (a soft dependency on `claude-agent-sdk` for
+reward judgment; it must degrade to a clean "skip" if that import fails, never
+raise). Follow the relics this repo deals itself (see `CLAUDE.md`): Ruff-clean,
+typed, no placeholder data.
 
 ## Develop
 

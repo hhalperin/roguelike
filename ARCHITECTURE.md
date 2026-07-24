@@ -19,22 +19,37 @@ engine must *write* config into repos rather than carry it.
  │ scan.py   (detect)     │  ─────────────▶  │ CLAUDE.md   (relics)   │
  │ deck.py   (save I/O)   │                  │ .claude/deck.json      │
  │ classes/  (data)       │                  │ .claude/skills/ (cards)│
- │ skills/   (commands)   │  ◀─────────────  │                        │
- └────────────────────────┘   /…:map (read)  └────────────────────────┘
+ │ skills/   (commands)   │  ◀─────────────  │ .claude/deck-builder/  │
+ │ hooks/    (the loop)   │  ◀─(Stop/etc.)─  │   (self-contained      │
+ └────────────────────────┘                  │    dealt-hook helpers) │
+                                              └────────────────────────┘
 ```
+
+The engine's *own* hooks (`hooks/hooks.json`) run whenever the plugin is
+enabled, in any repo. What they write into a target repo — dealt cards' own
+hooks, `ascension_gate.py` — is deliberately **self-contained**: it must keep
+working even if deck-builder is later uninstalled, so it never imports the
+engine, only stdlib.
 
 ## Deterministic before generative
 
 The spine of the design: mechanical work is done by deterministic Python; the
-model only judges where determinism can't reach.
+model only judges where determinism can't reach — and even that judgment is
+gated so it almost never runs.
 
 - `scan.py` **detects** the stack (no LLM, no network, stdlib only).
 - `deck.py` **validates and writes** the save file atomically (stdlib only).
-- The `/deck-builder` skill **judges** which class(es) to deal and assembles the
-  cards — the one place that needs a model.
+- `reward_gate.py` **decides whether it's worth asking at all** (a new commit,
+  or enough activity) before ever invoking a model (stdlib only).
+- `curator.py` **judges** a reward offer — the one script with a soft,
+  optional dependency (`claude-agent-sdk`), because judgment inherently needs
+  a model. It degrades to "skip" if the dependency is absent or anything
+  fails; the reward loop is a bonus, never a point of failure.
+- The `/deck-builder` skill **judges** which class(es) to deal and assembles
+  the cards; `/deck-builder:ascend` reads class YAML for lint/test commands.
 
-A consequence: the scripts never parse the class YAML. The skill reads the class
-files as prompt content, so the scripts stay dependency-free and portable.
+A consequence: the scripts never parse the class YAML. The skills read the
+class files as prompt content, so the scripts stay dependency-free and portable.
 
 ## Components
 
@@ -58,24 +73,114 @@ more *families* set `monorepo: true`, which becomes a dual-class run.
 
 ### `scripts/deck.py` — the save file
 Owns `<repo>/.claude/deck.json`. Subcommands: `init`, `add-card`, `add-relic`,
-`add-power`, `show`, `validate`. Writes are atomic (temp file + `os.replace`) and
-`init` is idempotent (refuses to re-deal without `--force`). `show` backs
-`/deck-builder:map`.
+`add-power`, `remove-card`, `remove-relic`, `record-play`, `mark-offered`,
+`mark-taken`, `mark-skipped`, `show`, `stats`, `validate`. Writes are atomic
+(temp file + `os.replace`) and `init` is idempotent (refuses to re-deal
+without `--force`). `show`/`stats` back `/deck-builder:map`.
 
 ### `classes/*.yaml` — the archetypes (data)
-Each class file declares its `detected_by` signals, `flavor`, `relics`
-(CLAUDE.md rules), and `cards` (each a `name` + `description` + SKILL.md `body`).
-This is the primary contribution surface — adding an archetype is a data change,
-not a code change.
+Each class file declares `detected_by` signals, `flavor`, a `commands`
+block (`lint`/`test` — `null` where no command is universal enough to
+enforce, e.g. Colorless), `relics` (CLAUDE.md rules), and `cards` (each a
+`name` + `description` + SKILL.md `body`). This is the primary contribution
+surface — adding an archetype is a data change, not a code change.
 
 ### `skills/` — the commands and rubrics
 - `deck-builder/` → `/deck-builder` (Neow's blessing: scan → deal), user-invoked.
-- `map/` → `/deck-builder:map` (render run state), user-invoked.
+- `map/` → `/deck-builder:map` (run state + `deck.py stats`), user-invoked.
+- `campfire/` → `/deck-builder:campfire` (resolve a pending reward, or review
+  the deck via the `deck-curator` agent), user-invoked.
+- `ascend/` → `/deck-builder:ascend` (the A0–A20 ladder), user-invoked.
 - `card-evaluation/`, `deck-state/` → model-invoked rubrics that guide Claude when
   judging what belongs in a deck and how to touch `deck.json` safely.
 
 Skills reference bundled scripts via `${CLAUDE_SKILL_DIR}/../../scripts/…` and the
 target repo via `${CLAUDE_PROJECT_DIR}`, so paths stay install-independent.
+
+### `agents/deck-curator.md` — the interactive reviewer
+A cheap-model (`haiku`) subagent `/deck-builder:campfire` delegates to for a
+conversational deck review (which unplayed cards look safe to prune). Distinct
+from `curator.py`: the agent is for *interactive* campfire review; the script
+is for the *automated*, headless Stop-hook reward judgment. Same house rules,
+two different invocation mechanisms suited to their trigger context.
+
+## The reward loop (Act 2)
+
+```
+ every Stop  ──▶  activity_log.py (PostToolUse)      cheap counter, no LLM
+                        │
+ enough Stops ──▶ reward_gate.py (Stop)               deterministic gate:
+                        │                              new commit, or activity
+                        │                              past a threshold?
+                        ▼
+                  curator.py                          claude-agent-sdk,
+                  (soft dependency)                    cheap model, tool-free,
+                        │                               schema-enforced JSON
+                        ▼
+          .claude/deck-pending-reward.json             written only on "offer"
+                        │
+   next SessionStart ──▶ status_line.py                surfaces it quietly
+   or /deck-builder:campfire ──▶ accept/skip           never interrupts Stop
+```
+
+- **`activity_log.py`** (PostToolUse): if `.claude/deck.json` exists, bumps a
+  counter in `.claude/deck-builder-state.json` (capped, never unbounded). A
+  silent no-op in any repo without a dealt deck.
+- **`reward_gate.py`** (Stop): the deterministic gate. A candidate check fires
+  on a new commit since last check, or activity past `ACTIVITY_THRESHOLD`
+  (lower — effectively 1 — once ascension reaches A20, so every room gets
+  reviewed instead of a sample). On a candidate, it gathers a bounded git diff
+  (stat + real content, so the curator can see a *repeated pattern*, not just
+  a line count) and calls `curator.judge()`. Always resets its window
+  afterward and **never blocks Stop**, wrapped in a top-level catch-all.
+- **`curator.py`**: one cheap-model (`claude-haiku-4-5`), tool-free,
+  `max_turns=1` call via `claude-agent-sdk`, with `output_format` set to a
+  JSON schema so the response is structurally guaranteed
+  (`{recommend, reason, offer[], remove[]}`). House rules baked into the
+  system prompt: default skip; offer only for a genuinely repeated pattern;
+  past a ~12-card soft cap, every offer must name a card to remove; at most 3
+  cards. Any failure — missing dependency, timeout, malformed output —
+  degrades to `{"recommend": "skip", ...}`, never an exception.
+- **Play tracking**: dealt cards aren't fixed tool names, so `PostToolUse`
+  can't attribute a play to a specific card. Instead, `/deck-builder` embeds a
+  **skill-scoped `Stop` hook** in each dealt card's own SKILL.md frontmatter
+  (Claude Code hooks can live in a skill's frontmatter, "scoped to the
+  component's lifecycle" — they fire only while that skill is active),
+  pointing at `.claude/deck-builder/record_play.py`. That script is dealt
+  (copied) into the target repo once, self-contained, so it keeps crediting
+  plays even without the engine installed.
+
+## The ascension ladder (Act 3)
+
+`/deck-builder:ascend` reads the deck's class(es) YAML for `commands.lint`/
+`commands.test` (a skill responsibility — scripts don't parse YAML), then
+calls `scripts/ascend.py`, which:
+
+1. **Merges** (never overwrites) a `Stop` hook into the target repo's own
+   `.claude/settings.json`, identifying "our" prior entry by a marker in its
+   command string so re-ascending replaces it rather than duplicating, and
+   de-escalating to A0 removes only that one entry — everything else already
+   in `settings.json` (a user's own permissions, other plugins' hooks) is left
+   exactly as found.
+2. **Writes** `.claude/deck-builder-ascension.json` (tier + resolved
+   lint/test commands + a coverage baseline) — the self-contained
+   `ascension_gate.py`'s only config source.
+3. **Updates** `deck.json.ascension`.
+
+`ascension_gate.py` (dealt into `.claude/deck-builder/`, no engine
+dependency) is the actual gate, run as that Stop hook:
+
+| Tier | Enforces |
+|---|---|
+| A0 | nothing (not wired in) |
+| A5 | blocks if `lint_cmd` fails |
+| A10 | A5, + blocks if `test_cmd` fails |
+| A15 | A10, + blocks on a coverage regression, parsed from test output with a regex tolerant of common `coverage`/pytest-cov layouts (`TOTAL <stmts> <miss> NN%`); no coverage number found → that check silently no-ops |
+| A20 | A15 (the "review every room" half of A20 lives in `reward_gate.py`'s lowered threshold, not here — it's a sampling decision, not a pass/fail gate) |
+
+A missing/unset command for a tier's check is always a silent no-op for that
+specific check, never a block — the gate never pretends to enforce something
+it can't actually verify. Any unexpected internal error also fails open.
 
 ## `deck.json` schema (v1)
 
@@ -96,18 +201,31 @@ target repo via `${CLAUDE_PROJECT_DIR}`, so paths stay install-independent.
 ```
 
 `rewards.taken / rewards.skipped` is a deck-health signal — a high skip rate is
-healthy. `ascension` (0–20) is raised only by the (planned) `ascend` command,
-never silently; `clean_room_streak` is reserved for a future opt-in auto-raise.
+healthy. `ascension` (0–20) is raised only by `/deck-builder:ascend`, never
+silently; `clean_room_streak` is reserved for a future opt-in auto-raise (still
+unused today — ascension stays manual).
+
+### Ephemeral files (not part of the versioned save)
+
+Separate from `deck.json` on purpose — disposable bookkeeping, not a run a
+player would want preserved or would expect to hand-edit:
+
+- `.claude/deck-builder-state.json` — Stop-hook window (last checked commit,
+  activity count since).
+- `.claude/deck-pending-reward.json` — a card offer awaiting a
+  `/deck-builder:campfire` decision; deleted once resolved either way.
+- `.claude/deck-builder-ascension.json` — the ascension gate's config.
 
 ## Extending
 
-- **Add a class:** create `classes/<name>.yaml`, register the name in
-  `scripts/scan.py` (`FAMILY` + detection) and `scripts/deck.py` (`CLASS_NAMES`).
-  `tests/test_classes.py` enforces that the data and code agree.
+- **Add a class:** create `classes/<name>.yaml` (including a `commands`
+  block), register the name in `scripts/scan.py` (`FAMILY` + detection) and
+  `scripts/deck.py` (`CLASS_NAMES`). `tests/test_classes.py` enforces that the
+  data and code agree.
 - **Add a card pack:** see `packs/README.md`.
 
 ## Status
 
-Act 1 (the starter deck) is what ships today. Act 2 (a `Stop`-hook reward loop
-and a cheap-model curator), Act 3 (the ascension ladder), and community card
-packs are planned — see the roadmap in [README.md](README.md).
+Acts 1–3 (the starter deck, the reward-loop engine, and the ascension ladder)
+all ship in this repo today. Community card packs and classes are planned —
+see the roadmap in [README.md](README.md).
