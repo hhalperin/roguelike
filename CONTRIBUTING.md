@@ -40,7 +40,10 @@ that the data and code agree.
 ### Add a card pack
 
 A card pack is a themed set of cards (skills) that any class can draw from.
-Packs land under `packs/` (coming with Act 2). For now, propose them as an issue.
+Packs land under `packs/<name>/pack.yaml` — see [`packs/README.md`](packs/README.md)
+for the format. The loader that *deals* a pack ships with a later act; today,
+open a PR adding the pack data or propose one via the "class or card pack"
+issue template.
 
 ### Improve the engine
 
@@ -51,13 +54,24 @@ this repo deals itself (see `CLAUDE.md`): Ruff-clean, typed, no placeholder data
 ## Develop
 
 ```bash
-python3 -m pytest tests/        # scan + deck + class-schema tests
+python3 -m pytest tests/        # scan + deck + class-schema + manifest tests
 python3 scripts/scan.py <repo>  # eyeball detection
-ruff check .                    # lint (optional, matches the repo's relic)
+ruff check scripts/ tests/      # lint (matches the repo's own relic)
 ```
 
-Tests use only pytest; the class-schema test additionally uses PyYAML and skips
-itself if PyYAML isn't installed.
+Tests use only pytest; the class-schema and manifest tests additionally use
+PyYAML and skip themselves if PyYAML isn't installed.
+
+Optional local hooks: `pip install pre-commit && pre-commit install` runs the
+same checks (`.pre-commit-config.yaml`) before each commit. CI runs them too
+(`.github/workflows/ci.yml`), on a Python version matrix, alongside `pytest`
+and `ruff`.
+
+## Pull requests
+
+- Fill in the PR template's checklist.
+- CI (lint + tests, on Python 3.9 and 3.12) must pass.
+- `.github/CODEOWNERS` routes review requests automatically.
 
 ## Issue labels (rarity)
 
