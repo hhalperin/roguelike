@@ -1,0 +1,32 @@
+name: Bug report
+description: Something in the plugin or a dealt deck isn't working
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. Please fill in enough detail to reproduce it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Include the command (e.g. `/deck-builder`) and the kind of repo it ran against.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: deck-builder version
+      placeholder: "0.1.0"
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Claude Code version, OS, and `python3 --version`.

@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Keep the CI workflow's actions (checkout, setup-python, etc.) current.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"

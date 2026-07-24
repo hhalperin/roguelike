@@ -1,0 +1,30 @@
+# The Colorless — unknown terrain.
+# The safe default when scan.py can't confidently detect a class. Minimal deck,
+# no powers, no assumptions about the stack.
+class: colorless
+name: The Colorless
+detected_by: ["anything scan.py can't classify"]
+flavor: >-
+  Unknown terrain. A minimal, safe deck: small diffs, no powers, and no
+  assumptions about the stack until you've mapped it.
+
+relics:
+  - id: small-diffs
+    rule: "Prefer small, focused changes with clear commit messages."
+
+cards:
+  - name: orient
+    description: "Map an unfamiliar repository before changing it. Use at the start of work in a repo whose stack or layout is unclear."
+    body: |
+      # Orient in the repo
+
+      1. Identify entry points and the overall layout (top-level dirs, main
+         modules, config).
+      2. Find how to build, run, and test it — check the README, scripts, and
+         CI config. Record the exact commands.
+      3. Note the conventions already in use (formatting, naming, test style) so
+         your changes match them.
+      4. Summarize what you found before making changes.
+
+powers: []
+agent: null

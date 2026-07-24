@@ -1,0 +1,43 @@
+# The Ironclad — infra / IaC.
+# A starter deck dealt into repos that look like infrastructure: Terraform,
+# Docker, Kubernetes, deployment tooling.
+class: ironclad
+name: The Ironclad
+detected_by: [Dockerfile, "*.tf", terraform/, docker-compose.yml]
+flavor: >-
+  Infrastructure and IaC. Heavy armor and heavier consequences: plan before you
+  apply, pin your versions, and never let the world drift from the code.
+
+relics:
+  - id: plan-before-apply
+    rule: "Always produce and review a plan (terraform plan or equivalent) before applying infrastructure changes."
+  - id: pin-versions
+    rule: "Pin image tags and provider/module versions; never rely on `latest` in production."
+
+cards:
+  - name: plan-change
+    description: "Produce and review an infrastructure change plan before applying it. Use when modifying Terraform, Helm, or deployment config."
+    body: |
+      # Plan an infra change
+
+      1. Make the smallest change that achieves the goal; keep modules and
+         variables consistent with the existing structure.
+      2. Generate a plan (e.g. `terraform plan`) and read it carefully. Call out
+         every create/destroy/replace and anything that touches state or data.
+      3. Flag irreversible or destructive actions explicitly and confirm intent
+         before applying.
+      4. Apply only after the plan is understood; report what changed.
+
+  - name: drift-check
+    description: "Detect and report drift between declared infrastructure and the real world. Use when auditing or before a release."
+    body: |
+      # Check for drift
+
+      1. Run a read-only plan/refresh (e.g. `terraform plan -refresh-only`) to
+         compare declared state with reality.
+      2. Summarize any drift: which resources differ and how.
+      3. Recommend whether to reconcile in code or import the real state — do not
+         silently overwrite live infrastructure.
+
+powers: []
+agent: null

@@ -1,0 +1,41 @@
+# The Watcher — data / ML.
+# A starter deck dealt into repos that look like data science or ML work:
+# notebooks, model directories, ML dependencies.
+class: watcher
+name: The Watcher
+detected_by: ["*.ipynb", notebooks/, models/, "ML dependencies (torch, pandas, sklearn, ...)"]
+flavor: >-
+  Data and machine learning. Calm and deliberate: log every experiment, seed
+  everything, and gate progress on evaluation, not vibes.
+
+relics:
+  - id: log-experiments
+    rule: "Record params, data version, and metrics for every experiment so runs can be compared and reproduced."
+  - id: seed-everything
+    rule: "Set and record random seeds so results are reproducible."
+
+cards:
+  - name: log-experiment
+    description: "Record an experiment's configuration, data, and metrics. Use when training, tuning, or evaluating a model."
+    body: |
+      # Log an experiment
+
+      1. Before running, capture the config: hyperparameters, dataset + version,
+         code revision, and the random seed.
+      2. After running, record the metrics that matter for this task alongside
+         that config, in the repo's experiment log (tracker, table, or file).
+      3. Make the run reproducible: note the exact command and environment.
+      4. Compare against the current best and state whether this run improves it.
+
+  - name: eval-model
+    description: "Evaluate a model on a held-out set and report metrics honestly. Use when checking model quality or comparing candidates."
+    body: |
+      # Evaluate a model
+
+      1. Use the held-out / test split — never evaluate on training data.
+      2. Report the task-appropriate metrics, plus a baseline for context.
+      3. Look for leakage, class imbalance, and overfitting; call them out.
+      4. State clearly whether the model meets the bar before it ships.
+
+powers: []
+agent: null

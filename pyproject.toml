@@ -1,0 +1,15 @@
+# deck-builder is a Claude Code plugin, not a distributable Python package: its
+# runtime scripts import only the standard library. This file exists to (a) give
+# pytest/ruff a config home and (b) dogfood the plugin — its presence makes the
+# repo self-detect as the Defect class when you run scan.py against it.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

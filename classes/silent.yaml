@@ -1,0 +1,42 @@
+# The Silent — typescript / frontend.
+# A starter deck dealt into repos that look like TS/JS apps or component libraries.
+class: silent
+name: The Silent
+detected_by: [package.json, tsconfig.json, next.config.*, vite.config.*]
+flavor: >-
+  TypeScript and frontend work. Small, sharp components and fast tests keep you
+  quiet and deadly. Strict types, no loose ends.
+
+relics:
+  - id: strict-ts
+    rule: "Keep tsconfig strict; do not introduce `any` in new code."
+  - id: lint-before-commit
+    rule: "Run the linter and formatter and fix all issues before committing."
+
+cards:
+  - name: add-component
+    description: "Scaffold a UI component with a co-located test. Use when creating a new component, widget, or view."
+    body: |
+      # Add a component
+
+      1. Match the existing component convention: file layout, prop typing,
+         styling approach, and export style. Copy a nearby component as a model.
+      2. Fully type the props — no `any`. Keep the component focused and small.
+      3. Add a co-located test (e.g. `*.test.tsx`) covering render plus the main
+         interaction, following the repo's testing library and patterns.
+      4. Run lint and the test suite; fix issues before finishing.
+
+  - name: run-tests
+    description: "Run the frontend test suite and triage failures. Use when asked to test, verify, or check changes."
+    body: |
+      # Run tests
+
+      1. Detect the runner from `package.json` scripts (vitest, jest, etc.) and
+         prefer the documented command (e.g. `npm test`).
+      2. Run the full suite.
+      3. For each failure, report the test, the expectation, and the likely cause;
+         fix the root cause rather than the assertion unless the test is wrong.
+      4. Re-run until green and report a one-line summary.
+
+powers: []
+agent: null
