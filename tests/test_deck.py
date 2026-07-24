@@ -168,6 +168,30 @@ def test_remove_card_without_skill_dir_on_disk(tmp_path):
     assert read_deck(tmp_path)["cards"] == []
 
 
+def test_remove_card_rejects_path_traversal_name(tmp_path):
+    # A card name isn't always human-typed (a curator offer can name one) -
+    # a name with a path separator must never reach shutil.rmtree.
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "../evil"])
+    canary = tmp_path / ".claude" / "canary.txt"
+    canary.write_text("must survive")
+
+    assert deck.remove_card(str(tmp_path), "../evil") is True
+
+    assert read_deck(tmp_path)["cards"] == []  # deck.json removal still proceeds
+    assert canary.exists()  # rmtree must never have escaped .claude/skills/
+
+
+def test_remove_card_rejects_bare_dotdot_name(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", ".."])
+    canary = tmp_path / ".claude" / "canary.txt"
+    canary.write_text("must survive")
+
+    assert deck.remove_card(str(tmp_path), "..") is True
+    assert canary.exists()
+
+
 def test_remove_relic(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
     deck.main(["add-relic", "--path", str(tmp_path), "--id", "ruff-strict"])

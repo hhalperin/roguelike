@@ -24,16 +24,6 @@ import engine_state  # noqa: E402
 CLASS_LABELS = deck.CLASS_NAMES
 
 
-def _pending_reward(repo: str) -> dict | None:
-    path = os.path.join(repo, ".claude", "deck-pending-reward.json")
-    try:
-        with open(path, encoding="utf-8") as fh:
-            data = json.load(fh)
-            return data if isinstance(data, dict) else None
-    except (FileNotFoundError, json.JSONDecodeError):
-        return None
-
-
 def render(repo: str) -> str | None:
     if not engine_state.deck_exists(repo):
         return None
@@ -50,8 +40,8 @@ def render(repo: str) -> str | None:
         f" {len(d.get('relics', []))} relics."
     ]
 
-    pending = _pending_reward(repo)
-    if pending and pending.get("offer"):
+    pending = engine_state.load_pending_reward(repo)
+    if pending is not None:
         offer_names = ", ".join(o.get("name", "?") for o in pending["offer"])
         lines.append(
             f"🎁 Card(s) pending review: {offer_names} — run /deck-builder:campfire to decide."

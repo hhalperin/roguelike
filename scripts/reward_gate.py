@@ -70,12 +70,8 @@ def _diff_summary(repo: str, since_sha: str | None) -> str:
     return "\n\n".join(parts) or "no git diff available"
 
 
-def _pending_reward_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", "deck-pending-reward.json")
-
-
 def _write_pending_reward(repo: str, verdict: dict) -> None:
-    path = _pending_reward_path(repo)
+    path = engine_state.pending_reward_path(repo)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     payload = {
         "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -94,10 +90,14 @@ def _write_pending_reward(repo: str, verdict: dict) -> None:
 def run(repo: str) -> None:
     if not engine_state.deck_exists(repo):
         return
-    if os.path.exists(_pending_reward_path(repo)):
+    if engine_state.load_pending_reward(repo) is not None:
         # An earlier offer is still awaiting a campfire decision - don't ask
         # the curator again (would silently replace it and double-count
         # rewards.offered). Resume normal gating once campfire resolves it.
+        # Deliberately the SAME definition of "pending" status_line.py uses
+        # (missing/corrupt/offer-less all count as "nothing pending"), so a
+        # stale or malformed file can never deadlock the reward loop with no
+        # visible hint - see engine_state.load_pending_reward.
         return
 
     the_deck = deck.load(repo)

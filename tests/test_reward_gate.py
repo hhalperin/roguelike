@@ -132,6 +132,46 @@ def test_pending_reward_blocks_new_curator_calls_until_resolved(tmp_path, monkey
     assert deck.load(str(tmp_path))["rewards"]["offered"] == 0  # not double-counted
 
 
+def test_corrupt_pending_reward_does_not_block_gate_forever(tmp_path, monkeypatch):
+    # A malformed pending-reward file must not permanently deadlock the
+    # reward loop with no visible recovery path - status_line.py can't
+    # surface a hint for a file it can't parse either, so the gate must
+    # treat it the same way status_line.py does: as nothing pending.
+    _git_repo(tmp_path)
+    _deal(tmp_path)
+    (tmp_path / ".claude" / "deck-pending-reward.json").write_text("{not valid json")
+    _save_state(tmp_path, activity_count=reward_gate.ACTIVITY_THRESHOLD)
+    called = []
+    skip_verdict = {"recommend": "skip", "reason": "", "offer": [], "remove": []}
+
+    def fake_judge(*_a, **_k):
+        called.append(1)
+        return skip_verdict
+
+    monkeypatch.setattr(reward_gate.curator, "judge", fake_judge)
+    reward_gate.run(str(tmp_path))
+    assert called == [1]
+
+
+def test_offerless_pending_reward_does_not_block_gate_forever(tmp_path, monkeypatch):
+    _git_repo(tmp_path)
+    _deal(tmp_path)
+    (tmp_path / ".claude" / "deck-pending-reward.json").write_text(json.dumps({
+        "reason": "", "offer": [], "remove": [],
+    }))
+    _save_state(tmp_path, activity_count=reward_gate.ACTIVITY_THRESHOLD)
+    called = []
+    skip_verdict = {"recommend": "skip", "reason": "", "offer": [], "remove": []}
+
+    def fake_judge(*_a, **_k):
+        called.append(1)
+        return skip_verdict
+
+    monkeypatch.setattr(reward_gate.curator, "judge", fake_judge)
+    reward_gate.run(str(tmp_path))
+    assert called == [1]
+
+
 def test_new_commit_since_last_check_triggers_candidate_even_below_activity(tmp_path, monkeypatch):
     _git_repo(tmp_path)
     _deal(tmp_path)

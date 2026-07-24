@@ -224,6 +224,24 @@ def bump_reward(repo: str, field: str, amount: int = 1) -> int:
     return d["rewards"][field]
 
 
+def _is_safe_card_name(name: str) -> bool:
+    """A card name must be a single plain path segment.
+
+    Card names can originate from a curator's model-generated offer, not
+    just a human typing a kebab-case slug - so before it's ever used to
+    build a filesystem path, refuse anything containing a path separator
+    or `.`/`..`, however it was produced. Without this, a name like
+    ``"../../etc"`` (or an absolute path, which ``os.path.join`` would
+    otherwise let override the intended directory entirely) could point
+    ``shutil.rmtree`` outside ``.claude/skills/``.
+    """
+    if not name or name in (os.curdir, os.pardir):
+        return False
+    if os.sep in name or (os.altsep and os.altsep in name):
+        return False
+    return True
+
+
 def remove_card(repo: str, name: str) -> bool:
     """Remove a card by name, deleting its dealt skill directory too.
 
@@ -231,14 +249,17 @@ def remove_card(repo: str, name: str) -> bool:
     left on disk at ``.claude/skills/<name>/`` would still load as a skill,
     defeating the point of a campfire prune - so the directory goes first
     (fail toward over-removed, never toward a phantom still-loadable skill).
+    The deck.json removal always proceeds even if the name isn't safe to
+    use as a path segment; only the disk deletion is skipped in that case.
     """
     d = load(repo)
     matches = [c for c in d["cards"] if c.get("name") == name]
     if not matches:
         return False
-    for card in matches:
-        if card.get("type", "skill") == "skill":
-            shutil.rmtree(os.path.join(repo, ".claude", "skills", name), ignore_errors=True)
+    if _is_safe_card_name(name):
+        for card in matches:
+            if card.get("type", "skill") == "skill":
+                shutil.rmtree(os.path.join(repo, ".claude", "skills", name), ignore_errors=True)
     d["cards"] = [c for c in d["cards"] if c.get("name") != name]
     save(repo, d)
     return True
