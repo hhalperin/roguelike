@@ -1,7 +1,6 @@
 ---
 description: Neow's blessing — scan this repo, detect its class, and deal it a starter deck of Claude config (CLAUDE.md relics + .claude/skills cards) tracked in .claude/deck.json. Run once to start a run.
 disable-model-invocation: true
-argument-hint: "[path]"
 ---
 
 # /deck-builder — Neow's blessing
@@ -12,8 +11,8 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
 **Paths** (already substituted for you):
 - Engine scripts: `${CLAUDE_SKILL_DIR}/../../scripts/` (i.e. `scan.py`, `deck.py`)
 - Class data: `${CLAUDE_SKILL_DIR}/../../classes/`
-- Target repo (the save file lives here): `${CLAUDE_PROJECT_DIR}`
-  (if an argument was given, treat `$ARGUMENTS` as the target repo instead)
+- Target repo (the save file lives here): `${CLAUDE_PROJECT_DIR}` — the project
+  you're working in; `/deck-builder` always decks this project.
 
 ## Steps
 
@@ -37,13 +36,20 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
 4. **Create the save file.** Run
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" init --path "${CLAUDE_PROJECT_DIR}" --class <primary> [--class <secondary>]`.
 
-5. **Deal relics → CLAUDE.md.** For each relic in the class file, add its `rule`
-   as a bullet under a `## deck-builder relics` heading in
-   `${CLAUDE_PROJECT_DIR}/CLAUDE.md`. If `CLAUDE.md` already exists, **append**
-   the section (read first, don't overwrite). Record each with
-   `deck.py add-relic --path "${CLAUDE_PROJECT_DIR}" --id <relic-id>`.
+5. **Deal relics → CLAUDE.md.** For each relic in the class file(s), add its
+   `rule` as a bullet under a `## deck-builder relics` heading in
+   `${CLAUDE_PROJECT_DIR}/CLAUDE.md`. In a dual-class run, de-duplicate relics by
+   `id`. If `CLAUDE.md` already exists, **append** the section (read first, don't
+   overwrite). Record each with
+   `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-relic --path "${CLAUDE_PROJECT_DIR}" --id <relic-id>`.
 
-6. **Deal cards → skills.** For each card in the class file, create
+6. **Deal cards → skills.** Gather the cards from the class file(s). In a
+   dual-class run, **de-duplicate by card name** — if both classes define a card
+   with the same name (e.g. `run-tests`), deal it once, keeping the primary
+   class's version. This keeps the dealt `SKILL.md` files in sync with the deck,
+   which `deck.py add-card` also de-duplicates by name.
+
+   For each unique card, create
    `${CLAUDE_PROJECT_DIR}/.claude/skills/<card-name>/SKILL.md` with this exact
    shape (frontmatter from the card's `description`, body from the card's `body`):
 
@@ -55,7 +61,7 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
    ```
 
    Then record it:
-   `deck.py add-card --path "${CLAUDE_PROJECT_DIR}" --name <card-name> --type skill --floor 0`.
+   `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-card --path "${CLAUDE_PROJECT_DIR}" --name <card-name> --type skill --floor 0`.
 
 7. **Bless the run.** Finish by running
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" show --path "${CLAUDE_PROJECT_DIR}"`
