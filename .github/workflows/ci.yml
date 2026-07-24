@@ -8,12 +8,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # scan.py/deck.py claim to be pure-stdlib and portable; test the floor
+        # (pyproject's target-version) and a current version, not just one.
+        python-version: ["3.9", "3.12"]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
 
       - name: Install dev tools
         run: python -m pip install --upgrade pip pytest pyyaml ruff
@@ -26,3 +33,34 @@ jobs:
         # marketplace.json, and every SKILL.md's frontmatter — the structural
         # checks that `claude plugin validate` performs, runnable without the CLI.
         run: python -m pytest tests/ -q
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Runs the same hooks defined in .pre-commit-config.yaml, so what's
+      # documented for local use is also enforced in CI.
+      - uses: pre-commit/action@v3.0.1
+
+  plugin-validate:
+    # Best-effort: exercises the real `claude plugin validate` CLI as a second
+    # opinion alongside tests/test_plugin_manifests.py (the enforced, no-auth
+    # equivalent). Only runs when an API key secret is configured, and never
+    # fails the build on its own.
+    runs-on: ubuntu-latest
+    if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Validate plugin manifest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: claude plugin validate .

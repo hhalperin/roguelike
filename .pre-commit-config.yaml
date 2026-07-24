@@ -12,6 +12,9 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        # Markdown may use two trailing spaces for a hard line break; .editorconfig
+        # makes the same exception (trim_trailing_whitespace = false for *.md).
+        exclude: \.md$
       - id: check-json
       - id: check-yaml
       - id: check-added-large-files
