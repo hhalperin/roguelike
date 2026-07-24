@@ -70,8 +70,12 @@ def _diff_summary(repo: str, since_sha: str | None) -> str:
     return "\n\n".join(parts) or "no git diff available"
 
 
+def _pending_reward_path(repo: str) -> str:
+    return os.path.join(repo, ".claude", "deck-pending-reward.json")
+
+
 def _write_pending_reward(repo: str, verdict: dict) -> None:
-    path = os.path.join(repo, ".claude", "deck-pending-reward.json")
+    path = _pending_reward_path(repo)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     payload = {
         "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -90,6 +94,11 @@ def _write_pending_reward(repo: str, verdict: dict) -> None:
 def run(repo: str) -> None:
     if not engine_state.deck_exists(repo):
         return
+    if os.path.exists(_pending_reward_path(repo)):
+        # An earlier offer is still awaiting a campfire decision - don't ask
+        # the curator again (would silently replace it and double-count
+        # rewards.offered). Resume normal gating once campfire resolves it.
+        return
 
     the_deck = deck.load(repo)
     state = engine_state.load(repo)
@@ -103,7 +112,11 @@ def run(repo: str) -> None:
     threshold = 1 if the_deck.get("ascension", 0) >= 20 else ACTIVITY_THRESHOLD
 
     new_commit = bool(current_sha and last_sha and current_sha != last_sha)
-    first_check = last_sha is None
+    # NOT `last_sha is None`: current_sha (and thus last_sha, once saved) is
+    # also None whenever git has no HEAD, which would make every later check
+    # look like a "first check" forever and bypass ACTIVITY_THRESHOLD. Only
+    # last_check_at is guaranteed to be set once any check has ever run.
+    first_check = state.get("last_check_at") is None
     candidate = new_commit or activity >= threshold or (first_check and activity > 0)
     if not candidate:
         return

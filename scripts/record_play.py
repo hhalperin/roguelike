@@ -19,6 +19,28 @@ import argparse
 import datetime
 import json
 import os
+import sys
+
+
+def _read_session_id() -> str | None:
+    """Best-effort read of the Stop hook's stdin JSON for ``session_id``.
+
+    Claude Code pipes the hook payload to the process's stdin and closes it;
+    a manual/test invocation with nothing piped in reads as an immediate
+    EOF, which falls back to "unknown session" (always credit the play)
+    rather than risk ever blocking on a read.
+    """
+    try:
+        raw = sys.stdin.read()
+    except Exception:
+        return None
+    if not raw:
+        return None
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+    return data.get("session_id") if isinstance(data, dict) else None
 
 
 def main() -> int:
@@ -26,6 +48,8 @@ def main() -> int:
     parser.add_argument("--name", required=True)
     parser.add_argument("--path", default=os.environ.get("CLAUDE_PROJECT_DIR", "."))
     args = parser.parse_args()
+
+    session_id = _read_session_id()
 
     deck_path = os.path.join(args.path, ".claude", "deck.json")
     try:
@@ -36,11 +60,16 @@ def main() -> int:
 
     changed = False
     for card in deck.get("cards", []):
-        if card.get("name") == args.name:
-            card["plays"] = card.get("plays", 0) + 1
-            card["last_played"] = datetime.date.today().isoformat()
-            changed = True
-            break
+        if card.get("name") != args.name:
+            continue
+        if session_id and card.get("last_play_session") == session_id:
+            break  # already credited this session - no-op, per-session guard
+        card["plays"] = card.get("plays", 0) + 1
+        card["last_played"] = datetime.date.today().isoformat()
+        if session_id:
+            card["last_play_session"] = session_id
+        changed = True
+        break
 
     if changed:
         tmp = deck_path + ".tmp"

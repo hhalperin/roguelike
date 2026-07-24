@@ -44,11 +44,36 @@ def test_noop_without_deck(tmp_path):
 
 def test_below_threshold_does_nothing(tmp_path, monkeypatch):
     _deal(tmp_path)
-    _save_state(tmp_path, last_check_sha="x", activity_count=1)
+    _save_state(tmp_path, last_check_sha="x", last_check_at="2026-07-01T00:00:00+00:00",
+                activity_count=1)
     called = []
     monkeypatch.setattr(reward_gate.curator, "judge", lambda *a, **k: called.append(1))
     reward_gate.run(str(tmp_path))
     assert called == []  # curator never invoked below the activity threshold
+
+
+def test_first_check_flag_clears_even_without_a_git_sha(tmp_path, monkeypatch):
+    # No _git_repo(tmp_path): current_sha is None on every call (no HEAD),
+    # which must NOT make every later check look like a "first check."
+    _deal(tmp_path)
+    calls = []
+    skip_verdict = {"recommend": "skip", "reason": "", "offer": [], "remove": []}
+
+    def fake_judge(*_a, **_k):
+        calls.append(1)
+        return skip_verdict
+
+    monkeypatch.setattr(reward_gate.curator, "judge", fake_judge)
+
+    _save_state(tmp_path, activity_count=1)
+    reward_gate.run(str(tmp_path))
+    assert len(calls) == 1  # genuine first check, with activity - curator asked once
+
+    state = engine_state.load(str(tmp_path))
+    state["activity_count"] = 1
+    engine_state.save(str(tmp_path), state)
+    reward_gate.run(str(tmp_path))
+    assert len(calls) == 1  # still below ACTIVITY_THRESHOLD - must stay quiet this time
 
 
 def test_candidate_by_activity_threshold_invokes_curator_and_resets_state(tmp_path, monkeypatch):
@@ -83,6 +108,28 @@ def test_offer_verdict_writes_pending_reward_and_bumps_counter(tmp_path, monkeyp
     assert pending["offer"][0]["name"] == "new-card"
     assert pending["reason"] == "repeated pattern"
     assert deck.load(str(tmp_path))["rewards"]["offered"] == 1
+
+
+def test_pending_reward_blocks_new_curator_calls_until_resolved(tmp_path, monkeypatch):
+    _git_repo(tmp_path)
+    _deal(tmp_path)
+    pending_path = tmp_path / ".claude" / "deck-pending-reward.json"
+    pending_path.write_text(json.dumps({
+        "created_at": "2026-07-01T00:00:00+00:00", "reason": "earlier offer",
+        "offer": [{"name": "old-card", "type": "skill", "description": "d", "rationale": "r"}],
+        "remove": [],
+    }))
+    _save_state(tmp_path, last_check_at="2026-07-01T00:00:00+00:00",
+                activity_count=reward_gate.ACTIVITY_THRESHOLD)
+    called = []
+    monkeypatch.setattr(reward_gate.curator, "judge", lambda *a, **k: called.append(1))
+
+    reward_gate.run(str(tmp_path))
+
+    assert called == []  # curator must not be asked again while an offer is unresolved
+    pending = json.loads(pending_path.read_text())
+    assert pending["offer"][0]["name"] == "old-card"  # untouched, not silently replaced
+    assert deck.load(str(tmp_path))["rewards"]["offered"] == 0  # not double-counted
 
 
 def test_new_commit_since_last_check_triggers_candidate_even_below_activity(tmp_path, monkeypatch):

@@ -46,6 +46,15 @@ def test_apply_rejects_invalid_tier(tmp_path):
     assert ascend.main(["apply", "--path", str(tmp_path), "--tier", "7"]) == 2
 
 
+def test_apply_without_deck_writes_no_side_effects(tmp_path):
+    # No deck.json at all - apply must fail before touching settings.json or
+    # deck-builder-ascension.json, never leave a half-applied ascension.
+    assert ascend.main(["apply", "--path", str(tmp_path), "--tier", "5",
+                        "--lint-cmd", "ruff check ."]) == 1
+    assert not (tmp_path / ".claude" / "settings.json").exists()
+    assert not (tmp_path / ".claude" / "deck-builder-ascension.json").exists()
+
+
 def test_apply_updates_deck_ascension(tmp_path):
     _deal(tmp_path)
     ascend.main(["apply", "--path", str(tmp_path), "--tier", "10",
@@ -121,3 +130,19 @@ def test_deescalate_removes_our_entry_only(tmp_path):
     assert len(stop) == 1
     assert stop[0]["hooks"][0]["command"] == "other-plugin.sh"
     assert deck.load(str(tmp_path))["ascension"] == 0
+
+
+def test_reapply_preserves_coverage_baseline(tmp_path):
+    _deal(tmp_path)
+    ascend.main(["apply", "--path", str(tmp_path), "--tier", "15",
+                 "--lint-cmd", "ruff check .", "--test-cmd", "pytest"])
+    config_path = tmp_path / ".claude" / "deck-builder-ascension.json"
+    config = json.loads(config_path.read_text())
+    config["coverage_baseline"] = 85.0
+    config_path.write_text(json.dumps(config))
+
+    # Re-applying (even at a different tier) must not reset the high-water
+    # mark ascension_gate.py already established back to null.
+    ascend.main(["apply", "--path", str(tmp_path), "--tier", "20",
+                 "--lint-cmd", "ruff check .", "--test-cmd", "pytest"])
+    assert json.loads(config_path.read_text())["coverage_baseline"] == 85.0

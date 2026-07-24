@@ -36,6 +36,7 @@ import argparse
 import datetime
 import json
 import os
+import shutil
 import sys
 
 SCHEMA_VERSION = 1
@@ -224,12 +225,21 @@ def bump_reward(repo: str, field: str, amount: int = 1) -> int:
 
 
 def remove_card(repo: str, name: str) -> bool:
-    """Remove a card by name. Returns True if a card was actually removed."""
+    """Remove a card by name, deleting its dealt skill directory too.
+
+    Returns True if a card was actually removed. A "removed" skill card
+    left on disk at ``.claude/skills/<name>/`` would still load as a skill,
+    defeating the point of a campfire prune - so the directory goes first
+    (fail toward over-removed, never toward a phantom still-loadable skill).
+    """
     d = load(repo)
-    before = len(d["cards"])
-    d["cards"] = [c for c in d["cards"] if c.get("name") != name]
-    if len(d["cards"]) == before:
+    matches = [c for c in d["cards"] if c.get("name") == name]
+    if not matches:
         return False
+    for card in matches:
+        if card.get("type", "skill") == "skill":
+            shutil.rmtree(os.path.join(repo, ".claude", "skills", name), ignore_errors=True)
+    d["cards"] = [c for c in d["cards"] if c.get("name") != name]
     save(repo, d)
     return True
 

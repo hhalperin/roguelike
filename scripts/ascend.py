@@ -98,20 +98,41 @@ def _merge_settings(repo: str, tier: int) -> None:
     _save_json(settings_path(repo), settings)
 
 
+def _existing_coverage_baseline(repo: str) -> float | int | None:
+    """Carry forward a coverage baseline ``ascension_gate.py`` already earned.
+
+    A re-apply (changing tier, or re-running with the same tier) must not
+    reset the high-water mark back to null - that would silently disable
+    coverage-regression enforcement until a fresh baseline is recaptured.
+    """
+    baseline = _load_json(ascension_config_path(repo)).get("coverage_baseline")
+    if isinstance(baseline, bool) or not isinstance(baseline, (int, float)):
+        return None
+    return baseline
+
+
 def cmd_apply(args: argparse.Namespace) -> int:
     if args.tier not in VALID_TIERS:
         print(f"ascend.py: tier must be one of {VALID_TIERS}", file=sys.stderr)
         return 2
+
+    # Load (and validate the save file exists) BEFORE writing any side
+    # effects: a missing/unloadable deck.json must leave settings.json and
+    # deck-builder-ascension.json untouched, never a half-applied ascension.
+    try:
+        d = deck.load(args.path)
+    except FileNotFoundError:
+        print("ascend.py: no deck.json found. Run /deck-builder first.", file=sys.stderr)
+        return 1
 
     _merge_settings(args.path, args.tier)
     _save_json(ascension_config_path(args.path), {
         "tier": args.tier,
         "lint_cmd": args.lint_cmd or None,
         "test_cmd": args.test_cmd or None,
-        "coverage_baseline": None,
+        "coverage_baseline": _existing_coverage_baseline(args.path),
     })
 
-    d = deck.load(args.path)
     d["ascension"] = args.tier
     deck.save(args.path, d)
 

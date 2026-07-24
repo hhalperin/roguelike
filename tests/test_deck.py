@@ -149,9 +149,23 @@ def test_mark_offered_taken_skipped_cli(tmp_path):
 def test_remove_card(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
     deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
+    skill_dir = tmp_path / ".claude" / "skills" / "run-tests"
+    skill_dir.mkdir(parents=True)
+    (skill_dir / "SKILL.md").write_text("# run-tests\n")
+
+    assert deck.remove_card(str(tmp_path), "run-tests") is True
+
+    assert read_deck(tmp_path)["cards"] == []
+    assert not skill_dir.exists()  # dealt skill dir must go too, or it'd still load
+    assert deck.remove_card(str(tmp_path), "run-tests") is False  # already gone
+
+
+def test_remove_card_without_skill_dir_on_disk(tmp_path):
+    """No .claude/skills/<name>/ present - must not error, just no-op the delete."""
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    deck.main(["add-card", "--path", str(tmp_path), "--name", "run-tests"])
     assert deck.remove_card(str(tmp_path), "run-tests") is True
     assert read_deck(tmp_path)["cards"] == []
-    assert deck.remove_card(str(tmp_path), "run-tests") is False  # already gone
 
 
 def test_remove_relic(tmp_path):
