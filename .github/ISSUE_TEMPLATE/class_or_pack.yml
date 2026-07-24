@@ -1,0 +1,31 @@
+name: Class or card pack proposal
+description: Propose a new repo archetype (class) or a community card pack
+title: "[class/pack]: "
+labels: ["rare", "class-design"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Classes and packs are the heart of the modding scene — the contribution
+        surface is markdown and YAML. See `CONTRIBUTING.md` and `packs/README.md`.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you proposing?
+      options:
+        - A new class (repo archetype)
+        - A card pack
+    validations:
+      required: true
+  - type: input
+    id: detected-by
+    attributes:
+      label: Detected by (for a class)
+      description: Which files/signals should select this class? e.g. `go.mod`, `Cargo.toml`, `mix.exs`.
+  - type: textarea
+    id: cards
+    attributes:
+      label: Starter cards and relics
+      description: Which cards (skills) and relics (CLAUDE.md rules) should it deal?
+    validations:
+      required: true
