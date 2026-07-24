@@ -48,10 +48,13 @@ jobs:
   plugin-validate:
     # Best-effort: exercises the real `claude plugin validate` CLI as a second
     # opinion alongside tests/test_plugin_manifests.py (the enforced, no-auth
-    # equivalent). Only runs when an API key secret is configured, and never
-    # fails the build on its own.
+    # equivalent). Skips itself when no API key secret is configured, and
+    # never fails the build on its own.
+    #
+    # Note: the "skip if no secret" check happens INSIDE the step below, not
+    # in a job-level `if:` — the `secrets` context is not permitted there
+    # (GitHub Actions rejects the whole workflow file if it is).
     runs-on: ubuntu-latest
-    if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
@@ -63,4 +66,9 @@ jobs:
       - name: Validate plugin manifest
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: claude plugin validate .
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "No ANTHROPIC_API_KEY secret configured — skipping (optional job)."
+            exit 0
+          fi
+          claude plugin validate .
