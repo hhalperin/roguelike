@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "class": "defect",
+  "classes": [
+    "defect"
+  ],
+  "act": 1,
+  "floor": 0,
+  "ascension": 0,
+  "created": "2026-07-24",
+  "cards": [
+    {
+      "name": "run-tests",
+      "type": "skill",
+      "added_floor": 0,
+      "plays": 0,
+      "last_played": null
+    },
+    {
+      "name": "add-endpoint",
+      "type": "skill",
+      "added_floor": 0,
+      "plays": 0,
+      "last_played": null
+    }
+  ],
+  "relics": [
+    "ruff-strict",
+    "typed-public-api",
+    "no-mocks-in-prod"
+  ],
+  "powers": [],
+  "rooms_cleared": [],
+  "clean_room_streak": 0,
+  "rewards": {
+    "offered": 0,
+    "taken": 0,
+    "skipped": 0
+  }
+}
