@@ -7,6 +7,13 @@ flavor: >-
   Python and backend work. You fight with focus: type hints, a green test
   suite, and clean lint. Precision over flash.
 
+# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# null means "no reliably universal command for this class" — ascend.py must
+# fall back to warn-only for that gate rather than block on an unverified command.
+commands:
+  lint: "ruff check ."
+  test: "python -m pytest"
+
 # Relics become rules written into the target repo's CLAUDE.md.
 relics:
   - id: ruff-strict

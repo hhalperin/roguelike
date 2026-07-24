@@ -13,7 +13,9 @@ import deck  # noqa: E402  (import after importorskip)
 import scan  # noqa: E402
 
 CLASSES_DIR = pathlib.Path(__file__).resolve().parent.parent / "classes"
-REQUIRED_TOP = {"class", "name", "detected_by", "flavor", "relics", "cards", "powers", "agent"}
+REQUIRED_TOP = {
+    "class", "name", "detected_by", "flavor", "commands", "relics", "cards", "powers", "agent",
+}
 EXPECTED = {"defect", "silent", "ironclad", "watcher", "colorless"}
 
 
@@ -46,3 +48,14 @@ def test_classes_are_known_to_the_scripts():
     for d in load_all().values():
         assert d["class"] in deck.CLASS_NAMES, f"{d['class']} missing from deck.CLASS_NAMES"
         assert d["class"] in scan.FAMILY, f"{d['class']} missing from scan.FAMILY"
+
+
+def test_commands_shape():
+    for path, d in load_all().items():
+        commands = d["commands"]
+        assert {"lint", "test"} <= set(commands), f"{path.name}: commands needs lint+test"
+        for key in ("lint", "test"):
+            val = commands[key]
+            assert val is None or (isinstance(val, str) and val.strip()), (
+                f"{path.name}: commands.{key} must be null or a non-empty string"
+            )
