@@ -241,6 +241,40 @@ def test_unknown_outcomes_track_the_ramp_over_a_run():
     assert all(o in ("monster", "shop", "treasure", "event") for o in outcomes)
 
 
+def replay_with_rolls(rolls, ramp):
+    """The client-side resolution in demo.js, mirrored.
+
+    Guards against the JS copy drifting from resolve_unknown.
+    """
+    for i, kind in enumerate(mapgen.RAMP_ORDER):
+        if rolls[i] < mapgen.RAMP_BASE[kind] * (ramp.misses[kind] + 1):
+            ramp.fire(kind)
+            return kind
+        ramp.miss(kind)
+    return "event"
+
+
+def test_exported_rolls_reproduce_resolve_unknown():
+    for m in all_maps():
+        unknowns = [n for n in m.nodes.values() if n.kind == "unknown"]
+        engine_ramp = mapgen.Ramp()
+        client_ramp = mapgen.Ramp()
+        for node in unknowns:
+            engine = mapgen.resolve_unknown(m, node, engine_ramp)["resolve"]
+            client = replay_with_rolls(m.unknown_rolls(node), client_ramp)
+            assert engine == client, f"client drift at {node.id}"
+
+
+def test_every_unknown_node_exports_its_rolls():
+    for m in all_maps():
+        for payload in m.to_dict()["nodes"]:
+            if payload["kind"] == "unknown":
+                assert len(payload["rolls"]) == len(mapgen.RAMP_ORDER)
+                assert all(0.0 <= r < 1.0 for r in payload["rolls"])
+            else:
+                assert "rolls" not in payload
+
+
 def test_event_is_the_common_unknown_outcome():
     hits = {"event": 0, "monster": 0, "shop": 0, "treasure": 0}
     for seed in range(60):

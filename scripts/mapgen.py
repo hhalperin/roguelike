@@ -136,7 +136,23 @@ class SpireMap:
                     out[child.key] = child
         return [out[k] for k in sorted(out)]
 
+    def unknown_rolls(self, node: Node) -> list[float]:
+        """The rolls resolve_unknown will consume for this node, in order.
+
+        Exported so a client can resolve an unknown node itself without
+        reimplementing the RNG. Only the ramp thresholds are shared.
+        """
+        rng = floor_rng(self.seed + ACT_SEED_OFFSET[self.act], node.row)
+        return [rng.random() for _ in RAMP_ORDER]
+
     def to_dict(self) -> dict:
+        nodes = []
+        for key in sorted(self.nodes):
+            node = self.nodes[key]
+            payload = node.to_dict()
+            if node.kind == "unknown":
+                payload["rolls"] = self.unknown_rolls(node)
+            nodes.append(payload)
         return {
             "seed": self.seed,
             "act": self.act,
@@ -144,7 +160,7 @@ class SpireMap:
             "rows": self.rows,
             "cols": self.cols,
             "boss": dict(self.boss),
-            "nodes": [self.nodes[k].to_dict() for k in sorted(self.nodes)],
+            "nodes": nodes,
         }
 
     def fingerprint(self) -> str:
