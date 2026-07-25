@@ -44,6 +44,7 @@
       <span class="chrome-item">Floor <strong id="chrome-floor">3</strong></span>
       <span class="chip class-chip" id="chrome-class">Defect</span>
       <span class="chrome-item">Streak <strong id="chrome-streak">2</strong></span>
+      <span class="chrome-item">Deck <strong id="chrome-deck">6/12</strong></span>
       <span class="chrome-item chrome-asc">Ascension <strong id="chrome-asc">10</strong></span>
       <span class="chrome-energy" id="chrome-energy" hidden>
         <span class="chrome-energy-label">Energy</span>
@@ -95,9 +96,15 @@
         <div class="facet-tab">Map</div>
         <div class="map-layout">
           <div class="map-graph-wrap">
-            <h3 class="section-h">The climb</h3>
-            <div class="map-graph" id="map-graph" role="group" aria-label="Map nodes"></div>
-            <p class="hint">Shapes encode kind — color is secondary. Only reachable nodes are hittable.</p>
+            <div class="boss-header">
+              <span class="boss-label">Act boss</span>
+              <strong id="map-boss">Unclear Requirements</strong>
+              <span class="hint" id="map-act">Act I · seed 0</span>
+            </div>
+            <div class="map-graph" id="map-graph">
+              <div class="map-canvas" id="map-canvas" role="group" aria-label="Map nodes"></div>
+            </div>
+            <p class="hint">Floor 1 at the bottom. You may only move along an edge from where you stand.</p>
           </div>
           <aside class="map-rail">
             <h3 class="section-h">Selected · <span id="map-kind">—</span></h3>
@@ -183,10 +190,11 @@
 
       <!-- ---------- REWARD ---------- -->
       <section class="screen" data-screen="reward" data-facet="reward" aria-label="Reward">
-        <div class="facet-tab">Reward · Room cleared</div>
+        <div class="facet-tab" id="reward-tab">Reward · Room cleared</div>
         <button type="button" class="skip-hero" id="btn-skip" data-action="skip-reward">
           <span class="skip-kicker">Skipping is skilled play</span>
-          <span class="skip-main">Skip — take nothing</span>
+          <span class="skip-main" id="skip-main">Skip — take nothing</span>
+          <span class="skip-payout" id="skip-payout">+2 focus</span>
         </button>
         <h3 class="section-h offers-h">Offers</h3>
         <div class="offer-row" id="reward-offers"></div>
@@ -199,13 +207,12 @@
         <div class="camp-hero">
           <div class="camp-flame" aria-hidden="true">🔥</div>
           <div>
-            <h1>Rest</h1>
+            <h1>Campfire</h1>
             <div class="mode-switch" id="camp-modes" role="group" aria-label="Campfire mode">
               <button type="button" class="mode-btn is-on" data-action="camp-mode" data-mode="prune">Prune</button>
-              <button type="button" class="mode-btn" data-action="camp-mode" data-mode="upgrade">Upgrade</button>
-              <button type="button" class="mode-btn" data-action="camp-mode" data-mode="rest">Rest only</button>
+              <button type="button" class="mode-btn" data-action="camp-mode" data-mode="smith">Smith</button>
             </div>
-            <p class="hint" id="camp-hint">Burn dead weight. Unplayed cards sort first.</p>
+            <p class="hint" id="camp-hint">Prune removes a card for good. Unplayed cards sort first.</p>
           </div>
         </div>
         <div class="camp-list" id="camp-list"></div>
@@ -262,6 +269,7 @@
   <!-- toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="mapdata.js"></script>
   <script src="demo.js"></script>
 </body>
 </html>
