@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pathlib
 import random
 from dataclasses import dataclass, field
 from dataclasses import replace as dc_replace
@@ -24,48 +25,69 @@ COLS = 7
 PATHS = 6
 
 # Forced floors, zero-indexed. StS forces floor 1 to monster, floor 9 to
-# treasure and floor 15 to rest.
+# treasure and floor 15 to rest. The boss sits one row above the last.
 TREASURE_ROW = 8
-NO_REST_ELITE_BEFORE_ROW = 5
-MIN_REJOIN_DISTANCE = 3
+BOSS_ROW = ROWS
+BOSS_COL = COLS // 2
 
-KINDS = ("monster", "elite", "rest", "shop", "treasure", "unknown")
+# Placement constraints.
+NO_REST_ELITE_BEFORE_ROW = 5
+
+KINDS = ("monster", "elite", "rest", "shop", "treasure", "unknown", "boss")
 
 # Kinds that may not repeat along an edge, and kinds that may not repeat
 # between siblings. Monster is exempt from both because it is the fallback an
 # over-constrained node lands on.
-PARENT_UNIQUE_KINDS = ("rest", "treasure", "shop", "elite")
-SIBLING_UNIQUE_KINDS = ("rest", "treasure", "shop", "elite", "unknown")
+PARENT_UNIQUE_KINDS = ("rest", "shop", "elite")
+SIBLING_UNIQUE_KINDS = ("rest", "shop", "elite", "unknown")
 
 QUOTAS = {"rest": 0.12, "elite": 0.08, "shop": 0.05, "unknown": 0.22}
 ELITE_ASCENSION_MULTIPLIER = 1.6
+
+# Endless: past the Heart the climb keeps going and elites keep thickening.
+HEART_ACT = 4
+ENDLESS_ELITE_STEP = 0.12
+ENDLESS_ELITE_CAP = 2.5
+
+BOSSES_PATH = pathlib.Path(__file__).resolve().parent.parent / "content" / "bosses.json"
+
+# How much the demo ships. One source of truth for the generator and the
+# staleness test, so they cannot check different things.
+EMIT_SEEDS = 3
+EMIT_ACTS = 6
 
 # Unknown-node resolution. Checked in this order; each base climbs by its own
 # value every time it fails to fire, and resets when it fires.
 RAMP_ORDER = ("monster", "shop", "treasure")
 RAMP_BASE = {"monster": 0.10, "shop": 0.03, "treasure": 0.02}
 
-ACT_SEED_OFFSET = {1: 1, 2: 200, 3: 600}
+_BASE_OFFSETS = {1: 1, 2: 200, 3: 600, 4: 1000}
 
-# The act boss is visible from the first floor, because that is what makes an
-# act a plan rather than a survival crawl.
-BOSSES = {
-    1: (
-        {"id": "unclear-requirements", "name": "Unclear Requirements"},
-        {"id": "undecided-architecture", "name": "The Undecided Architecture"},
-        {"id": "scope-without-a-spec", "name": "Scope Without a Spec"},
-    ),
-    2: (
-        {"id": "integration-boss", "name": "The Integration"},
-        {"id": "half-migrated-schema", "name": "The Half-Migrated Schema"},
-        {"id": "cross-service-deadline", "name": "Cross-Service Deadline"},
-    ),
-    3: (
-        {"id": "launch", "name": "Launch"},
-        {"id": "scale-cliff", "name": "The Scale Cliff"},
-        {"id": "compliance-gate", "name": "The Compliance Gate"},
-    ),
-}
+
+def act_offset(act: int) -> int:
+    """Seed offset per act, defined for every act so the climb never ends."""
+    if act < 1:
+        raise ValueError(f"act must be >= 1, got {act}")
+    if act in _BASE_OFFSETS:
+        return _BASE_OFFSETS[act]
+    return 1000 + (act - HEART_ACT) * 400
+
+
+def load_bosses() -> dict:
+    with BOSSES_PATH.open(encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def boss_pool(bosses: dict, act: int) -> list[dict]:
+    """The act boss is visible from floor 1, which is what makes an act a plan."""
+    return bosses.get(str(act)) or bosses["endless"]
+
+
+def elite_multiplier(act: int, ascension: int) -> float:
+    mult = ELITE_ASCENSION_MULTIPLIER if ascension >= 1 else 1.0
+    if act > HEART_ACT:
+        mult *= min(ENDLESS_ELITE_CAP, 1.0 + ENDLESS_ELITE_STEP * (act - HEART_ACT))
+    return mult
 
 
 def floor_rng(seed: int, floor: int) -> random.Random:
@@ -142,7 +164,7 @@ class SpireMap:
         Exported so a client can resolve an unknown node itself without
         reimplementing the RNG. Only the ramp thresholds are shared.
         """
-        rng = floor_rng(self.seed + ACT_SEED_OFFSET[self.act], node.row)
+        rng = floor_rng(self.seed + act_offset(self.act), node.row)
         return [rng.random() for _ in RAMP_ORDER]
 
     def to_dict(self) -> dict:
@@ -199,61 +221,185 @@ def _crosses(edges: dict[tuple[int, int], set[int]], row: int, col: int, target:
     return False
 
 
-def _ancestors(
-    parents: dict[tuple[int, int], set[int]], key: tuple[int, int], depth: int
-) -> set[tuple[int, int]]:
-    seen = {key}
-    frontier = {key}
-    for _ in range(depth):
-        nxt: set[tuple[int, int]] = set()
-        for row, col in frontier:
-            for pcol in parents.get((row, col), ()):
-                nxt.add((row - 1, pcol))
-        frontier = nxt - seen
-        seen |= nxt
-        if not frontier:
-            break
-    return seen
+def _siblings_of(
+    edges: dict[tuple[int, int], set[int]],
+    parents: dict[tuple[int, int], set[int]],
+    row: int,
+    col: int,
+) -> set[int]:
+    """Columns on `row` that share a parent with (row, col)."""
+    out: set[int] = set()
+    for pcol in parents.get((row, col), ()):
+        out |= edges.get((row - 1, pcol), set())
+    out.discard(col)
+    return out
 
 
-def _rejoins_too_soon(
-    parents: dict[tuple[int, int], set[int]], row: int, col: int, target: int
+def _rejoins_immediately(
+    edges: dict[tuple[int, int], set[int]],
+    parents: dict[tuple[int, int], set[int]],
+    row: int,
+    col: int,
+    target: int,
 ) -> bool:
-    existing = parents.get((row + 1, target), set())
-    mine = _ancestors(parents, (row, col), MIN_REJOIN_DISTANCE)
-    for other in existing:
-        if other == col:
-            continue
-        if mine & _ancestors(parents, (row, other), MIN_REJOIN_DISTANCE):
+    """Would this edge let two branches that just split rejoin one floor later?"""
+    for sib in _siblings_of(edges, parents, row, col):
+        if target in edges.get((row, sib), set()):
             return True
     return False
 
 
+WALK_ATTEMPTS = 24
+
+
+def _count_rejoins(edges: dict[tuple[int, int], set[int]]) -> int:
+    total = 0
+    for (row, _col), kids in edges.items():
+        if row + 2 >= BOSS_ROW:
+            continue
+        kids = sorted(kids)
+        for i in range(len(kids)):
+            for j in range(i + 1, len(kids)):
+                a = edges.get((row + 1, kids[i]), set())
+                b = edges.get((row + 1, kids[j]), set())
+                total += len(a & b)
+    return total
+
+
+def _copy(state: dict[tuple[int, int], set[int]]) -> dict[tuple[int, int], set[int]]:
+    return {k: set(v) for k, v in state.items()}
+
+
+def _walk_one(
+    rng: random.Random,
+    edges: dict[tuple[int, int], set[int]],
+    parents: dict[tuple[int, int], set[int]],
+    start: int,
+) -> None:
+    col = start
+    for row in range(ROWS - 1):
+        options = [c for c in (col - 1, col, col + 1) if 0 <= c < COLS]
+        rng.shuffle(options)
+        legal = [c for c in options if not _crosses(edges, row, col, c)]
+        preferred = [c for c in legal if not _rejoins_immediately(edges, parents, row, col, c)]
+        target = (preferred or legal or [col])[0]
+        edges.setdefault((row, col), set()).add(target)
+        parents.setdefault((row + 1, target), set()).add(col)
+        col = target
+
+
 def _walk_paths(rng: random.Random) -> dict[tuple[int, int], set[int]]:
+    """Walk PATHS routes up the grid, retrying any walk that adds a rejoin.
+
+    Preferring non-rejoining steps is not enough on a 7-wide grid: a path can
+    reach a node where all three steps collide. Retrying the whole path is
+    cheap and removes almost every violation at the source, which beats
+    patching the graph afterwards.
+    """
     edges: dict[tuple[int, int], set[int]] = {}
     parents: dict[tuple[int, int], set[int]] = {}
     first_start: int | None = None
 
     for path in range(PATHS):
-        col = rng.randrange(COLS)
-        if path == 1 and col == first_start:
-            # Guarantee at least two entrances, as StS does for its second path.
-            col = (col + 1 + rng.randrange(COLS - 1)) % COLS
+        before = _count_rejoins(edges)
+        best: tuple[int, dict, dict] | None = None
+
+        for _ in range(WALK_ATTEMPTS):
+            trial_edges, trial_parents = _copy(edges), _copy(parents)
+            col = rng.randrange(COLS)
+            if path == 1 and col == first_start:
+                # Guarantee at least two entrances, as StS does for path two.
+                col = (col + 1 + rng.randrange(COLS - 1)) % COLS
+            _walk_one(rng, trial_edges, trial_parents, col)
+            added = _count_rejoins(trial_edges) - before
+            if best is None or added < best[0]:
+                best = (added, trial_edges, trial_parents, col)
+            if added == 0:
+                break
+
+        assert best is not None
+        _, edges, parents, chosen = best
         if path == 0:
-            first_start = col
+            first_start = chosen
 
-        for row in range(ROWS - 1):
-            options = [c for c in (col - 1, col, col + 1) if 0 <= c < COLS]
-            rng.shuffle(options)
-            legal = [c for c in options if not _crosses(edges, row, col, c)]
-            preferred = [c for c in legal if not _rejoins_too_soon(parents, row, col, c)]
-            target = (preferred or legal or [col])[0]
-
-            edges.setdefault((row, col), set()).add(target)
-            parents.setdefault((row + 1, target), set()).add(col)
-            col = target
-
+    _repair_rejoins(edges, parents)
     return edges
+
+
+def _drop_edge(
+    edges: dict[tuple[int, int], set[int]],
+    parents: dict[tuple[int, int], set[int]],
+    row: int,
+    col: int,
+    target: int,
+) -> bool:
+    """Remove an edge if the source keeps a child and the target keeps a parent."""
+    if len(edges.get((row, col), set())) <= 1:
+        return False
+    if len(parents.get((row + 1, target), set())) <= 1:
+        return False
+    edges[(row, col)].discard(target)
+    parents[(row + 1, target)].discard(col)
+    return True
+
+
+def _try_add_child(
+    edges: dict[tuple[int, int], set[int]],
+    parents: dict[tuple[int, int], set[int]],
+    keys: set[tuple[int, int]],
+    row: int,
+    col: int,
+    avoid: int,
+) -> bool:
+    """Give a node a second child so an offending edge becomes safe to drop."""
+    for target in (col - 1, col + 1):
+        if target == avoid or not 0 <= target < COLS:
+            continue
+        if (row + 1, target) not in keys:
+            continue
+        if target in edges.get((row, col), set()):
+            continue
+        if _crosses(edges, row, col, target):
+            continue
+        if _rejoins_immediately(edges, parents, row, col, target):
+            continue
+        edges.setdefault((row, col), set()).add(target)
+        parents.setdefault((row + 1, target), set()).add(col)
+        return True
+    return False
+
+
+def _repair_rejoins(
+    edges: dict[tuple[int, int], set[int]], parents: dict[tuple[int, int], set[int]]
+) -> None:
+    """Remove edges that let two branches rejoin one floor after they split.
+
+    The walker only *prefers* non-rejoining steps. When all three options
+    collide it has to take one, so the rule needs enforcing afterwards rather
+    than claiming the walker guarantees it. Working from the splitting node
+    lets us drop whichever of the two offending edges is safe to lose, which
+    the earlier per-edge pass could not do.
+    """
+    for _ in range(3):  # a repair can expose another; this reaches a fixed point
+        keys = set(edges) | set(parents)
+        for row in range(ROWS - 2):
+            for col in sorted({c for (r, c) in edges if r == row}):
+                kids = sorted(edges.get((row, col), set()))
+                for i in range(len(kids)):
+                    for j in range(i + 1, len(kids)):
+                        a, b = kids[i], kids[j]
+                        shared = edges.get((row + 1, a), set()) & edges.get((row + 1, b), set())
+                        for target in sorted(shared):
+                            if _drop_edge(edges, parents, row + 1, a, target):
+                                continue
+                            if _drop_edge(edges, parents, row + 1, b, target):
+                                continue
+                            # Both siblings have only this child. Give one
+                            # another way up, then the drop is safe.
+                            for src in (a, b):
+                                if _try_add_child(edges, parents, keys, row + 1, src, target):
+                                    _drop_edge(edges, parents, row + 1, src, target)
+                                    break
 
 
 # ---------------------------------------------------------------------------
@@ -273,20 +419,54 @@ def _forced_kind(row: int) -> str:
     return "rest"
 
 
-def _build_bag(rng: random.Random, assignable: int, ascension: int) -> list[str]:
+def _row_allows(kind: str, row: int) -> bool:
+    if kind in ("rest", "elite") and row < NO_REST_ELITE_BEFORE_ROW:
+        return False
+    if kind == "rest" and row >= ROWS - 2:
+        return False
+    return True
+
+
+def _build_bag(rng: random.Random, assignable: int, act: int, ascension: int) -> list[str]:
     bag: list[str] = []
     for kind, share in QUOTAS.items():
-        if kind == "elite" and ascension >= 1:
-            share *= ELITE_ASCENSION_MULTIPLIER
+        if kind == "elite":
+            share *= elite_multiplier(act, ascension)
         bag.extend([kind] * round(share * assignable))
     rng.shuffle(bag)
     return bag
 
 
+def _plan_rows(
+    rng: random.Random, rows_to_nodes: dict[int, list[tuple[int, int]]], bag: list[str]
+) -> dict[int, list[str]]:
+    """Spread the bag across floors instead of letting the lowest ones drain it.
+
+    Dealing the bag strictly row by row starves the top of the map: the early
+    rows are the only ones that can legally take shop and unknown, so they
+    consume every one before the upper rows are reached. Assigning each bag
+    item to a random legal *slot* keeps the same totals while spreading the
+    variety over the whole climb, which is the point of a routing decision.
+    """
+    slots: list[int] = []
+    for row, keys in rows_to_nodes.items():
+        slots.extend([row] * len(keys))
+    rng.shuffle(slots)
+
+    plan: dict[int, list[str]] = {row: [] for row in rows_to_nodes}
+    for kind in bag:
+        for i, row in enumerate(slots):
+            if _row_allows(kind, row):
+                plan[row].append(kind)
+                slots.pop(i)
+                break
+    for row in plan:
+        rng.shuffle(plan[row])
+    return plan
+
+
 def _kind_is_legal(nodes: dict[tuple[int, int], Node], node: Node, kind: str) -> bool:
-    if kind in ("rest", "elite") and node.row < NO_REST_ELITE_BEFORE_ROW:
-        return False
-    if kind == "rest" and node.row >= ROWS - 2:
+    if not _row_allows(kind, node.row):
         return False
 
     parent_cols = [
@@ -309,7 +489,7 @@ def _kind_is_legal(nodes: dict[tuple[int, int], Node], node: Node, kind: str) ->
 
 
 def _assign_kinds(
-    rng: random.Random, edges: dict[tuple[int, int], set[int]], ascension: int
+    rng: random.Random, edges: dict[tuple[int, int], set[int]], act: int, ascension: int
 ) -> dict[tuple[int, int], Node]:
     keys = set(edges)
     for (row, _col), targets in edges.items():
@@ -326,28 +506,45 @@ def _assign_kinds(
             next_cols=tuple(sorted(edges.get(key, ()))),
         )
 
-    assignable = [k for k in sorted(nodes) if not _is_forced_row(k[0])]
-    bag = _build_bag(rng, len(assignable), ascension)
+    rows_to_nodes: dict[int, list[tuple[int, int]]] = {}
+    for key in sorted(nodes):
+        if not _is_forced_row(key[0]):
+            rows_to_nodes.setdefault(key[0], []).append(key)
 
-    for key in assignable:
-        for i, kind in enumerate(bag):
-            if _kind_is_legal(nodes, nodes[key], kind):
-                nodes[key] = nodes[key].replace(kind=kind)
-                bag.pop(i)
-                break
-        # No legal kind left in the bag, so the node stays a monster room.
+    total = sum(len(v) for v in rows_to_nodes.values())
+    bag = _build_bag(rng, total, act, ascension)
+    plan = _plan_rows(rng, rows_to_nodes, bag)
+
+    for row, keys_in_row in rows_to_nodes.items():
+        planned = plan[row]
+        for key in keys_in_row:
+            for i, kind in enumerate(planned):
+                if _kind_is_legal(nodes, nodes[key], kind):
+                    nodes[key] = nodes[key].replace(kind=kind)
+                    planned.pop(i)
+                    break
+            # Nothing legal left for this row, so the node stays a monster room.
+
+    # Every node on the last climbable row funnels into the single boss.
+    nodes[(BOSS_ROW, BOSS_COL)] = Node(row=BOSS_ROW, col=BOSS_COL, kind="boss")
+    for key in list(nodes):
+        if key[0] == ROWS - 1:
+            nodes[key] = nodes[key].replace(next_cols=(BOSS_COL,))
 
     return nodes
 
 
 def generate(seed: int, act: int, ascension: int = 0) -> SpireMap:
-    """Build the act map for a seed. Pure: same inputs, same map."""
-    if act not in ACT_SEED_OFFSET:
-        raise ValueError(f"unknown act: {act}")
-    rng = random.Random(seed + ACT_SEED_OFFSET[act])
+    """Build the act map for a seed. Pure: same inputs, same map.
+
+    `act` is unbounded. Acts past the Heart keep generating, with elite
+    density climbing, so a run has no level limit.
+    """
+    rng = random.Random(seed + act_offset(act))
     edges = _walk_paths(rng)
-    nodes = _assign_kinds(rng, edges, ascension)
-    boss = dict(BOSSES[act][rng.randrange(len(BOSSES[act]))])
+    nodes = _assign_kinds(rng, edges, act, ascension)
+    pool = boss_pool(load_bosses(), act)
+    boss = dict(pool[rng.randrange(len(pool))])
     return SpireMap(seed=seed, act=act, ascension=ascension, nodes=nodes, boss=boss)
 
 
@@ -361,7 +558,7 @@ def resolve_unknown(spire_map: SpireMap, node: Node, ramp: Ramp) -> dict:
     if node.key in spire_map._unknown:
         return spire_map._unknown[node.key]
 
-    rng = floor_rng(spire_map.seed + ACT_SEED_OFFSET[spire_map.act], node.row)
+    rng = floor_rng(spire_map.seed + act_offset(spire_map.act), node.row)
     outcome = "event"
     for kind in RAMP_ORDER:
         if rng.random() < ramp.chance(kind):
@@ -409,6 +606,11 @@ def check_invariants(spire_map: SpireMap) -> list[str]:
         fail("fewer than two entrances")
     if any(n.kind != "monster" for n in entries):
         fail("floor 1 is not all monster")
+
+    for row in range(ROWS):
+        if not m.row_nodes(row):
+            fail(f"row {row} is empty")
+
     if any(n.kind != "treasure" for n in m.row_nodes(TREASURE_ROW)):
         fail("treasure floor is not all treasure")
     if any(n.kind != "rest" for n in m.row_nodes(ROWS - 1)):
@@ -416,17 +618,28 @@ def check_invariants(spire_map: SpireMap) -> list[str]:
     if not m.boss.get("name"):
         fail("boss is not named")
 
+    boss_nodes = [n for n in m.nodes.values() if n.kind == "boss"]
+    if len(boss_nodes) != 1:
+        fail(f"expected exactly one boss node, found {len(boss_nodes)}")
+    else:
+        boss_node = boss_nodes[0]
+        if boss_node.next_cols:
+            fail("the boss has outgoing edges")
+        for node in m.row_nodes(ROWS - 1):
+            if node.next_cols != (boss_node.col,):
+                fail(f"{node.id} does not funnel into the boss")
+
     for node in m.nodes.values():
         if node.kind not in KINDS:
             fail(f"unknown kind {node.kind!r} at {node.id}")
-        if node.row == ROWS - 1:
-            if node.next_cols:
-                fail(f"{node.id} on the last row has outgoing edges")
-        elif not node.next_cols:
+        if node.kind == "boss":
+            continue
+        if not node.next_cols:
             fail(f"dead end at {node.id}")
 
         for col in node.next_cols:
-            if abs(col - node.col) > 1:
+            # Edges into the boss converge from anywhere; that is the point.
+            if node.row != ROWS - 1 and abs(col - node.col) > 1:
                 fail(f"{node.id} steps more than one column")
             if (node.row + 1, col) not in m.nodes:
                 fail(f"{node.id} points at a missing node")
@@ -455,6 +668,39 @@ def check_invariants(spire_map: SpireMap) -> list[str]:
             for b_from, b_to in edges:
                 if a_from < b_from and a_to > b_to:
                     fail(f"crossing edges on row {row}")
+
+    # Two branches that just split may not rejoin one floor later. Converging
+    # on the boss is exempt, since every path is meant to end there.
+    for node in m.nodes.values():
+        if node.row + 2 >= BOSS_ROW:
+            continue
+        kids = m.next_nodes(node)
+        for i in range(len(kids)):
+            for j in range(i + 1, len(kids)):
+                shared = set(kids[i].next_cols) & set(kids[j].next_cols)
+                if shared:
+                    fail(f"branches from {node.id} rejoin immediately at row {node.row + 2}")
+
+    # Variety has to be spread over the climb, not bunched at the bottom. A
+    # floor whose nodes are all the same kind offers no routing decision.
+    uniform = sum(
+        1
+        for row in range(ROWS)
+        if not _is_forced_row(row) and len({n.kind for n in m.row_nodes(row)}) == 1
+    )
+    assignable_rows = sum(1 for row in range(ROWS) if not _is_forced_row(row))
+    if uniform > assignable_rows // 2:
+        fail(f"{uniform} of {assignable_rows} choosable floors offer no choice")
+
+    run = 0
+    for row in range(ROWS):
+        if _is_forced_row(row):
+            run = 0
+            continue
+        kinds = {n.kind for n in m.row_nodes(row)}
+        run = run + 1 if kinds == {"monster"} else 0
+        if run >= 4:
+            fail(f"four consecutive monster-only floors ending at row {row}")
 
     reached: set[tuple[int, int]] = set()
     frontier = list(entries)
@@ -530,11 +776,12 @@ def _cmd_emit_js(args: argparse.Namespace) -> int:
     maps = [
         generate(seed, act, ascension=args.ascension).to_dict()
         for seed in range(args.seeds)
-        for act in sorted(ACT_SEED_OFFSET)
+        for act in range(1, args.acts + 1)
     ]
-    payload = json.dumps(maps, indent=2)
+    ramp = {"order": list(RAMP_ORDER), "base": dict(RAMP_BASE)}
     print("/* Generated by scripts/mapgen.py emit-js. Do not edit by hand. */")
-    print(f"window.SPIRE_MAPS = {payload};")
+    print(f"window.SPIRE_MAPS = {json.dumps(maps, indent=2)};")
+    print(f"window.SPIRE_RAMP = {json.dumps(ramp)};")
     return 0
 
 
@@ -542,7 +789,7 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     problems: list[str] = []
     checked = 0
     for seed in range(args.seeds):
-        for act in sorted(ACT_SEED_OFFSET):
+        for act in range(1, args.acts + 1):
             for ascension in (0, 1):
                 spire_map = generate(seed, act, ascension=ascension)
                 problems.extend(check_invariants(spire_map))
@@ -566,18 +813,20 @@ def main(argv: list[str] | None = None) -> int:
 
     show = sub.add_parser("show", help="render one map")
     show.add_argument("--seed", type=int, default=0)
-    show.add_argument("--act", type=int, default=1, choices=sorted(ACT_SEED_OFFSET))
+    show.add_argument("--act", type=int, default=1)
     show.add_argument("--ascension", type=int, default=0)
     show.add_argument("--json", action="store_true")
     show.set_defaults(func=_cmd_show)
 
     emit = sub.add_parser("emit-js", help="emit maps as a JS global for the demo")
-    emit.add_argument("--seeds", type=int, default=4)
+    emit.add_argument("--seeds", type=int, default=EMIT_SEEDS)
+    emit.add_argument("--acts", type=int, default=EMIT_ACTS)
     emit.add_argument("--ascension", type=int, default=0)
     emit.set_defaults(func=_cmd_emit_js)
 
     verify = sub.add_parser("verify", help="check invariants across many seeds")
     verify.add_argument("--seeds", type=int, default=200)
+    verify.add_argument("--acts", type=int, default=6)
     verify.add_argument("--limit", type=int, default=20)
     verify.set_defaults(func=_cmd_verify)
 

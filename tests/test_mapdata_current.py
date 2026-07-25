@@ -18,13 +18,24 @@ MAPDATA = (
     / "demo"
     / "mapdata.js"
 )
-EMIT_SEEDS = 4
+
+
+def committed_payload():
+    """Parse the two globals mapdata.js assigns."""
+    out = {}
+    for line in MAPDATA.read_text().splitlines():
+        for name in ("window.SPIRE_MAPS", "window.SPIRE_RAMP"):
+            if line.startswith(name):
+                out[name] = line.split("=", 1)[1].strip().rstrip(";")
+    # SPIRE_MAPS spans many lines; re-parse it from the whole file.
+    text = MAPDATA.read_text()
+    body = text.split("window.SPIRE_MAPS =", 1)[1]
+    body = body.rsplit("window.SPIRE_RAMP", 1)[0].strip().rstrip(";")
+    return json.loads(body), json.loads(out["window.SPIRE_RAMP"])
 
 
 def committed_maps():
-    text = MAPDATA.read_text()
-    payload = text.split("=", 1)[1].strip().rstrip(";")
-    return json.loads(payload)
+    return committed_payload()[0]
 
 
 def test_mapdata_exists():
@@ -34,13 +45,20 @@ def test_mapdata_exists():
 def test_mapdata_matches_the_generator():
     expected = [
         mapgen.generate(seed, act).to_dict()
-        for seed in range(EMIT_SEEDS)
-        for act in sorted(mapgen.ACT_SEED_OFFSET)
+        for seed in range(mapgen.EMIT_SEEDS)
+        for act in range(1, mapgen.EMIT_ACTS + 1)
     ]
     assert committed_maps() == expected, (
         "mapdata.js is stale. Regenerate it:\n"
         "  python3 scripts/mapgen.py emit-js > design/spire-ai/ui/demo/mapdata.js"
     )
+
+
+def test_ramp_config_is_exported_not_duplicated():
+    """The client must read the ramp from the engine, never hardcode it."""
+    _, ramp = committed_payload()
+    assert ramp["order"] == list(mapgen.RAMP_ORDER)
+    assert ramp["base"] == dict(mapgen.RAMP_BASE)
 
 
 def test_committed_maps_are_legal():

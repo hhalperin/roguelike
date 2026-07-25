@@ -7,569 +7,11 @@ window.SPIRE_MAPS = [
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "unclear-requirements",
-      "name": "Unclear Requirements"
-    },
-    "nodes": [
-      {
-        "id": "r0c1",
-        "row": 0,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r0c3",
-        "row": 0,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r0c4",
-        "row": 0,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r0c6",
-        "row": 0,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.9560342718892494,
-          0.9478274870593494,
-          0.05655136772680869
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.9560342718892494,
-          0.9478274870593494,
-          0.05655136772680869
-        ]
-      },
-      {
-        "id": "r1c4",
-        "row": 1,
-        "col": 4,
-        "kind": "shop",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r1c6",
-        "row": 1,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.9560342718892494,
-          0.9478274870593494,
-          0.05655136772680869
-        ]
-      },
-      {
-        "id": "r2c2",
-        "row": 2,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r2c4",
-        "row": 2,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r2c5",
-        "row": 2,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          4,
-          5,
-          6
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r2c6",
-        "row": 2,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r3c1",
-        "row": 3,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r3c4",
-        "row": 3,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "shop",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r3c6",
-        "row": 3,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r4c3",
-        "row": 4,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r4c6",
-        "row": 4,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r5c1",
-        "row": 5,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r5c5",
-        "row": 5,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c6",
-        "row": 5,
-        "col": 6,
-        "kind": "elite",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "elite",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r6c6",
-        "row": 6,
-        "col": 6,
-        "kind": "rest",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r7c3",
-        "row": 7,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c4",
-        "row": 7,
-        "col": 4,
-        "kind": "rest",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r7c6",
-        "row": 7,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r8c4",
-        "row": 8,
-        "col": 4,
-        "kind": "treasure",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          4,
-          6
-        ]
-      },
-      {
-        "id": "r8c6",
-        "row": 8,
-        "col": 6,
-        "kind": "treasure",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r9c6",
-        "row": 9,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r10c4",
-        "row": 10,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r10c5",
-        "row": 10,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r10c6",
-        "row": 10,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r11c4",
-        "row": 11,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4,
-          5
-        ]
-      },
-      {
-        "id": "r11c5",
-        "row": 11,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r11c6",
-        "row": 11,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r12c4",
-        "row": 12,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r12c5",
-        "row": 12,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4,
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r12c6",
-        "row": 12,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r13c4",
-        "row": 13,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r13c5",
-        "row": 13,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r13c6",
-        "row": 13,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r14c2",
-        "row": 14,
-        "col": 2,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c5",
-        "row": 14,
-        "col": 5,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c6",
-        "row": 14,
-        "col": 6,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 0,
-    "act": 2,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "integration-boss",
-      "name": "The Integration"
+      "id": "scope-without-a-spec",
+      "name": "Scope Without a Spec",
+      "room": "feature",
+      "intent": "Will keep growing until Done is undefined.",
+      "acceptance": "written Done + a vertical slice shipped"
     },
     "nodes": [
       {
@@ -578,7 +20,7 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "monster",
         "next": [
-          1
+          0
         ]
       },
       {
@@ -605,80 +47,144 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          2
-        ]
-      },
-      {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "shop",
-        "next": [
-          0,
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2,
           3
-        ],
-        "rolls": [
-          0.06710225875940379,
-          0.3255995543326774,
-          0.0036753697681032316
         ]
       },
       {
-        "id": "r2c0",
-        "row": 2,
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
         "col": 0,
         "kind": "unknown",
         "next": [
           1
         ],
         "rolls": [
-          0.7638815744633954,
-          0.6447807510863064,
-          0.40943808013995275
+          0.9560342718892494,
+          0.9478274870593494,
+          0.05655136772680869
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.9560342718892494,
+          0.9478274870593494,
+          0.05655136772680869
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
         ]
       },
       {
         "id": "r2c1",
         "row": 2,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          2
+          1
+        ],
+        "rolls": [
+          0.23796462709189137,
+          0.5442292252959519,
+          0.36995516654807925
         ]
       },
       {
         "id": "r2c2",
         "row": 2,
         "col": 2,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          3
+          1
+        ],
+        "rolls": [
+          0.23796462709189137,
+          0.5442292252959519,
+          0.36995516654807925
         ]
       },
       {
         "id": "r2c3",
         "row": 2,
         "col": 3,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
-          3,
+          3
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
           4
-        ],
-        "rolls": [
-          0.7638815744633954,
-          0.6447807510863064,
-          0.40943808013995275
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
         ]
       },
       {
@@ -687,26 +193,13 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "unknown",
         "next": [
-          1
+          0,
+          2
         ],
         "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
-        ]
-      },
-      {
-        "id": "r3c2",
-        "row": 3,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
+          0.23604808973743452,
+          0.1031660342307158,
+          0.396058242610681
         ]
       },
       {
@@ -715,73 +208,54 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "unknown",
         "next": [
-          4
+          3
         ],
         "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
+          0.23604808973743452,
+          0.1031660342307158,
+          0.396058242610681
         ]
       },
       {
         "id": "r3c4",
         "row": 3,
         "col": 4,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
-          5
+          3
         ]
       },
       {
-        "id": "r4c1",
+        "id": "r4c0",
         "row": 4,
-        "col": 1,
+        "col": 0,
         "kind": "unknown",
         "next": [
           1
         ],
         "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
+          0.6229016948897019,
+          0.7417869892607294,
+          0.7951935655656966
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
         ]
       },
       {
         "id": "r4c3",
         "row": 4,
         "col": 3,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
+          2,
           3
-        ]
-      },
-      {
-        "id": "r4c4",
-        "row": 4,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4,
-          5
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
         ]
       },
       {
@@ -790,99 +264,69 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "elite",
         "next": [
-          1
+          2
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.793340083761663,
+          0.8219540423197268,
+          0.4850346279309453
         ]
       },
       {
         "id": "r5c3",
         "row": 5,
         "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
         "kind": "rest",
         "next": [
           3
-        ]
-      },
-      {
-        "id": "r5c4",
-        "row": 5,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c5",
-        "row": 5,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r5c6",
-        "row": 5,
-        "col": 6,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c1",
-        "row": 6,
-        "col": 1,
-        "kind": "rest",
-        "next": [
-          2
         ]
       },
       {
         "id": "r6c3",
         "row": 6,
         "col": 3,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r6c6",
-        "row": 6,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
         "kind": "monster",
         "next": [
-          1,
           3
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3,
+          4
         ]
       },
       {
@@ -891,22 +335,13 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "rest",
         "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "elite",
-        "next": [
           5
         ]
       },
       {
-        "id": "r8c1",
+        "id": "r8c2",
         "row": 8,
-        "col": 1,
+        "col": 2,
         "kind": "treasure",
         "next": [
           1
@@ -936,8 +371,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "treasure",
         "next": [
-          4,
-          5
+          6
         ]
       },
       {
@@ -953,8 +387,9 @@ window.SPIRE_MAPS = [
         "id": "r9c2",
         "row": 9,
         "col": 2,
-        "kind": "monster",
+        "kind": "shop",
         "next": [
+          2,
           3
         ]
       },
@@ -962,24 +397,20 @@ window.SPIRE_MAPS = [
         "id": "r9c3",
         "row": 9,
         "col": 3,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           4
+        ],
+        "rolls": [
+          0.5714025946899135,
+          0.4288890546751146,
+          0.5780913011344704
         ]
       },
       {
-        "id": "r9c4",
+        "id": "r9c6",
         "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r9c5",
-        "row": 9,
-        "col": 5,
+        "col": 6,
         "kind": "monster",
         "next": [
           6
@@ -995,12 +426,671 @@ window.SPIRE_MAPS = [
         ]
       },
       {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
         "id": "r10c3",
         "row": 10,
         "col": 3,
         "kind": "monster",
         "next": [
+          3
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.4745706786885481,
+          0.6574725026572553,
+          0.6664104711248381
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "elite",
+        "next": [
           2
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.10682853770165568,
+          0.7025855239868555,
+          0.6520420203142754
+        ]
+      },
+      {
+        "id": "r13c2",
+        "row": 13,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c6",
+        "row": 13,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 0,
+    "act": 2,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "half-migrated-schema",
+      "name": "The Half-Migrated Schema",
+      "room": "infra",
+      "intent": "Will strand you between two shapes of the same table.",
+      "acceptance": "migration applied + rollback rehearsed"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.06710225875940379,
+          0.3255995543326774,
+          0.0036753697681032316
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.7638815744633954,
+          0.6447807510863064,
+          0.40943808013995275
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.7638815744633954,
+          0.6447807510863064,
+          0.40943808013995275
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.09075818242392208,
+          0.8421079776592801,
+          0.6004522437099808
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3,
+          4
+        ],
+        "rolls": [
+          0.09075818242392208,
+          0.8421079776592801,
+          0.6004522437099808
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          5
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.4344168117774424,
+          0.7245417468140584,
+          0.5362140226798132
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.5570381481736858,
+          0.023360983798705548,
+          0.9654726726957672
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "shop",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          3
         ]
       },
       {
@@ -1009,14 +1099,14 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "monster",
         "next": [
-          3,
-          4
+          4,
+          5
         ]
       },
       {
-        "id": "r10c6",
+        "id": "r10c5",
         "row": 10,
-        "col": 6,
+        "col": 5,
         "kind": "monster",
         "next": [
           5,
@@ -1027,27 +1117,18 @@ window.SPIRE_MAPS = [
         "id": "r11c0",
         "row": 11,
         "col": 0,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
           0
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
         ]
       },
       {
         "id": "r11c3",
         "row": 11,
         "col": 3,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          3
+          4
         ]
       },
       {
@@ -1074,34 +1155,16 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
-          5
+          6
         ]
       },
       {
         "id": "r12c0",
         "row": 12,
         "col": 0,
-        "kind": "monster",
+        "kind": "shop",
         "next": [
           1
-        ]
-      },
-      {
-        "id": "r12c2",
-        "row": 12,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r12c3",
-        "row": 12,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
         ]
       },
       {
@@ -1117,10 +1180,693 @@ window.SPIRE_MAPS = [
         "id": "r12c5",
         "row": 12,
         "col": 5,
+        "kind": "rest",
+        "next": [
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.1521462828432919,
+          0.22049795302898556,
+          0.019899883783497496
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.1521462828432919,
+          0.22049795302898556,
+          0.019899883783497496
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r13c6",
+        "row": 13,
+        "col": 6,
         "kind": "monster",
         "next": [
           5,
           6
+        ]
+      },
+      {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 0,
+    "act": 3,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "scale-cliff",
+      "name": "The Scale Cliff",
+      "room": "refactor",
+      "intent": "Will hold until traffic doubles, then fail all at once.",
+      "acceptance": "load test at 2x + a named bottleneck"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c2",
+        "row": 0,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.1926696873111965,
+          0.5672401081474563,
+          0.7343130188919997
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.1926696873111965,
+          0.5672401081474563,
+          0.7343130188919997
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.4012785642225538,
+          0.33476540841004565,
+          0.7354277990828911
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r3c0",
+        "row": 3,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.16479558908133918,
+          0.569070594943727,
+          0.44540009653720525
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c0",
+        "row": 4,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.06411042215573715,
+          0.9113585307061064,
+          0.7697382044328404
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.06411042215573715,
+          0.9113585307061064,
+          0.7697382044328404
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.06411042215573715,
+          0.9113585307061064,
+          0.7697382044328404
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.1722192308518672,
+          0.5744130903583392,
+          0.4346445690577938
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.7351605659688937,
+          0.05640050293900134,
+          0.6662698196932874
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c0",
+        "row": 8,
+        "col": 0,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          1,
+          3
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.825387685352384,
+          0.2251192049213856,
+          0.7737582143548014
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.2772392341947737,
+          0.788175114424828,
+          0.777152259104469
         ]
       },
       {
@@ -1129,7 +1875,692 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "monster",
         "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c2",
+        "row": 14,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 0,
+    "act": 4,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-heart",
+      "name": "The Heart of the Codebase",
+      "room": "refactor",
+      "intent": "Will reveal that the thing everyone feared touching is load-bearing.",
+      "acceptance": "the core path is covered, understood, and changed safely"
+    },
+    "nodes": [
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c2",
+        "row": 0,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "shop",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          5
+        ],
+        "rolls": [
+          0.7966509679599704,
+          0.05862623274803458,
+          0.7602397739740907
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.5209484070219088,
+          0.42125020101147315,
+          0.22094517308324657
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.5209484070219088,
+          0.42125020101147315,
+          0.22094517308324657
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.49734142093980327,
+          0.35999045686025677,
+          0.7220617567237175
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.4211249061401,
+          0.9761073344853062,
+          0.6132800246752349
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.4831103964860096,
+          0.9021829992468611,
+          0.5374571935128641
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "elite",
+        "next": [
           0,
+          1
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.34661995661142697,
+          0.2286410960833074,
+          0.012392470279078194
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r8c0",
+        "row": 8,
+        "col": 0,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.18019241848515155,
+          0.48736227300275514,
+          0.07759170039841756
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.6710054770408643,
+          0.8565535308620752,
+          0.24698123733940403
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          5
+        ],
+        "rolls": [
+          0.6710054770408643,
+          0.8565535308620752,
+          0.24698123733940403
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.33847602574867286,
+          0.14481639417582481,
+          0.20823210929015334
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0,
+          2
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "elite",
+        "next": [
           1
         ]
       },
@@ -1137,9 +2568,630 @@ window.SPIRE_MAPS = [
         "id": "r13c2",
         "row": 13,
         "col": 2,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c6",
+        "row": 13,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 0,
+    "act": 5,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-oncall-week",
+      "name": "The On-Call Week",
+      "room": "bug",
+      "intent": "Will interrupt whatever you planned.",
+      "acceptance": "every page resolved and one made impossible"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
         "kind": "monster",
         "next": [
           2
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.7316160715172649,
+          0.4419626511370359,
+          0.04371922998896827
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r2c0",
+        "row": 2,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6177907485452416,
+          0.022587921507064346,
+          0.041975401170279314
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.6177907485452416,
+          0.022587921507064346,
+          0.041975401170279314
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c0",
+        "row": 4,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.7801397228343218,
+          0.15539923381528098,
+          0.2684949522354466
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          1,
+          3
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.7646221377342026,
+          0.6316353681007599,
+          0.4684517760376211
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.8249648621074325,
+          0.027813322534632867,
+          0.6404955383058488
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.8249648621074325,
+          0.027813322534632867,
+          0.6404955383058488
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r13c2",
+        "row": 13,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.4572380592623708,
+          0.10169301668747632,
+          0.44438159555069257
         ]
       },
       {
@@ -1148,7 +3200,7 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          4
+          2
         ]
       },
       {
@@ -1157,7 +3209,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          4
+          5
         ]
       },
       {
@@ -1170,51 +3222,53 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r14c0",
-        "row": 14,
-        "col": 0,
-        "kind": "rest",
-        "next": []
-      },
-      {
         "id": "r14c1",
         "row": 14,
         "col": 1,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c2",
         "row": 14,
         "col": 2,
         "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c5",
         "row": 14,
         "col": 5,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
   },
   {
     "seed": 0,
-    "act": 3,
+    "act": 6,
     "ascension": 0,
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "compliance-gate",
-      "name": "The Compliance Gate"
+      "id": "the-inherited-service",
+      "name": "The Inherited Service",
+      "room": "infra",
+      "intent": "Will belong to you the moment its author leaves.",
+      "acceptance": "you can deploy it and explain it"
     },
     "nodes": [
       {
@@ -1226,6 +3280,2739 @@ window.SPIRE_MAPS = [
           1
         ]
       },
+      {
+        "id": "r0c2",
+        "row": 0,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.10797850529832331,
+          0.28089917467989756,
+          0.28858846721762976
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.10797850529832331,
+          0.28089917467989756,
+          0.28858846721762976
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          6
+        ],
+        "rolls": [
+          0.10797850529832331,
+          0.28089917467989756,
+          0.28858846721762976
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6664497073094312,
+          0.6541016018114838,
+          0.6738918273564825
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          3
+        ],
+        "rolls": [
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6349220944484475,
+          0.817240337333179,
+          0.3555514285129461
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0,
+          2
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r6c0",
+        "row": 6,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.06515390804947463,
+          0.9838103797885049,
+          0.262468489017478
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r8c0",
+        "row": 8,
+        "col": 0,
+        "kind": "treasure",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0,
+          2
+        ],
+        "rolls": [
+          0.7543283607835892,
+          0.9788010738341402,
+          0.5483324141829135
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.07768478024538494,
+          0.6475442201094946,
+          0.15347714831164017
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.4775529182738627,
+          0.39830183340275904,
+          0.7933535406527915
+        ]
+      },
+      {
+        "id": "r13c2",
+        "row": 13,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c2",
+        "row": 14,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 1,
+    "act": 1,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "unclear-requirements",
+      "name": "Unclear Requirements",
+      "room": "design",
+      "intent": "Will block ship until someone owns the decision.",
+      "acceptance": "decision recorded + checks green"
+    },
+    "nodes": [
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c2",
+        "row": 0,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.23796462709189137,
+          0.5442292252959519,
+          0.36995516654807925
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.23796462709189137,
+          0.5442292252959519,
+          0.36995516654807925
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c0",
+        "row": 2,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.23604808973743452,
+          0.1031660342307158,
+          0.396058242610681
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r3c0",
+        "row": 3,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.6229016948897019,
+          0.7417869892607294,
+          0.7951935655656966
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          5
+        ],
+        "rolls": [
+          0.6229016948897019,
+          0.7417869892607294,
+          0.7951935655656966
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c0",
+        "row": 4,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.32383276483316237,
+          0.15084917392450192,
+          0.6509344730398537
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.32383276483316237,
+          0.15084917392450192,
+          0.6509344730398537
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.32383276483316237,
+          0.15084917392450192,
+          0.6509344730398537
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r6c0",
+        "row": 6,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.46300735781502145,
+          0.37331193139504204,
+          0.13853941251445523
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c0",
+        "row": 8,
+        "col": 0,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.10682853770165568,
+          0.7025855239868555,
+          0.6520420203142754
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.10682853770165568,
+          0.7025855239868555,
+          0.6520420203142754
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.10682853770165568,
+          0.7025855239868555,
+          0.6520420203142754
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 1,
+    "act": 2,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-integration",
+      "name": "The Integration",
+      "room": "feature",
+      "intent": "Will pass in isolation and fail together.",
+      "acceptance": "end-to-end path green in CI"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0,
+          1
+        ],
+        "rolls": [
+          0.7638815744633954,
+          0.6447807510863064,
+          0.40943808013995275
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.7638815744633954,
+          0.6447807510863064,
+          0.40943808013995275
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c0",
+        "row": 2,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.09075818242392208,
+          0.8421079776592801,
+          0.6004522437099808
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r3c3",
+        "row": 3,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.39690648660219763,
+          0.0854585463189852,
+          0.5839064807403116
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c0",
+        "row": 4,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.4344168117774424,
+          0.7245417468140584,
+          0.5362140226798132
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.008647837332268482,
+          0.3050878344073742,
+          0.7360429407960125
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c0",
+        "row": 6,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "elite",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.2790623867929266,
+          0.7805789723707738,
+          0.05584771612565553
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c0",
+        "row": 8,
+        "col": 0,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r9c2",
+        "row": 9,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.39626290358104654,
+          0.982372440704894,
+          0.7053231342372327
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.5172834599655177,
+          0.3553493128333409,
+          0.2991825836949392
+        ]
+      },
+      {
+        "id": "r13c2",
+        "row": 13,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 1,
+    "act": 3,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "scale-cliff",
+      "name": "The Scale Cliff",
+      "room": "refactor",
+      "intent": "Will hold until traffic doubles, then fail all at once.",
+      "acceptance": "load test at 2x + a named bottleneck"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0,
+          2
+        ],
+        "rolls": [
+          0.4012785642225538,
+          0.33476540841004565,
+          0.7354277990828911
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r2c0",
+        "row": 2,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r3c0",
+        "row": 3,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r4c0",
+        "row": 4,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.1722192308518672,
+          0.5744130903583392,
+          0.4346445690577938
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.7351605659688937,
+          0.05640050293900134,
+          0.6662698196932874
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.6977110510931823,
+          0.9783245530427404,
+          0.1107476512588561
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.6977110510931823,
+          0.9783245530427404,
+          0.1107476512588561
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "unknown",
+        "next": [
+          6
+        ],
+        "rolls": [
+          0.6977110510931823,
+          0.9783245530427404,
+          0.1107476512588561
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c1",
+        "row": 9,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.4448219195569709,
+          0.30716162887635,
+          0.9907008803290535
+        ]
+      },
+      {
+        "id": "r9c2",
+        "row": 9,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.4448219195569709,
+          0.30716162887635,
+          0.9907008803290535
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.5436358153199754,
+          0.9669502776091784,
+          0.6291191215438154
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "elite",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3,
+          4
+        ],
+        "rolls": [
+          0.2538478168189455,
+          0.6024197092951358,
+          0.1940147510477428
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          5,
+          6
+        ],
+        "rolls": [
+          0.2538478168189455,
+          0.6024197092951358,
+          0.1940147510477428
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 1,
+    "act": 4,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-heart",
+      "name": "The Heart of the Codebase",
+      "room": "refactor",
+      "intent": "Will reveal that the thing everyone feared touching is load-bearing.",
+      "acceptance": "the core path is covered, understood, and changed safely"
+    },
+    "nodes": [
       {
         "id": "r0c2",
         "row": 0,
@@ -1251,7 +6038,16 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          5,
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
           6
         ]
       },
@@ -1259,23 +6055,23 @@ window.SPIRE_MAPS = [
         "id": "r1c1",
         "row": 1,
         "col": 1,
-        "kind": "unknown",
+        "kind": "shop",
         "next": [
           1
-        ],
-        "rolls": [
-          0.1926696873111965,
-          0.5672401081474563,
-          0.7343130188919997
         ]
       },
       {
         "id": "r1c2",
         "row": 1,
         "col": 2,
-        "kind": "shop",
+        "kind": "unknown",
         "next": [
           2
+        ],
+        "rolls": [
+          0.5209484070219088,
+          0.42125020101147315,
+          0.22094517308324657
         ]
       },
       {
@@ -1284,33 +6080,42 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "unknown",
         "next": [
-          4
+          3
         ],
         "rolls": [
-          0.1926696873111965,
-          0.5672401081474563,
-          0.7343130188919997
+          0.5209484070219088,
+          0.42125020101147315,
+          0.22094517308324657
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.5209484070219088,
+          0.42125020101147315,
+          0.22094517308324657
         ]
       },
       {
         "id": "r1c5",
         "row": 1,
         "col": 5,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
-          6
-        ],
-        "rolls": [
-          0.1926696873111965,
-          0.5672401081474563,
-          0.7343130188919997
+          4
         ]
       },
       {
         "id": "r1c6",
         "row": 1,
         "col": 6,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
           6
         ]
@@ -1321,68 +6126,48 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "unknown",
         "next": [
-          0
+          2
         ],
         "rolls": [
-          0.4012785642225538,
-          0.33476540841004565,
-          0.7354277990828911
+          0.49734142093980327,
+          0.35999045686025677,
+          0.7220617567237175
         ]
       },
       {
         "id": "r2c2",
         "row": 2,
         "col": 2,
-        "kind": "unknown",
+        "kind": "shop",
         "next": [
-          2
-        ],
-        "rolls": [
-          0.4012785642225538,
-          0.33476540841004565,
-          0.7354277990828911
+          3
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
         ]
       },
       {
         "id": "r2c4",
         "row": 2,
         "col": 4,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
-          3
-        ],
-        "rolls": [
-          0.4012785642225538,
-          0.33476540841004565,
-          0.7354277990828911
+          4
         ]
       },
       {
         "id": "r2c6",
         "row": 2,
         "col": 6,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
-          5
-        ],
-        "rolls": [
-          0.4012785642225538,
-          0.33476540841004565,
-          0.7354277990828911
-        ]
-      },
-      {
-        "id": "r3c0",
-        "row": 3,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+          6
         ]
       },
       {
@@ -1391,50 +6176,55 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "unknown",
         "next": [
-          3
+          2
         ],
         "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+          0.4211249061401,
+          0.9761073344853062,
+          0.6132800246752349
         ]
       },
       {
         "id": "r3c3",
         "row": 3,
         "col": 3,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
-          4
-        ],
-        "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+          2,
+          3
         ]
       },
       {
-        "id": "r3c5",
+        "id": "r3c4",
         "row": 3,
-        "col": 5,
-        "kind": "unknown",
+        "col": 4,
+        "kind": "monster",
         "next": [
-          5,
-          6
-        ],
-        "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+          3
         ]
       },
       {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "shop",
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
         "next": [
-          0
+          5
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.4831103964860096,
+          0.9021829992468611,
+          0.5374571935128641
         ]
       },
       {
@@ -1443,16 +6233,8 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          3
-        ]
-      },
-      {
-        "id": "r4c4",
-        "row": 4,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
+          3,
+          4
         ]
       },
       {
@@ -1461,34 +6243,38 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          4
+          6
         ]
       },
       {
-        "id": "r4c6",
-        "row": 4,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c0",
+        "id": "r5c1",
         "row": 5,
-        "col": 0,
+        "col": 1,
         "kind": "rest",
         "next": [
           1
         ]
       },
       {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.34661995661142697,
+          0.2286410960833074,
+          0.012392470279078194
+        ]
+      },
+      {
         "id": "r5c3",
         "row": 5,
         "col": 3,
-        "kind": "elite",
+        "kind": "rest",
         "next": [
-          2,
           3
         ]
       },
@@ -1496,18 +6282,18 @@ window.SPIRE_MAPS = [
         "id": "r5c4",
         "row": 5,
         "col": 4,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
-          3
+          5
         ]
       },
       {
-        "id": "r5c5",
+        "id": "r5c6",
         "row": 5,
-        "col": 5,
-        "kind": "elite",
+        "col": 6,
+        "kind": "monster",
         "next": [
-          4
+          5
         ]
       },
       {
@@ -1516,17 +6302,7 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "elite",
         "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          1
+          0
         ]
       },
       {
@@ -1535,16 +6311,18 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          2
+          2,
+          3
         ]
       },
       {
-        "id": "r6c4",
+        "id": "r6c5",
         "row": 6,
-        "col": 4,
+        "col": 5,
         "kind": "rest",
         "next": [
-          5
+          4,
+          6
         ]
       },
       {
@@ -1557,31 +6335,40 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r7c1",
-        "row": 7,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
         "id": "r7c2",
         "row": 7,
         "col": 2,
-        "kind": "rest",
+        "kind": "elite",
         "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
           3
         ]
       },
       {
-        "id": "r7c5",
+        "id": "r7c4",
         "row": 7,
-        "col": 5,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
         "kind": "monster",
         "next": [
-          5
+          6
         ]
       },
       {
@@ -1608,695 +6395,7 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "treasure",
         "next": [
-          3
-        ]
-      },
-      {
-        "id": "r8c3",
-        "row": 8,
-        "col": 3,
-        "kind": "treasure",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          0,
           1
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r9c6",
-        "row": 9,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r10c0",
-        "row": 10,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r10c1",
-        "row": 10,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r10c3",
-        "row": 10,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r10c4",
-        "row": 10,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r10c6",
-        "row": 10,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r11c0",
-        "row": 11,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r11c3",
-        "row": 11,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r11c4",
-        "row": 11,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r11c5",
-        "row": 11,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r12c1",
-        "row": 12,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r12c3",
-        "row": 12,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r12c4",
-        "row": 12,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r12c5",
-        "row": 12,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r13c1",
-        "row": 13,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c4",
-        "row": 13,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4,
-          5
-        ]
-      },
-      {
-        "id": "r14c1",
-        "row": 14,
-        "col": 1,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c3",
-        "row": 14,
-        "col": 3,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c5",
-        "row": 14,
-        "col": 5,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 1,
-    "act": 1,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "unclear-requirements",
-      "name": "Unclear Requirements"
-    },
-    "nodes": [
-      {
-        "id": "r0c1",
-        "row": 0,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r0c2",
-        "row": 0,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r0c3",
-        "row": 0,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r0c4",
-        "row": 0,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r0c6",
-        "row": 0,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r1c0",
-        "row": 1,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
-        "col": 2,
-        "kind": "shop",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          2,
-          4
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r1c6",
-        "row": 1,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.23796462709189137,
-          0.5442292252959519,
-          0.36995516654807925
-        ]
-      },
-      {
-        "id": "r2c0",
-        "row": 2,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0,
-          1
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r2c1",
-        "row": 2,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r2c2",
-        "row": 2,
-        "col": 2,
-        "kind": "shop",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r2c4",
-        "row": 2,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r2c6",
-        "row": 2,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
-        ]
-      },
-      {
-        "id": "r3c0",
-        "row": 3,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r3c1",
-        "row": 3,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r3c6",
-        "row": 3,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.793340083761663,
-          0.8219540423197268,
-          0.4850346279309453
-        ]
-      },
-      {
-        "id": "r4c1",
-        "row": 4,
-        "col": 1,
-        "kind": "shop",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r5c0",
-        "row": 5,
-        "col": 0,
-        "kind": "elite",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r5c1",
-        "row": 5,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r5c2",
-        "row": 5,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "elite",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r5c5",
-        "row": 5,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r5c6",
-        "row": 5,
-        "col": 6,
-        "kind": "elite",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r6c0",
-        "row": 6,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r6c1",
-        "row": 6,
-        "col": 1,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r6c3",
-        "row": 6,
-        "col": 3,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r7c0",
-        "row": 7,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r7c3",
-        "row": 7,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r7c4",
-        "row": 7,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r8c0",
-        "row": 8,
-        "col": 0,
-        "kind": "treasure",
-        "next": [
-          0
         ]
       },
       {
@@ -2315,662 +6414,6 @@ window.SPIRE_MAPS = [
         "kind": "treasure",
         "next": [
           4
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r9c5",
-        "row": 9,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r10c0",
-        "row": 10,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r10c2",
-        "row": 10,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r10c3",
-        "row": 10,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r10c4",
-        "row": 10,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r11c0",
-        "row": 11,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r11c1",
-        "row": 11,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r11c3",
-        "row": 11,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r12c0",
-        "row": 12,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r12c1",
-        "row": 12,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r12c2",
-        "row": 12,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r12c3",
-        "row": 12,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r13c0",
-        "row": 13,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r13c1",
-        "row": 13,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r13c4",
-        "row": 13,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r14c0",
-        "row": 14,
-        "col": 0,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c1",
-        "row": 14,
-        "col": 1,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c2",
-        "row": 14,
-        "col": 2,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 1,
-    "act": 2,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "half-migrated-schema",
-      "name": "The Half-Migrated Schema"
-    },
-    "nodes": [
-      {
-        "id": "r0c0",
-        "row": 0,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r0c3",
-        "row": 0,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r0c4",
-        "row": 0,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r0c6",
-        "row": 0,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r1c0",
-        "row": 1,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.7638815744633954,
-          0.6447807510863064,
-          0.40943808013995275
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
-        "kind": "shop",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r1c4",
-        "row": 1,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4,
-          5
-        ],
-        "rolls": [
-          0.7638815744633954,
-          0.6447807510863064,
-          0.40943808013995275
-        ]
-      },
-      {
-        "id": "r1c6",
-        "row": 1,
-        "col": 6,
-        "kind": "shop",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r2c0",
-        "row": 2,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
-        ]
-      },
-      {
-        "id": "r2c2",
-        "row": 2,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
-        ]
-      },
-      {
-        "id": "r2c3",
-        "row": 2,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r2c4",
-        "row": 2,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
-        ]
-      },
-      {
-        "id": "r2c5",
-        "row": 2,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r3c1",
-        "row": 3,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r3c3",
-        "row": 3,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r3c4",
-        "row": 3,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r3c6",
-        "row": 3,
-        "col": 6,
-        "kind": "shop",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
-        ]
-      },
-      {
-        "id": "r4c3",
-        "row": 4,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
-        ]
-      },
-      {
-        "id": "r4c4",
-        "row": 4,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r4c6",
-        "row": 4,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r5c0",
-        "row": 5,
-        "col": 0,
-        "kind": "elite",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "elite",
-        "next": [
-          2,
-          4
-        ]
-      },
-      {
-        "id": "r5c4",
-        "row": 5,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c6",
-        "row": 5,
-        "col": 6,
-        "kind": "elite",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c0",
-        "row": 6,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3,
-          5
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c6",
-        "row": 6,
-        "col": 6,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r7c0",
-        "row": 7,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r7c1",
-        "row": 7,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r7c3",
-        "row": 7,
-        "col": 3,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r7c6",
-        "row": 7,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r8c0",
-        "row": 8,
-        "col": 0,
-        "kind": "treasure",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r8c2",
-        "row": 8,
-        "col": 2,
-        "kind": "treasure",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r8c4",
-        "row": 8,
-        "col": 4,
-        "kind": "treasure",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          5
         ]
       },
       {
@@ -2995,9 +6438,18 @@ window.SPIRE_MAPS = [
         "id": "r9c1",
         "row": 9,
         "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
         "kind": "monster",
         "next": [
-          1
+          3
         ]
       },
       {
@@ -3007,15 +6459,6 @@ window.SPIRE_MAPS = [
         "kind": "monster",
         "next": [
           5
-        ]
-      },
-      {
-        "id": "r9c5",
-        "row": 9,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          6
         ]
       },
       {
@@ -3031,9 +6474,33 @@ window.SPIRE_MAPS = [
         "id": "r10c1",
         "row": 10,
         "col": 1,
+        "kind": "elite",
+        "next": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.3669207785547728,
+          0.030768211291716918,
+          0.1774779160314659
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
         "kind": "monster",
         "next": [
-          0
+          4
         ]
       },
       {
@@ -3051,7 +6518,6 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
-          5,
           6
         ]
       },
@@ -3059,9 +6525,46 @@ window.SPIRE_MAPS = [
         "id": "r11c0",
         "row": 11,
         "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.33847602574867286,
+          0.14481639417582481,
+          0.20823210929015334
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
         "kind": "monster",
         "next": [
-          1
+          2
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.33847602574867286,
+          0.14481639417582481,
+          0.20823210929015334
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
         ]
       },
       {
@@ -3070,8 +6573,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          4,
-          6
+          5
         ]
       },
       {
@@ -3080,13 +6582,22 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
-          6
+          5
         ]
       },
       {
-        "id": "r12c1",
+        "id": "r12c0",
         "row": 12,
-        "col": 1,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
         "kind": "monster",
         "next": [
           1,
@@ -3094,31 +6605,37 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r12c4",
+        "id": "r12c5",
         "row": 12,
-        "col": 4,
+        "col": 5,
         "kind": "monster",
         "next": [
-          4
+          4,
+          5,
+          6
         ]
       },
       {
-        "id": "r12c6",
-        "row": 12,
-        "col": 6,
-        "kind": "monster",
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "shop",
         "next": [
-          5,
-          6
+          0
         ]
       },
       {
         "id": "r13c1",
         "row": 13,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           1
+        ],
+        "rolls": [
+          0.5155408159323152,
+          0.23926675508933226,
+          0.03489005135177381
         ]
       },
       {
@@ -3134,9 +6651,14 @@ window.SPIRE_MAPS = [
         "id": "r13c4",
         "row": 13,
         "col": 4,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          5
+          3
+        ],
+        "rolls": [
+          0.5155408159323152,
+          0.23926675508933226,
+          0.03489005135177381
         ]
       },
       {
@@ -3145,7 +6667,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          6
+          4
         ]
       },
       {
@@ -3158,134 +6680,241 @@ window.SPIRE_MAPS = [
         ]
       },
       {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
         "id": "r14c1",
         "row": 14,
         "col": 1,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c3",
         "row": 14,
         "col": 3,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
-        "id": "r14c5",
+        "id": "r14c4",
         "row": 14,
-        "col": 5,
+        "col": 4,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c6",
         "row": 14,
         "col": 6,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
   },
   {
     "seed": 1,
-    "act": 3,
+    "act": 5,
     "ascension": 0,
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "compliance-gate",
-      "name": "The Compliance Gate"
+      "id": "the-slow-erosion",
+      "name": "The Slow Erosion",
+      "room": "refactor",
+      "intent": "Will take one percent of your velocity every month, forever.",
+      "acceptance": "a measured trend that stops going down"
     },
     "nodes": [
-      {
-        "id": "r0c0",
-        "row": 0,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
       {
         "id": "r0c1",
         "row": 0,
         "col": 1,
         "kind": "monster",
         "next": [
-          1,
-          2
+          0
         ]
       },
       {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0,
-          1,
-          2
-        ],
-        "rolls": [
-          0.4012785642225538,
-          0.33476540841004565,
-          0.7354277990828911
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
+        "id": "r0c2",
+        "row": 0,
         "col": 2,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
           3
         ]
       },
       {
-        "id": "r2c0",
-        "row": 2,
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
         "col": 0,
         "kind": "unknown",
         "next": [
-          0
+          1
         ],
         "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+          0.6177907485452416,
+          0.022587921507064346,
+          0.041975401170279314
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.6177907485452416,
+          0.022587921507064346,
+          0.041975401170279314
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.6177907485452416,
+          0.022587921507064346,
+          0.041975401170279314
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
         ]
       },
       {
         "id": "r2c1",
         "row": 2,
         "col": 1,
-        "kind": "shop",
+        "kind": "unknown",
         "next": [
-          1
+          0
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
         ]
       },
       {
         "id": "r2c2",
         "row": 2,
         "col": 2,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          1
+          2
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
         ]
       },
       {
-        "id": "r2c3",
+        "id": "r2c4",
         "row": 2,
-        "col": 3,
-        "kind": "unknown",
+        "col": 4,
+        "kind": "monster",
         "next": [
           4
-        ],
-        "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
         ]
       },
       {
@@ -3294,74 +6923,17 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "unknown",
         "next": [
-          0
+          1
         ],
         "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
+          0.7801397228343218,
+          0.15539923381528098,
+          0.2684949522354466
         ]
       },
       {
-        "id": "r3c1",
+        "id": "r3c2",
         "row": 3,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          1,
-          2
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r3c4",
-        "row": 3,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
-        ]
-      },
-      {
-        "id": "r4c1",
-        "row": 4,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
         "col": 2,
         "kind": "monster",
         "next": [
@@ -3369,33 +6941,85 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r4c4",
-        "row": 4,
+        "id": "r3c4",
+        "row": 3,
         "col": 4,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
+          3,
+          4,
           5
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
         ]
       },
       {
-        "id": "r5c0",
-        "row": 5,
-        "col": 0,
-        "kind": "rest",
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "shop",
         "next": [
           1
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          0
         ]
       },
       {
         "id": "r5c2",
         "row": 5,
         "col": 2,
-        "kind": "rest",
+        "kind": "elite",
         "next": [
           1
         ]
@@ -3406,110 +7030,99 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "rest",
         "next": [
-          2,
-          3
+          4
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
         ]
       },
       {
         "id": "r5c5",
         "row": 5,
         "col": 5,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
-          4
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r6c0",
+        "row": 6,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
         ]
       },
       {
         "id": "r6c1",
         "row": 6,
         "col": 1,
-        "kind": "elite",
+        "kind": "rest",
         "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r6c3",
-        "row": 6,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.6977110510931823,
-          0.9783245530427404,
-          0.1107476512588561
+          0
         ]
       },
       {
         "id": "r6c4",
         "row": 6,
         "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
         "kind": "rest",
         "next": [
-          4
+          6
         ]
       },
       {
         "id": "r7c0",
         "row": 7,
         "col": 0,
-        "kind": "rest",
+        "kind": "monster",
         "next": [
-          0
+          1
         ]
       },
       {
-        "id": "r7c1",
+        "id": "r7c3",
         "row": 7,
-        "col": 1,
-        "kind": "unknown",
+        "col": 3,
+        "kind": "monster",
         "next": [
-          2
-        ],
-        "rolls": [
-          0.13132060068982288,
-          0.8850271493511603,
-          0.7063834219843963
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "rest",
-        "next": [
+          2,
           3
         ]
       },
       {
-        "id": "r7c4",
+        "id": "r7c6",
         "row": 7,
-        "col": 4,
-        "kind": "elite",
+        "col": 6,
+        "kind": "monster",
         "next": [
-          4,
           5
         ]
       },
       {
-        "id": "r8c0",
+        "id": "r8c1",
         "row": 8,
-        "col": 0,
+        "col": 1,
         "kind": "treasure",
         "next": [
-          0
+          1
         ]
       },
       {
@@ -3527,16 +7140,8 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "treasure",
         "next": [
-          2
-        ]
-      },
-      {
-        "id": "r8c4",
-        "row": 8,
-        "col": 4,
-        "kind": "treasure",
-        "next": [
-          5
+          3,
+          4
         ]
       },
       {
@@ -3545,32 +7150,43 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "treasure",
         "next": [
-          6
-        ]
-      },
-      {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
+          5
         ]
       },
       {
         "id": "r9c1",
         "row": 9,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
+          1,
           2
+        ],
+        "rolls": [
+          0.29611639614818197,
+          0.3521897001982601,
+          0.8113754449703405
         ]
       },
       {
-        "id": "r9c2",
+        "id": "r9c3",
         "row": 9,
-        "col": 2,
-        "kind": "monster",
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.29611639614818197,
+          0.3521897001982601,
+          0.8113754449703405
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "elite",
         "next": [
           3
         ]
@@ -3585,21 +7201,17 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r9c6",
-        "row": 9,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r10c0",
+        "id": "r10c1",
         "row": 10,
-        "col": 0,
-        "kind": "monster",
+        "col": 1,
+        "kind": "unknown",
         "next": [
           0
+        ],
+        "rolls": [
+          0.7646221377342026,
+          0.6316353681007599,
+          0.4684517760376211
         ]
       },
       {
@@ -3627,25 +7239,30 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
-          6
+          5
         ]
       },
       {
         "id": "r11c0",
         "row": 11,
         "col": 0,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           0
+        ],
+        "rolls": [
+          0.8249648621074325,
+          0.027813322534632867,
+          0.6404955383058488
         ]
       },
       {
         "id": "r11c1",
         "row": 11,
         "col": 1,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          1
+          0
         ]
       },
       {
@@ -3661,92 +7278,70 @@ window.SPIRE_MAPS = [
         "id": "r11c4",
         "row": 11,
         "col": 4,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          4
+          3
         ]
       },
       {
-        "id": "r11c6",
+        "id": "r11c5",
         "row": 11,
-        "col": 6,
+        "col": 5,
         "kind": "monster",
         "next": [
-          6
+          5
         ]
       },
       {
         "id": "r12c0",
         "row": 12,
         "col": 0,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
           0
-        ]
-      },
-      {
-        "id": "r12c1",
-        "row": 12,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
         ]
       },
       {
         "id": "r12c3",
         "row": 12,
         "col": 3,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
-          3
+          4
         ]
       },
       {
-        "id": "r12c4",
+        "id": "r12c5",
         "row": 12,
-        "col": 4,
+        "col": 5,
         "kind": "monster",
         "next": [
-          3
-        ]
-      },
-      {
-        "id": "r12c6",
-        "row": 12,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5,
-          6
+          5
         ]
       },
       {
         "id": "r13c0",
         "row": 13,
         "col": 0,
-        "kind": "monster",
+        "kind": "shop",
         "next": [
+          0,
           1
         ]
       },
       {
-        "id": "r13c2",
+        "id": "r13c4",
         "row": 13,
-        "col": 2,
-        "kind": "monster",
+        "col": 4,
+        "kind": "unknown",
         "next": [
-          1
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3,
-          4
+          4,
+          5
+        ],
+        "rolls": [
+          0.8440090353713835,
+          0.6703744024466631,
+          0.09360275767229631
         ]
       },
       {
@@ -3755,16 +7350,16 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          4
+          5
         ]
       },
       {
-        "id": "r13c6",
-        "row": 13,
-        "col": 6,
-        "kind": "monster",
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
         "next": [
-          6
+          3
         ]
       },
       {
@@ -3772,40 +7367,49 @@ window.SPIRE_MAPS = [
         "row": 14,
         "col": 1,
         "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c3",
-        "row": 14,
-        "col": 3,
-        "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c4",
         "row": 14,
         "col": 4,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
-        "id": "r14c6",
+        "id": "r14c5",
         "row": 14,
-        "col": 6,
+        "col": 5,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
   },
   {
-    "seed": 2,
-    "act": 1,
+    "seed": 1,
+    "act": 6,
     "ascension": 0,
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "scope-without-a-spec",
-      "name": "Scope Without a Spec"
+      "id": "the-oncall-week",
+      "name": "The On-Call Week",
+      "room": "bug",
+      "intent": "Will interrupt whatever you planned.",
+      "acceptance": "every page resolved and one made impossible"
     },
     "nodes": [
       {
@@ -3827,13 +7431,12 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r0c2",
+        "id": "r0c3",
         "row": 0,
-        "col": 2,
+        "col": 3,
         "kind": "monster",
         "next": [
-          1,
-          3
+          4
         ]
       },
       {
@@ -3842,7 +7445,16 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "monster",
         "next": [
-          3
+          5
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
         ]
       },
       {
@@ -3851,17 +7463,45 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "unknown",
         "next": [
-          0
+          1
         ],
         "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
+          0.6664497073094312,
+          0.6541016018114838,
+          0.6738918273564825
         ]
       },
       {
         "id": "r1c1",
         "row": 1,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
         "col": 1,
         "kind": "unknown",
         "next": [
@@ -3869,19 +7509,656 @@ window.SPIRE_MAPS = [
           1
         ],
         "rolls": [
-          0.23604808973743452,
-          0.1031660342307158,
-          0.396058242610681
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r3c0",
+        "row": 3,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6349220944484475,
+          0.817240337333179,
+          0.3555514285129461
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.6349220944484475,
+          0.817240337333179,
+          0.3555514285129461
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.8158088798085553,
+          0.5728274798357049,
+          0.7399237843607201
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r5c0",
+        "row": 5,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.06515390804947463,
+          0.9838103797885049,
+          0.262468489017478
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "shop",
+        "next": [
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.5499152106421176,
+          0.6610942868655831,
+          0.05519419078634746
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.007986769509872538,
+          0.7458231655872041,
+          0.12813887234110688
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.5536462613685199,
+          0.8577539154219399,
+          0.910231847470001
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r10c5",
+        "row": 10,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r13c0",
+        "row": 13,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3,
+          4
+        ],
+        "rolls": [
+          0.9147707517636592,
+          0.7763295041026044,
+          0.37086188546797405
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r13c6",
+        "row": 13,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c5",
+        "row": 14,
+        "col": 5,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 2,
+    "act": 1,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "undecided-architecture",
+      "name": "The Undecided Architecture",
+      "room": "design",
+      "intent": "Will make every module wait on a choice nobody made.",
+      "acceptance": "ADR committed + one path spiked"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
         ]
       },
       {
         "id": "r1c3",
         "row": 1,
         "col": 3,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
-          2,
-          3
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
         ]
       },
       {
@@ -3900,21 +8177,12 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r2c1",
+        "id": "r2c3",
         "row": 2,
-        "col": 1,
-        "kind": "shop",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r2c2",
-        "row": 2,
-        "col": 2,
+        "col": 3,
         "kind": "unknown",
         "next": [
-          1
+          4
         ],
         "rolls": [
           0.6229016948897019,
@@ -3923,12 +8191,21 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r2c3",
+        "id": "r2c4",
         "row": 2,
-        "col": 3,
+        "col": 4,
+        "kind": "shop",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
         "kind": "monster",
         "next": [
-          4
+          5
         ]
       },
       {
@@ -3951,7 +8228,6 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "monster",
         "next": [
-          0,
           1,
           2
         ]
@@ -3968,6 +8244,15 @@ window.SPIRE_MAPS = [
           0.793340083761663,
           0.8219540423197268,
           0.4850346279309453
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
         ]
       },
       {
@@ -3999,106 +8284,120 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "monster",
         "next": [
-          1
+          3
         ]
       },
       {
         "id": "r4c5",
         "row": 4,
         "col": 5,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           4
-        ],
-        "rolls": [
-          0.32383276483316237,
-          0.15084917392450192,
-          0.6509344730398537
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
         ]
       },
       {
         "id": "r5c0",
         "row": 5,
         "col": 0,
-        "kind": "rest",
+        "kind": "unknown",
         "next": [
-          0,
           1
+        ],
+        "rolls": [
+          0.2267058593810488,
+          0.9622950358343828,
+          0.12633089865085956
         ]
       },
       {
-        "id": "r5c1",
+        "id": "r5c3",
         "row": 5,
-        "col": 1,
-        "kind": "rest",
+        "col": 3,
+        "kind": "monster",
         "next": [
-          2
+          3
         ]
       },
       {
         "id": "r5c4",
         "row": 5,
         "col": 4,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
           4
         ]
       },
       {
-        "id": "r6c0",
-        "row": 6,
-        "col": 0,
-        "kind": "elite",
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
         "next": [
-          0,
-          1
+          4
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
         ]
       },
       {
         "id": "r6c1",
         "row": 6,
         "col": 1,
-        "kind": "unknown",
+        "kind": "rest",
         "next": [
+          0,
           2
-        ],
-        "rolls": [
-          0.46300735781502145,
-          0.37331193139504204,
-          0.13853941251445523
         ]
       },
       {
-        "id": "r6c2",
+        "id": "r6c3",
         "row": 6,
-        "col": 2,
+        "col": 3,
         "kind": "elite",
         "next": [
-          3
+          2
         ]
       },
       {
         "id": "r6c4",
         "row": 6,
         "col": 4,
-        "kind": "rest",
+        "kind": "monster",
         "next": [
-          4
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
         ]
       },
       {
         "id": "r7c0",
         "row": 7,
         "col": 0,
-        "kind": "rest",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r7c1",
-        "row": 7,
-        "col": 1,
         "kind": "unknown",
         "next": [
           0
@@ -4113,27 +8412,34 @@ window.SPIRE_MAPS = [
         "id": "r7c2",
         "row": 7,
         "col": 2,
-        "kind": "rest",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r7c3",
-        "row": 7,
-        "col": 3,
         "kind": "monster",
         "next": [
-          2
+          1,
+          3
         ]
       },
       {
         "id": "r7c4",
         "row": 7,
         "col": 4,
-        "kind": "elite",
+        "kind": "rest",
         "next": [
           3
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          4,
+          5
+        ],
+        "rolls": [
+          0.5714025946899135,
+          0.4288890546751146,
+          0.5780913011344704
         ]
       },
       {
@@ -4142,7 +8448,7 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "treasure",
         "next": [
-          0
+          1
         ]
       },
       {
@@ -4151,17 +8457,7 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "treasure",
         "next": [
-          1,
           2
-        ]
-      },
-      {
-        "id": "r8c2",
-        "row": 8,
-        "col": 2,
-        "kind": "treasure",
-        "next": [
-          3
         ]
       },
       {
@@ -4170,25 +8466,40 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "treasure",
         "next": [
+          3,
           4
         ]
       },
       {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "monster",
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
         "next": [
-          1
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          6
         ]
       },
       {
         "id": "r9c1",
         "row": 9,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          1
+          2
+        ],
+        "rolls": [
+          0.4745706786885481,
+          0.6574725026572553,
+          0.6664104711248381
         ]
       },
       {
@@ -4215,81 +8526,121 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "monster",
         "next": [
+          3,
           5
         ]
       },
       {
-        "id": "r10c1",
-        "row": 10,
-        "col": 1,
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
         "kind": "monster",
         "next": [
-          0
+          5
         ]
       },
       {
         "id": "r10c2",
         "row": 10,
         "col": 2,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
-          1
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.2590084917154736,
+          0.6852579929645369,
+          0.6840819180161107
         ]
       },
       {
         "id": "r10c5",
         "row": 10,
         "col": 5,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
-          4
-        ]
-      },
-      {
-        "id": "r11c0",
-        "row": 11,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
+          4,
+          5
         ]
       },
       {
         "id": "r11c1",
         "row": 11,
         "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r11c4",
-        "row": 11,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r12c0",
-        "row": 12,
-        "col": 0,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
           0,
           1
         ]
       },
       {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0
+        ]
+      },
+      {
         "id": "r12c1",
         "row": 12,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          1,
-          2
+          1
+        ],
+        "rolls": [
+          0.965242141552123,
+          0.011654693792141124,
+          0.7359916197968754
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2,
+          3
         ]
       },
       {
@@ -4302,10 +8653,19 @@ window.SPIRE_MAPS = [
         ]
       },
       {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          6
+        ]
+      },
+      {
         "id": "r13c0",
         "row": 13,
         "col": 0,
-        "kind": "monster",
+        "kind": "shop",
         "next": [
           0
         ]
@@ -4316,8 +8676,7 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "monster",
         "next": [
-          1,
-          2
+          1
         ]
       },
       {
@@ -4326,7 +8685,16 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "monster",
         "next": [
-          3
+          1
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
         ]
       },
       {
@@ -4335,6 +8703,7 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
+          5,
           6
         ]
       },
@@ -4343,34 +8712,51 @@ window.SPIRE_MAPS = [
         "row": 14,
         "col": 0,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c1",
         "row": 14,
         "col": 1,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c2",
         "row": 14,
         "col": 2,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
-        "id": "r14c3",
+        "id": "r14c5",
         "row": 14,
-        "col": 3,
+        "col": 5,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c6",
         "row": 14,
         "col": 6,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
@@ -4382,8 +8768,11 @@ window.SPIRE_MAPS = [
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "half-migrated-schema",
-      "name": "The Half-Migrated Schema"
+      "id": "cross-service-deadline",
+      "name": "Cross-Service Deadline",
+      "room": "infra",
+      "intent": "Will make your timeline depend on a team you do not control.",
+      "acceptance": "contract agreed + stub deployed"
     },
     "nodes": [
       {
@@ -4427,23 +8816,24 @@ window.SPIRE_MAPS = [
         "id": "r1c0",
         "row": 1,
         "col": 0,
-        "kind": "shop",
+        "kind": "unknown",
         "next": [
           1
+        ],
+        "rolls": [
+          0.09075818242392208,
+          0.8421079776592801,
+          0.6004522437099808
         ]
       },
       {
         "id": "r1c1",
         "row": 1,
         "col": 1,
-        "kind": "unknown",
+        "kind": "shop",
         "next": [
+          1,
           2
-        ],
-        "rolls": [
-          0.09075818242392208,
-          0.8421079776592801,
-          0.6004522437099808
         ]
       },
       {
@@ -4464,7 +8854,7 @@ window.SPIRE_MAPS = [
         "id": "r1c5",
         "row": 1,
         "col": 5,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
           4
         ]
@@ -4475,7 +8865,8 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "unknown",
         "next": [
-          0
+          0,
+          1
         ],
         "rolls": [
           0.39690648660219763,
@@ -4487,81 +8878,70 @@ window.SPIRE_MAPS = [
         "id": "r2c2",
         "row": 2,
         "col": 2,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           2
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
         ]
       },
       {
         "id": "r2c3",
         "row": 2,
         "col": 3,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           2
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
         ]
       },
       {
         "id": "r2c4",
         "row": 2,
         "col": 4,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           3,
           5
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
         ]
       },
       {
         "id": "r3c0",
         "row": 3,
         "col": 0,
-        "kind": "shop",
+        "kind": "unknown",
         "next": [
           0
+        ],
+        "rolls": [
+          0.4344168117774424,
+          0.7245417468140584,
+          0.5362140226798132
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
         ]
       },
       {
         "id": "r3c2",
         "row": 3,
         "col": 2,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           1,
-          2
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
+          3
         ]
       },
       {
         "id": "r3c3",
         "row": 3,
         "col": 3,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           3
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
         ]
       },
       {
@@ -4591,22 +8971,9 @@ window.SPIRE_MAPS = [
         "id": "r4c1",
         "row": 4,
         "col": 1,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
-        "col": 2,
         "kind": "monster",
         "next": [
+          0,
           2
         ]
       },
@@ -4614,14 +8981,9 @@ window.SPIRE_MAPS = [
         "id": "r4c3",
         "row": 4,
         "col": 3,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           3
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
         ]
       },
       {
@@ -4637,7 +8999,7 @@ window.SPIRE_MAPS = [
         "id": "r5c0",
         "row": 5,
         "col": 0,
-        "kind": "rest",
+        "kind": "elite",
         "next": [
           0,
           1
@@ -4647,16 +9009,21 @@ window.SPIRE_MAPS = [
         "id": "r5c2",
         "row": 5,
         "col": 2,
-        "kind": "rest",
+        "kind": "unknown",
         "next": [
-          3
+          2
+        ],
+        "rolls": [
+          0.5059766669498406,
+          0.6690652117641676,
+          0.8534819330516183
         ]
       },
       {
         "id": "r5c3",
         "row": 5,
         "col": 3,
-        "kind": "rest",
+        "kind": "monster",
         "next": [
           4
         ]
@@ -4665,7 +9032,7 @@ window.SPIRE_MAPS = [
         "id": "r5c6",
         "row": 5,
         "col": 6,
-        "kind": "rest",
+        "kind": "monster",
         "next": [
           5
         ]
@@ -4674,7 +9041,7 @@ window.SPIRE_MAPS = [
         "id": "r6c0",
         "row": 6,
         "col": 0,
-        "kind": "elite",
+        "kind": "rest",
         "next": [
           0
         ]
@@ -4683,25 +9050,30 @@ window.SPIRE_MAPS = [
         "id": "r6c1",
         "row": 6,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           1
+        ],
+        "rolls": [
+          0.2790623867929266,
+          0.7805789723707738,
+          0.05584771612565553
         ]
       },
       {
-        "id": "r6c3",
+        "id": "r6c2",
         "row": 6,
-        "col": 3,
+        "col": 2,
         "kind": "elite",
         "next": [
-          2
+          1
         ]
       },
       {
         "id": "r6c4",
         "row": 6,
         "col": 4,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
           3
         ]
@@ -4710,7 +9082,7 @@ window.SPIRE_MAPS = [
         "id": "r6c5",
         "row": 6,
         "col": 5,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
           4
         ]
@@ -4719,10 +9091,14 @@ window.SPIRE_MAPS = [
         "id": "r7c0",
         "row": 7,
         "col": 0,
-        "kind": "rest",
+        "kind": "unknown",
         "next": [
-          0,
           1
+        ],
+        "rolls": [
+          0.5570381481736858,
+          0.023360983798705548,
+          0.9654726726957672
         ]
       },
       {
@@ -4735,20 +9111,12 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
         "id": "r7c3",
         "row": 7,
         "col": 3,
         "kind": "monster",
         "next": [
+          2,
           3
         ]
       },
@@ -4759,15 +9127,6 @@ window.SPIRE_MAPS = [
         "kind": "monster",
         "next": [
           5
-        ]
-      },
-      {
-        "id": "r8c0",
-        "row": 8,
-        "col": 0,
-        "kind": "treasure",
-        "next": [
-          0
         ]
       },
       {
@@ -4785,7 +9144,7 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "treasure",
         "next": [
-          3
+          2
         ]
       },
       {
@@ -4807,20 +9166,12 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
         "id": "r9c2",
         "row": 9,
         "col": 2,
-        "kind": "monster",
+        "kind": "shop",
         "next": [
+          2,
           3
         ]
       },
@@ -4828,9 +9179,8 @@ window.SPIRE_MAPS = [
         "id": "r9c3",
         "row": 9,
         "col": 3,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          3,
           4
         ]
       },
@@ -4838,16 +9188,21 @@ window.SPIRE_MAPS = [
         "id": "r9c5",
         "row": 9,
         "col": 5,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           6
+        ],
+        "rolls": [
+          0.564895975272125,
+          0.7407800498760743,
+          0.02099724347617149
         ]
       },
       {
-        "id": "r10c0",
+        "id": "r10c2",
         "row": 10,
-        "col": 0,
-        "kind": "monster",
+        "col": 2,
+        "kind": "elite",
         "next": [
           1
         ]
@@ -4859,6 +9214,7 @@ window.SPIRE_MAPS = [
         "kind": "monster",
         "next": [
           2,
+          3,
           4
         ]
       },
@@ -4866,7 +9222,7 @@ window.SPIRE_MAPS = [
         "id": "r10c4",
         "row": 10,
         "col": 4,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
           4
         ]
@@ -4884,7 +9240,7 @@ window.SPIRE_MAPS = [
         "id": "r11c1",
         "row": 11,
         "col": 1,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
           1
         ]
@@ -4893,6 +9249,20 @@ window.SPIRE_MAPS = [
         "id": "r11c2",
         "row": 11,
         "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.1521462828432919,
+          0.22049795302898556,
+          0.019899883783497496
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
         "kind": "monster",
         "next": [
           2
@@ -4921,25 +9291,31 @@ window.SPIRE_MAPS = [
         "id": "r12c1",
         "row": 12,
         "col": 1,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          1
+          1,
+          2
+        ],
+        "rolls": [
+          0.5172834599655177,
+          0.3553493128333409,
+          0.2991825836949392
         ]
       },
       {
         "id": "r12c2",
         "row": 12,
         "col": 2,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          1
+          2
         ]
       },
       {
         "id": "r12c3",
         "row": 12,
         "col": 3,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
           2
         ]
@@ -4979,7 +9355,7 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          4
+          3
         ]
       },
       {
@@ -4996,34 +9372,42 @@ window.SPIRE_MAPS = [
         "row": 14,
         "col": 0,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c2",
         "row": 14,
         "col": 2,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c3",
         "row": 14,
         "col": 3,
         "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c6",
         "row": 14,
         "col": 6,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
@@ -5035,8 +9419,11 @@ window.SPIRE_MAPS = [
     "rows": 15,
     "cols": 7,
     "boss": {
-      "id": "scale-cliff",
-      "name": "The Scale Cliff"
+      "id": "compliance-gate",
+      "name": "The Compliance Gate",
+      "room": "docs",
+      "intent": "Will not negotiate, and does not care about your sprint.",
+      "acceptance": "audit trail complete + sign-off recorded"
     },
     "nodes": [
       {
@@ -5045,8 +9432,16 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "monster",
         "next": [
-          0,
           1
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
         ]
       },
       {
@@ -5055,7 +9450,6 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "monster",
         "next": [
-          3,
           4
         ]
       },
@@ -5069,13 +9463,12 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r1c0",
+        "id": "r1c1",
         "row": 1,
-        "col": 0,
+        "col": 1,
         "kind": "unknown",
         "next": [
-          0,
-          1
+          2
         ],
         "rolls": [
           0.16479558908133918,
@@ -5084,18 +9477,9 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r1c1",
+        "id": "r1c2",
         "row": 1,
-        "col": 1,
-        "kind": "shop",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
+        "col": 2,
         "kind": "unknown",
         "next": [
           2
@@ -5110,7 +9494,7 @@ window.SPIRE_MAPS = [
         "id": "r1c4",
         "row": 1,
         "col": 4,
-        "kind": "shop",
+        "kind": "monster",
         "next": [
           3
         ]
@@ -5119,37 +9503,9 @@ window.SPIRE_MAPS = [
         "id": "r1c6",
         "row": 1,
         "col": 6,
-        "kind": "unknown",
-        "next": [
-          6
-        ],
-        "rolls": [
-          0.16479558908133918,
-          0.569070594943727,
-          0.44540009653720525
-        ]
-      },
-      {
-        "id": "r2c0",
-        "row": 2,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r2c1",
-        "row": 2,
-        "col": 1,
         "kind": "monster",
         "next": [
-          1
+          6
         ]
       },
       {
@@ -5158,7 +9514,8 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "unknown",
         "next": [
-          1
+          1,
+          2
         ],
         "rolls": [
           0.06411042215573715,
@@ -5184,14 +9541,1958 @@ window.SPIRE_MAPS = [
         "id": "r2c6",
         "row": 2,
         "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r4c1",
+        "row": 4,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.7351605659688937,
+          0.05640050293900134,
+          0.6662698196932874
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.7351605659688937,
+          0.05640050293900134,
+          0.6662698196932874
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1,
+          3
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6298987460426468,
+          0.3093322071573543,
+          0.17465620963658135
+        ]
+      },
+      {
+        "id": "r7c1",
+        "row": 7,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r8c2",
+        "row": 8,
+        "col": 2,
+        "kind": "treasure",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          2,
+          4
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r9c2",
+        "row": 9,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.5436358153199754,
+          0.9669502776091784,
+          0.6291191215438154
+        ]
+      },
+      {
+        "id": "r9c4",
+        "row": 9,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r10c3",
+        "row": 10,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.825387685352384,
+          0.2251192049213856,
+          0.7737582143548014
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c0",
+        "row": 11,
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1,
+          3
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c0",
+        "row": 12,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r13c2",
+        "row": 13,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r14c0",
+        "row": 14,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c1",
+        "row": 14,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 2,
+    "act": 4,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-heart",
+      "name": "The Heart of the Codebase",
+      "room": "refactor",
+      "intent": "Will reveal that the thing everyone feared touching is load-bearing.",
+      "acceptance": "the core path is covered, understood, and changed safely"
+    },
+    "nodes": [
+      {
+        "id": "r0c0",
+        "row": 0,
+        "col": 0,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r0c2",
+        "row": 0,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.49734142093980327,
+          0.35999045686025677,
+          0.7220617567237175
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.49734142093980327,
+          0.35999045686025677,
+          0.7220617567237175
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          6
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.4211249061401,
+          0.9761073344853062,
+          0.6132800246752349
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.4831103964860096,
+          0.9021829992468611,
+          0.5374571935128641
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          2
+        ],
+        "rolls": [
+          0.34661995661142697,
+          0.2286410960833074,
+          0.012392470279078194
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.34661995661142697,
+          0.2286410960833074,
+          0.012392470279078194
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
         "kind": "unknown",
         "next": [
           6
         ],
         "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
+          0.34661995661142697,
+          0.2286410960833074,
+          0.012392470279078194
+        ]
+      },
+      {
+        "id": "r5c1",
+        "row": 5,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r5c2",
+        "row": 5,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.8559393885152179,
+          0.8004839408308784,
+          0.5938433496209707
+        ]
+      },
+      {
+        "id": "r5c4",
+        "row": 5,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.8559393885152179,
+          0.8004839408308784,
+          0.5938433496209707
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c1",
+        "row": 6,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r6c4",
+        "row": 6,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r7c0",
+        "row": 7,
+        "col": 0,
+        "kind": "shop",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c2",
+        "row": 7,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r8c1",
+        "row": 8,
+        "col": 1,
+        "kind": "treasure",
+        "next": [
+          0,
+          2
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.3669207785547728,
+          0.030768211291716918,
+          0.1774779160314659
+        ]
+      },
+      {
+        "id": "r9c2",
+        "row": 9,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r10c0",
+        "row": 10,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r10c5",
+        "row": 10,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.9055274612595849,
+          0.7655814756087752,
+          0.6882251189639976
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c4",
+        "row": 11,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r13c6",
+        "row": 13,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c2",
+        "row": 14,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 2,
+    "act": 5,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-oncall-week",
+      "name": "The On-Call Week",
+      "room": "bug",
+      "intent": "Will interrupt whatever you planned.",
+      "acceptance": "every page resolved and one made impossible"
+    },
+    "nodes": [
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r0c3",
+        "row": 0,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r1c1",
+        "row": 1,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          0
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r1c2",
+        "row": 1,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.31783347911048154,
+          0.13798541270571796,
+          0.7377461281571658
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c0",
+        "row": 2,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.7801397228343218,
+          0.15539923381528098,
+          0.2684949522354466
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          2
+        ],
+        "rolls": [
+          0.7801397228343218,
+          0.15539923381528098,
+          0.2684949522354466
+        ]
+      },
+      {
+        "id": "r2c4",
+        "row": 2,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r3c1",
+        "row": 3,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r3c2",
+        "row": 3,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r3c5",
+        "row": 3,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r3c6",
+        "row": 3,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.9310350506197125,
+          0.5314880062866334,
+          0.47577101272077194
+        ]
+      },
+      {
+        "id": "r4c3",
+        "row": 4,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r4c4",
+        "row": 4,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r4c5",
+        "row": 4,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r4c6",
+        "row": 4,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r5c3",
+        "row": 5,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r5c5",
+        "row": 5,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r5c6",
+        "row": 5,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r6c2",
+        "row": 6,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r6c3",
+        "row": 6,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r6c5",
+        "row": 6,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r6c6",
+        "row": 6,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r7c3",
+        "row": 7,
+        "col": 3,
+        "kind": "elite",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r7c4",
+        "row": 7,
+        "col": 4,
+        "kind": "shop",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r7c5",
+        "row": 7,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r8c3",
+        "row": 8,
+        "col": 3,
+        "kind": "treasure",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r8c4",
+        "row": 8,
+        "col": 4,
+        "kind": "treasure",
+        "next": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": "r8c5",
+        "row": 8,
+        "col": 5,
+        "kind": "treasure",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r8c6",
+        "row": 8,
+        "col": 6,
+        "kind": "treasure",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r9c2",
+        "row": 9,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "r9c3",
+        "row": 9,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r9c5",
+        "row": 9,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "r9c6",
+        "row": 9,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.8249648621074325,
+          0.027813322534632867,
+          0.6404955383058488
+        ]
+      },
+      {
+        "id": "r10c2",
+        "row": 10,
+        "col": 2,
+        "kind": "monster",
+        "next": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "r10c4",
+        "row": 10,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r10c5",
+        "row": 10,
+        "col": 5,
+        "kind": "unknown",
+        "next": [
+          6
+        ],
+        "rolls": [
+          0.8249648621074325,
+          0.027813322534632867,
+          0.6404955383058488
+        ]
+      },
+      {
+        "id": "r10c6",
+        "row": 10,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "rest",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c2",
+        "row": 11,
+        "col": 2,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r11c3",
+        "row": 11,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          3
+        ],
+        "rolls": [
+          0.4572380592623708,
+          0.10169301668747632,
+          0.44438159555069257
+        ]
+      },
+      {
+        "id": "r11c5",
+        "row": 11,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r11c6",
+        "row": 11,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r12c2",
+        "row": 12,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1,
+          3
+        ],
+        "rolls": [
+          0.8440090353713835,
+          0.6703744024466631,
+          0.09360275767229631
+        ]
+      },
+      {
+        "id": "r12c3",
+        "row": 12,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r12c4",
+        "row": 12,
+        "col": 4,
+        "kind": "unknown",
+        "next": [
+          4
+        ],
+        "rolls": [
+          0.8440090353713835,
+          0.6703744024466631,
+          0.09360275767229631
+        ]
+      },
+      {
+        "id": "r12c5",
+        "row": 12,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r12c6",
+        "row": 12,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r13c1",
+        "row": 13,
+        "col": 1,
+        "kind": "elite",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r13c3",
+        "row": 13,
+        "col": 3,
+        "kind": "shop",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r13c4",
+        "row": 13,
+        "col": 4,
+        "kind": "elite",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r13c5",
+        "row": 13,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r14c2",
+        "row": 14,
+        "col": 2,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c3",
+        "row": 14,
+        "col": 3,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c4",
+        "row": 14,
+        "col": 4,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r14c6",
+        "row": 14,
+        "col": 6,
+        "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
+        "next": []
+      }
+    ]
+  },
+  {
+    "seed": 2,
+    "act": 6,
+    "ascension": 0,
+    "rows": 15,
+    "cols": 7,
+    "boss": {
+      "id": "the-next-quarter",
+      "name": "The Next Quarter",
+      "room": "feature",
+      "intent": "Will arrive whether or not you finished the last one.",
+      "acceptance": "a shippable increment, again"
+    },
+    "nodes": [
+      {
+        "id": "r0c1",
+        "row": 0,
+        "col": 1,
+        "kind": "monster",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r0c4",
+        "row": 0,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r0c5",
+        "row": 0,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          4
+        ]
+      },
+      {
+        "id": "r0c6",
+        "row": 0,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "r1c0",
+        "row": 1,
+        "col": 0,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r1c3",
+        "row": 1,
+        "col": 3,
+        "kind": "unknown",
+        "next": [
+          2,
+          3
+        ],
+        "rolls": [
+          0.5161084744741902,
+          0.2990406597112202,
+          0.6944556159695461
+        ]
+      },
+      {
+        "id": "r1c4",
+        "row": 1,
+        "col": 4,
+        "kind": "monster",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r1c5",
+        "row": 1,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          5
+        ]
+      },
+      {
+        "id": "r1c6",
+        "row": 1,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c1",
+        "row": 2,
+        "col": 1,
+        "kind": "shop",
+        "next": [
+          0
+        ]
+      },
+      {
+        "id": "r2c2",
+        "row": 2,
+        "col": 2,
+        "kind": "unknown",
+        "next": [
+          1
+        ],
+        "rolls": [
+          0.6349220944484475,
+          0.817240337333179,
+          0.3555514285129461
+        ]
+      },
+      {
+        "id": "r2c3",
+        "row": 2,
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "r2c5",
+        "row": 2,
+        "col": 5,
+        "kind": "monster",
+        "next": [
+          6
+        ]
+      },
+      {
+        "id": "r2c6",
+        "row": 2,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
         ]
       },
       {
@@ -5203,9 +11504,9 @@ window.SPIRE_MAPS = [
           0
         ],
         "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
+          0.8158088798085553,
+          0.5728274798357049,
+          0.7399237843607201
         ]
       },
       {
@@ -5217,46 +11518,50 @@ window.SPIRE_MAPS = [
           1
         ],
         "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
+          0.8158088798085553,
+          0.5728274798357049,
+          0.7399237843607201
         ]
       },
       {
-        "id": "r3c2",
+        "id": "r3c3",
         "row": 3,
-        "col": 2,
-        "kind": "unknown",
+        "col": 3,
+        "kind": "monster",
+        "next": [
+          2
+        ]
+      },
+      {
+        "id": "r3c4",
+        "row": 3,
+        "col": 4,
+        "kind": "monster",
         "next": [
           3
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
         ]
       },
       {
         "id": "r3c6",
         "row": 3,
         "col": 6,
-        "kind": "unknown",
+        "kind": "monster",
         "next": [
           5
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
         ]
       },
       {
         "id": "r4c0",
         "row": 4,
         "col": 0,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
           0
+        ],
+        "rolls": [
+          0.06515390804947463,
+          0.9838103797885049,
+          0.262468489017478
         ]
       },
       {
@@ -5265,7 +11570,15 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "monster",
         "next": [
-          1,
+          0
+        ]
+      },
+      {
+        "id": "r4c2",
+        "row": 4,
+        "col": 2,
+        "kind": "monster",
+        "next": [
           2
         ]
       },
@@ -5293,26 +11606,21 @@ window.SPIRE_MAPS = [
         "col": 0,
         "kind": "rest",
         "next": [
-          0
-        ]
-      },
-      {
-        "id": "r5c1",
-        "row": 5,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          0,
-          2
+          1
         ]
       },
       {
         "id": "r5c2",
         "row": 5,
         "col": 2,
-        "kind": "rest",
+        "kind": "unknown",
         "next": [
-          2
+          3
+        ],
+        "rolls": [
+          0.5499152106421176,
+          0.6610942868655831,
+          0.05519419078634746
         ]
       },
       {
@@ -5321,45 +11629,56 @@ window.SPIRE_MAPS = [
         "col": 3,
         "kind": "elite",
         "next": [
-          2
+          3
         ]
       },
       {
         "id": "r5c5",
         "row": 5,
         "col": 5,
-        "kind": "rest",
+        "kind": "monster",
         "next": [
           5
         ]
       },
       {
-        "id": "r6c0",
+        "id": "r6c1",
         "row": 6,
-        "col": 0,
-        "kind": "monster",
+        "col": 1,
+        "kind": "unknown",
         "next": [
           0,
-          1
+          2
+        ],
+        "rolls": [
+          0.007986769509872538,
+          0.7458231655872041,
+          0.12813887234110688
         ]
       },
       {
-        "id": "r6c2",
+        "id": "r6c3",
         "row": 6,
-        "col": 2,
-        "kind": "monster",
+        "col": 3,
+        "kind": "unknown",
         "next": [
-          1,
+          2,
           3
+        ],
+        "rolls": [
+          0.007986769509872538,
+          0.7458231655872041,
+          0.12813887234110688
         ]
       },
       {
         "id": "r6c5",
         "row": 6,
         "col": 5,
-        "kind": "elite",
+        "kind": "monster",
         "next": [
-          4
+          4,
+          6
         ]
       },
       {
@@ -5372,23 +11691,26 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r7c1",
+        "id": "r7c2",
         "row": 7,
-        "col": 1,
+        "col": 2,
         "kind": "rest",
         "next": [
-          0,
-          1,
-          2
+          1
         ]
       },
       {
         "id": "r7c3",
         "row": 7,
         "col": 3,
-        "kind": "monster",
+        "kind": "unknown",
         "next": [
-          3
+          2
+        ],
+        "rolls": [
+          0.7543283607835892,
+          0.9788010738341402,
+          0.5483324141829135
         ]
       },
       {
@@ -5397,7 +11719,16 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "rest",
         "next": [
-          3
+          5
+        ]
+      },
+      {
+        "id": "r7c6",
+        "row": 7,
+        "col": 6,
+        "kind": "monster",
+        "next": [
+          6
         ]
       },
       {
@@ -5415,7 +11746,8 @@ window.SPIRE_MAPS = [
         "col": 1,
         "kind": "treasure",
         "next": [
-          1
+          0,
+          2
         ]
       },
       {
@@ -5425,610 +11757,6 @@ window.SPIRE_MAPS = [
         "kind": "treasure",
         "next": [
           2
-        ]
-      },
-      {
-        "id": "r8c3",
-        "row": 8,
-        "col": 3,
-        "kind": "treasure",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r9c1",
-        "row": 9,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r9c2",
-        "row": 9,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r10c0",
-        "row": 10,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r10c1",
-        "row": 10,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r10c2",
-        "row": 10,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r10c3",
-        "row": 10,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r11c0",
-        "row": 11,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r11c1",
-        "row": 11,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r11c3",
-        "row": 11,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r12c1",
-        "row": 12,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r12c2",
-        "row": 12,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r12c3",
-        "row": 12,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c0",
-        "row": 13,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r13c1",
-        "row": 13,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r13c2",
-        "row": 13,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r14c0",
-        "row": 14,
-        "col": 0,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c1",
-        "row": 14,
-        "col": 1,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c2",
-        "row": 14,
-        "col": 2,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c3",
-        "row": 14,
-        "col": 3,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 3,
-    "act": 1,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "unclear-requirements",
-      "name": "Unclear Requirements"
-    },
-    "nodes": [
-      {
-        "id": "r0c1",
-        "row": 0,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r0c2",
-        "row": 0,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r0c6",
-        "row": 0,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          1,
-          3
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
-        "kind": "shop",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r1c5",
-        "row": 1,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.6229016948897019,
-          0.7417869892607294,
-          0.7951935655656966
-        ]
-      },
-      {
-        "id": "r1c6",
-        "row": 1,
-        "col": 6,
-        "kind": "shop",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r2c1",
-        "row": 2,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.793340083761663,
-          0.8219540423197268,
-          0.4850346279309453
-        ]
-      },
-      {
-        "id": "r2c3",
-        "row": 2,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r2c4",
-        "row": 2,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4,
-          5
-        ],
-        "rolls": [
-          0.793340083761663,
-          0.8219540423197268,
-          0.4850346279309453
-        ]
-      },
-      {
-        "id": "r2c6",
-        "row": 2,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.793340083761663,
-          0.8219540423197268,
-          0.4850346279309453
-        ]
-      },
-      {
-        "id": "r3c2",
-        "row": 3,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.32383276483316237,
-          0.15084917392450192,
-          0.6509344730398537
-        ]
-      },
-      {
-        "id": "r3c3",
-        "row": 3,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.32383276483316237,
-          0.15084917392450192,
-          0.6509344730398537
-        ]
-      },
-      {
-        "id": "r3c4",
-        "row": 3,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.32383276483316237,
-          0.15084917392450192,
-          0.6509344730398537
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4,
-          5
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.2267058593810488,
-          0.9622950358343828,
-          0.12633089865085956
-        ]
-      },
-      {
-        "id": "r4c3",
-        "row": 4,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          3,
-          4
-        ],
-        "rolls": [
-          0.2267058593810488,
-          0.9622950358343828,
-          0.12633089865085956
-        ]
-      },
-      {
-        "id": "r4c4",
-        "row": 4,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.2267058593810488,
-          0.9622950358343828,
-          0.12633089865085956
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c4",
-        "row": 5,
-        "col": 4,
-        "kind": "rest",
-        "next": [
-          3,
-          4,
-          5
-        ]
-      },
-      {
-        "id": "r5c6",
-        "row": 5,
-        "col": 6,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r6c3",
-        "row": 6,
-        "col": 3,
-        "kind": "elite",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r6c6",
-        "row": 6,
-        "col": 6,
-        "kind": "elite",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "elite",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r7c4",
-        "row": 7,
-        "col": 4,
-        "kind": "rest",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r7c6",
-        "row": 7,
-        "col": 6,
-        "kind": "rest",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r8c1",
-        "row": 8,
-        "col": 1,
-        "kind": "treasure",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r8c2",
-        "row": 8,
-        "col": 2,
-        "kind": "treasure",
-        "next": [
-          3
         ]
       },
       {
@@ -6037,7 +11765,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "treasure",
         "next": [
-          4
+          5
         ]
       },
       {
@@ -6046,8 +11774,16 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "treasure",
         "next": [
-          5,
-          6
+          5
+        ]
+      },
+      {
+        "id": "r9c0",
+        "row": 9,
+        "col": 0,
+        "kind": "rest",
+        "next": [
+          1
         ]
       },
       {
@@ -6056,25 +11792,7 @@ window.SPIRE_MAPS = [
         "col": 2,
         "kind": "monster",
         "next": [
-          3
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
+          2
         ]
       },
       {
@@ -6087,31 +11805,23 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r9c6",
-        "row": 9,
-        "col": 6,
-        "kind": "monster",
+        "id": "r10c1",
+        "row": 10,
+        "col": 1,
+        "kind": "shop",
         "next": [
-          6
+          0,
+          1
         ]
       },
       {
-        "id": "r10c3",
+        "id": "r10c2",
         "row": 10,
-        "col": 3,
-        "kind": "monster",
+        "col": 2,
+        "kind": "elite",
         "next": [
-          3
-        ]
-      },
-      {
-        "id": "r10c4",
-        "row": 10,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3,
-          4
+          1,
+          2
         ]
       },
       {
@@ -6120,23 +11830,36 @@ window.SPIRE_MAPS = [
         "col": 6,
         "kind": "monster",
         "next": [
-          5,
-          6
+          5
         ]
       },
       {
-        "id": "r11c3",
+        "id": "r11c0",
         "row": 11,
-        "col": 3,
-        "kind": "monster",
+        "col": 0,
+        "kind": "elite",
+        "next": [
+          1
+        ]
+      },
+      {
+        "id": "r11c1",
+        "row": 11,
+        "col": 1,
+        "kind": "unknown",
         "next": [
           2
+        ],
+        "rolls": [
+          0.4775529182738627,
+          0.39830183340275904,
+          0.7933535406527915
         ]
       },
       {
-        "id": "r11c4",
+        "id": "r11c2",
         "row": 11,
-        "col": 4,
+        "col": 2,
         "kind": "monster",
         "next": [
           3
@@ -6148,45 +11871,35 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          4,
-          5
+          5,
+          6
         ]
       },
       {
-        "id": "r11c6",
-        "row": 11,
-        "col": 6,
-        "kind": "monster",
+        "id": "r12c1",
+        "row": 12,
+        "col": 1,
+        "kind": "rest",
         "next": [
-          6
+          2
         ]
       },
       {
         "id": "r12c2",
         "row": 12,
         "col": 2,
-        "kind": "monster",
+        "kind": "elite",
         "next": [
-          1,
-          3
+          2
         ]
       },
       {
         "id": "r12c3",
         "row": 12,
         "col": 3,
-        "kind": "monster",
+        "kind": "rest",
         "next": [
-          4
-        ]
-      },
-      {
-        "id": "r12c4",
-        "row": 12,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
+          2
         ]
       },
       {
@@ -6195,7 +11908,7 @@ window.SPIRE_MAPS = [
         "col": 5,
         "kind": "monster",
         "next": [
-          6
+          4
         ]
       },
       {
@@ -6208,21 +11921,14 @@ window.SPIRE_MAPS = [
         ]
       },
       {
-        "id": "r13c1",
+        "id": "r13c2",
         "row": 13,
-        "col": 1,
+        "col": 2,
         "kind": "monster",
         "next": [
-          1
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
+          1,
+          2,
+          3
         ]
       },
       {
@@ -6231,7 +11937,7 @@ window.SPIRE_MAPS = [
         "col": 4,
         "kind": "monster",
         "next": [
-          5
+          3
         ]
       },
       {
@@ -6248,1304 +11954,45 @@ window.SPIRE_MAPS = [
         "row": 14,
         "col": 1,
         "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c5",
-        "row": 14,
-        "col": 5,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c6",
-        "row": 14,
-        "col": 6,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 3,
-    "act": 2,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "half-migrated-schema",
-      "name": "The Half-Migrated Schema"
-    },
-    "nodes": [
-      {
-        "id": "r0c0",
-        "row": 0,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r0c1",
-        "row": 0,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r0c2",
-        "row": 0,
-        "col": 2,
-        "kind": "monster",
         "next": [
           3
         ]
-      },
-      {
-        "id": "r0c3",
-        "row": 0,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r1c0",
-        "row": 1,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "shop",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r1c3",
-        "row": 1,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          2,
-          4
-        ],
-        "rolls": [
-          0.39690648660219763,
-          0.0854585463189852,
-          0.5839064807403116
-        ]
-      },
-      {
-        "id": "r2c1",
-        "row": 2,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0,
-          1
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
-        ]
-      },
-      {
-        "id": "r2c2",
-        "row": 2,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2,
-          3
-        ],
-        "rolls": [
-          0.4344168117774424,
-          0.7245417468140584,
-          0.5362140226798132
-        ]
-      },
-      {
-        "id": "r2c4",
-        "row": 2,
-        "col": 4,
-        "kind": "shop",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r3c0",
-        "row": 3,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r3c1",
-        "row": 3,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r3c2",
-        "row": 3,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r3c3",
-        "row": 3,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.008647837332268482,
-          0.3050878344073742,
-          0.7360429407960125
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.5059766669498406,
-          0.6690652117641676,
-          0.8534819330516183
-        ]
-      },
-      {
-        "id": "r4c1",
-        "row": 4,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.5059766669498406,
-          0.6690652117641676,
-          0.8534819330516183
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r4c3",
-        "row": 4,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r4c5",
-        "row": 4,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c0",
-        "row": 5,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r5c1",
-        "row": 5,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c2",
-        "row": 5,
-        "col": 2,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r5c4",
-        "row": 5,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r5c5",
-        "row": 5,
-        "col": 5,
-        "kind": "rest",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r6c1",
-        "row": 6,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r6c5",
-        "row": 6,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r7c1",
-        "row": 7,
-        "col": 1,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r7c4",
-        "row": 7,
-        "col": 4,
-        "kind": "rest",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c5",
-        "row": 7,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c6",
-        "row": 7,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r8c2",
-        "row": 8,
-        "col": 2,
-        "kind": "treasure",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r8c3",
-        "row": 8,
-        "col": 3,
-        "kind": "treasure",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r8c4",
-        "row": 8,
-        "col": 4,
-        "kind": "treasure",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r9c3",
-        "row": 9,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r10c2",
-        "row": 10,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r10c3",
-        "row": 10,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2,
-          3
-        ]
-      },
-      {
-        "id": "r11c1",
-        "row": 11,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0,
-          1
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r11c3",
-        "row": 11,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r12c0",
-        "row": 12,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r12c1",
-        "row": 12,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r12c3",
-        "row": 12,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c0",
-        "row": 13,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r13c1",
-        "row": 13,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r13c2",
-        "row": 13,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c3",
-        "row": 13,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r14c0",
-        "row": 14,
-        "col": 0,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c1",
-        "row": 14,
-        "col": 1,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c3",
-        "row": 14,
-        "col": 3,
-        "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c4",
-        "row": 14,
-        "col": 4,
-        "kind": "rest",
-        "next": []
-      }
-    ]
-  },
-  {
-    "seed": 3,
-    "act": 3,
-    "ascension": 0,
-    "rows": 15,
-    "cols": 7,
-    "boss": {
-      "id": "launch",
-      "name": "Launch"
-    },
-    "nodes": [
-      {
-        "id": "r0c1",
-        "row": 0,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r0c2",
-        "row": 0,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r0c3",
-        "row": 0,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2,
-          4
-        ]
-      },
-      {
-        "id": "r0c6",
-        "row": 0,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r1c0",
-        "row": 1,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r1c1",
-        "row": 1,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          0,
-          1
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r1c2",
-        "row": 1,
-        "col": 2,
-        "kind": "shop",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r1c4",
-        "row": 1,
-        "col": 4,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.06411042215573715,
-          0.9113585307061064,
-          0.7697382044328404
-        ]
-      },
-      {
-        "id": "r1c6",
-        "row": 1,
-        "col": 6,
-        "kind": "shop",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r2c0",
-        "row": 2,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0,
-          1
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
-        ]
-      },
-      {
-        "id": "r2c1",
-        "row": 2,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r2c3",
-        "row": 2,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          3
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
-        ]
-      },
-      {
-        "id": "r2c6",
-        "row": 2,
-        "col": 6,
-        "kind": "unknown",
-        "next": [
-          5
-        ],
-        "rolls": [
-          0.1722192308518672,
-          0.5744130903583392,
-          0.4346445690577938
-        ]
-      },
-      {
-        "id": "r3c0",
-        "row": 3,
-        "col": 0,
-        "kind": "shop",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r3c1",
-        "row": 3,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.7351605659688937,
-          0.05640050293900134,
-          0.6662698196932874
-        ]
-      },
-      {
-        "id": "r3c2",
-        "row": 3,
-        "col": 2,
-        "kind": "unknown",
-        "next": [
-          2,
-          3
-        ],
-        "rolls": [
-          0.7351605659688937,
-          0.05640050293900134,
-          0.6662698196932874
-        ]
-      },
-      {
-        "id": "r3c3",
-        "row": 3,
-        "col": 3,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.7351605659688937,
-          0.05640050293900134,
-          0.6662698196932874
-        ]
-      },
-      {
-        "id": "r3c5",
-        "row": 3,
-        "col": 5,
-        "kind": "unknown",
-        "next": [
-          4
-        ],
-        "rolls": [
-          0.7351605659688937,
-          0.05640050293900134,
-          0.6662698196932874
-        ]
-      },
-      {
-        "id": "r4c0",
-        "row": 4,
-        "col": 0,
-        "kind": "unknown",
-        "next": [
-          0
-        ],
-        "rolls": [
-          0.6977110510931823,
-          0.9783245530427404,
-          0.1107476512588561
-        ]
-      },
-      {
-        "id": "r4c1",
-        "row": 4,
-        "col": 1,
-        "kind": "unknown",
-        "next": [
-          1
-        ],
-        "rolls": [
-          0.6977110510931823,
-          0.9783245530427404,
-          0.1107476512588561
-        ]
-      },
-      {
-        "id": "r4c2",
-        "row": 4,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r4c3",
-        "row": 4,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r4c4",
-        "row": 4,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r5c0",
-        "row": 5,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r5c1",
-        "row": 5,
-        "col": 1,
-        "kind": "rest",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c3",
-        "row": 5,
-        "col": 3,
-        "kind": "elite",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r5c4",
-        "row": 5,
-        "col": 4,
-        "kind": "elite",
-        "next": [
-          3,
-          4
-        ]
-      },
-      {
-        "id": "r6c1",
-        "row": 6,
-        "col": 1,
-        "kind": "elite",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r6c2",
-        "row": 6,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r6c3",
-        "row": 6,
-        "col": 3,
-        "kind": "rest",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r6c4",
-        "row": 6,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r7c0",
-        "row": 7,
-        "col": 0,
-        "kind": "rest",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r7c1",
-        "row": 7,
-        "col": 1,
-        "kind": "rest",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r7c2",
-        "row": 7,
-        "col": 2,
-        "kind": "elite",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r7c3",
-        "row": 7,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r7c4",
-        "row": 7,
-        "col": 4,
-        "kind": "rest",
-        "next": [
-          4,
-          5
-        ]
-      },
-      {
-        "id": "r8c0",
-        "row": 8,
-        "col": 0,
-        "kind": "treasure",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r8c1",
-        "row": 8,
-        "col": 1,
-        "kind": "treasure",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r8c3",
-        "row": 8,
-        "col": 3,
-        "kind": "treasure",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r8c4",
-        "row": 8,
-        "col": 4,
-        "kind": "treasure",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r8c5",
-        "row": 8,
-        "col": 5,
-        "kind": "treasure",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r9c0",
-        "row": 9,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r9c2",
-        "row": 9,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r9c4",
-        "row": 9,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3,
-          5
-        ]
-      },
-      {
-        "id": "r9c5",
-        "row": 9,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r9c6",
-        "row": 9,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r10c1",
-        "row": 10,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          1
-        ]
-      },
-      {
-        "id": "r10c3",
-        "row": 10,
-        "col": 3,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r10c5",
-        "row": 10,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4,
-          6
-        ]
-      },
-      {
-        "id": "r10c6",
-        "row": 10,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r11c1",
-        "row": 11,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0,
-          2
-        ]
-      },
-      {
-        "id": "r11c2",
-        "row": 11,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r11c4",
-        "row": 11,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r11c6",
-        "row": 11,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          6
-        ]
-      },
-      {
-        "id": "r12c0",
-        "row": 12,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r12c2",
-        "row": 12,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          1,
-          2
-        ]
-      },
-      {
-        "id": "r12c5",
-        "row": 12,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          4
-        ]
-      },
-      {
-        "id": "r12c6",
-        "row": 12,
-        "col": 6,
-        "kind": "monster",
-        "next": [
-          5
-        ]
-      },
-      {
-        "id": "r13c0",
-        "row": 13,
-        "col": 0,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r13c1",
-        "row": 13,
-        "col": 1,
-        "kind": "monster",
-        "next": [
-          0
-        ]
-      },
-      {
-        "id": "r13c2",
-        "row": 13,
-        "col": 2,
-        "kind": "monster",
-        "next": [
-          2
-        ]
-      },
-      {
-        "id": "r13c4",
-        "row": 13,
-        "col": 4,
-        "kind": "monster",
-        "next": [
-          3
-        ]
-      },
-      {
-        "id": "r13c5",
-        "row": 13,
-        "col": 5,
-        "kind": "monster",
-        "next": [
-          5,
-          6
-        ]
-      },
-      {
-        "id": "r14c0",
-        "row": 14,
-        "col": 0,
-        "kind": "rest",
-        "next": []
       },
       {
         "id": "r14c2",
         "row": 14,
         "col": 2,
         "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c3",
         "row": 14,
         "col": 3,
         "kind": "rest",
-        "next": []
-      },
-      {
-        "id": "r14c5",
-        "row": 14,
-        "col": 5,
-        "kind": "rest",
-        "next": []
+        "next": [
+          3
+        ]
       },
       {
         "id": "r14c6",
         "row": 14,
         "col": 6,
         "kind": "rest",
+        "next": [
+          3
+        ]
+      },
+      {
+        "id": "r15c3",
+        "row": 15,
+        "col": 3,
+        "kind": "boss",
         "next": []
       }
     ]
   }
 ];
+window.SPIRE_RAMP = {"order": ["monster", "shop", "treasure"], "base": {"monster": 0.1, "shop": 0.03, "treasure": 0.02}};

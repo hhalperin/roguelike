@@ -14,11 +14,11 @@
   var SOFT_CAP = 12;
   var SKIP_PAYOUT = 2; // the Singing Bowl port: refusing a card pays a number
 
-  // Mirrors RAMP_ORDER / RAMP_BASE in scripts/mapgen.py. The random rolls
-  // themselves are generated there and shipped per node, so only these
-  // thresholds are duplicated.
-  var RAMP_ORDER = ["monster", "shop", "treasure"];
-  var RAMP_BASE = { monster: 0.10, shop: 0.03, treasure: 0.02 };
+  // Read from mapdata.js rather than restated here, so the ramp cannot drift
+  // from scripts/mapgen.py. The rolls are generated there too.
+  var RAMP_CFG = window.SPIRE_RAMP || { order: [], base: {} };
+  var RAMP_ORDER = RAMP_CFG.order;
+  var RAMP_BASE = RAMP_CFG.base;
 
   var MONSTERS = [
     {
@@ -136,7 +136,7 @@
     screen: "title", returnScreen: "map",
     seed: 0, act: 1,
     currentId: null, selectedId: null,
-    deckSize: 6, tokens: 4, taken: 1, skips: 4, focus: 0, curses: 0,
+    deckSize: 6, tokens: 4, taken: 1, skips: 4, focus: 0, curses: 0, actsCleared: 0,
     streak: 2, ascension: 10, ascPick: 10,
     currentEnemy: null, enemyHp: 0, energy: 3, energyMax: 3, playedThisTurn: [],
     campMode: "prune", campPick: null, shopId: null,
@@ -150,15 +150,22 @@
     for (var i = 0; i < MAPS.length; i++) {
       if (MAPS[i].seed === seed && MAPS[i].act === act) return MAPS[i];
     }
-    return MAPS[0];
+    return null;
   }
 
   function loadAct(seed, act) {
-    MAP = mapFor(seed, act);
+    MAP = mapFor(seed, act) || MAPS[0];
     MAP.byId = {};
     MAP.cleared = {};
-    for (var i = 0; i < MAP.nodes.length; i++) MAP.byId[MAP.nodes[i].id] = MAP.nodes[i];
-    RAMP = { monster: 0, shop: 0, treasure: 0 }; // ramp counters reset per act
+    for (var i = 0; i < MAP.nodes.length; i++) {
+      var n = MAP.nodes[i];
+      // SPIRE_MAPS entries are shared objects reused across climbs, so a stale
+      // resolution would otherwise survive a reset and desync from the ramp.
+      delete n.resolved;
+      MAP.byId[n.id] = n;
+    }
+    RAMP = {};
+    for (var k = 0; k < RAMP_ORDER.length; k++) RAMP[RAMP_ORDER[k]] = 0;
     state.act = act;
     state.currentId = null;
     state.selectedId = null;
@@ -226,7 +233,7 @@
       return {
         name: MAP.boss.name, room: BOSS_ROOMS[MAP.act], maxHp: 5,
         intent: "Will block ship until someone owns the decision.",
-        blurb: "Act " + MAP.act + " boss. Known from floor 1, so build for it.",
+        blurb: actLabel(MAP.act) + " boss. Known from floor 1, so build for it.",
         acceptance: "decision recorded + checks green",
         telegraph: "Telegraph: move the goalposts",
         turnEffect: "The goalposts slide two feet to the left."
@@ -257,18 +264,27 @@
     }
   }
 
-  var ROMAN = { 1: "I", 2: "II", 3: "III" };
+  var ROMAN = { 1: "I", 2: "II", 3: "III", 4: "IV" };
+  var HEART_ACT = 4;
+
+  // The climb has no level limit. Past the Heart the acts keep numbering up.
+  function actLabel(act) {
+    if (act === HEART_ACT) return "Act IV · the Heart";
+    if (act > HEART_ACT) return "Act " + act + " · endless";
+    return "Act " + ROMAN[act];
+  }
+  function actShort(act) { return act <= HEART_ACT ? ROMAN[act] : String(act); }
 
   function bindStats() {
     var map = {
       floor: currentFloor(), deck: state.deckSize, streak: state.streak,
       tokens: state.tokens, taken: state.taken, skips: state.skips,
-      focus: state.focus, cap: SOFT_CAP, act: ROMAN[state.act], seed: state.seed
+      focus: state.focus, cap: SOFT_CAP, act: actShort(state.act), seed: state.seed
     };
     document.querySelectorAll("[data-bind]").forEach(function (el) {
       el.textContent = String(map[el.getAttribute("data-bind")]);
     });
-    $("chrome-act").textContent = ROMAN[state.act];
+    $("chrome-act").textContent = actShort(state.act);
     $("chrome-floor").textContent = String(currentFloor());
     $("chrome-streak").textContent = String(state.streak);
     $("chrome-asc").textContent = String(state.ascension);
@@ -350,15 +366,17 @@
     treasure: "▮", unknown: "?", boss: "☠"
   };
 
+  // The boss occupies one row above the climbable floors, so lay out rows + 1.
+  function layoutRows() { return MAP.rows + 1; }
   function xPct(col) { return ((col + 0.5) / MAP.cols) * 100; }
-  function yPct(row) { return (1 - (row + 0.5) / MAP.rows) * 100; }
+  function yPct(row) { return (1 - (row + 0.5) / layoutRows()) * 100; }
 
   function renderMap() {
     var canvas = els.mapCanvas;
     canvas.innerHTML = "";
-    canvas.style.setProperty("--rows", MAP.rows);
+    canvas.style.setProperty("--rows", layoutRows());
     $("map-boss").textContent = MAP.boss.name;
-    $("map-act").textContent = "Act " + ROMAN[MAP.act] + " · seed " + MAP.seed;
+    $("map-act").textContent = actLabel(MAP.act) + " · seed " + MAP.seed;
 
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "map-edges");
@@ -647,12 +665,19 @@
     state.streak += 1;
     var cur = node(state.currentId);
     if (cur && cur.kind === "boss") {
-      if (MAP.act < 3) {
-        var nextAct = MAP.act + 1;
-        toast("Act " + ROMAN[MAP.act] + " cleared · entering Act " + ROMAN[nextAct]);
+      // No level limit. Beating the Heart continues the climb rather than
+      // ending it, which is the whole point of a codebase that keeps going.
+      var nextAct = MAP.act + 1;
+      state.actsCleared += 1;
+      if (MAP.act === HEART_ACT) {
+        toast("The Heart falls · the climb continues into the endless acts");
+      } else {
+        toast(actLabel(MAP.act) + " cleared · entering " + actLabel(nextAct));
+      }
+      if (mapFor(state.seed, nextAct)) {
         loadAct(state.seed, nextAct);
       } else {
-        toast("Run complete · the spire is climbed");
+        toast("Cleared every act in this demo build · regenerate with more --acts");
         state.currentId = null;
       }
     }
