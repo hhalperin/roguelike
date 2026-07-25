@@ -36,3 +36,25 @@ type hierarchy, motion budget, and do/don't list — then a wireframe that encod
 ## Principle
 
 **Entertainment pays for single-task focus.** Every format must make the *one current room* feel like the only interesting thing on screen.
+
+## Screen flow
+
+```mermaid
+flowchart LR
+  Title --> Map
+  Map -->|combat/?| Intent
+  Map -->|event| Event
+  Map -->|camp| Campfire
+  Map -->|shop| Shop
+  Intent --> Combat
+  Combat -->|clear| Reward
+  Combat -->|flee| Map
+  Event --> Map
+  Reward --> Map
+  Campfire --> Map
+  Shop --> Map
+  Title -.-> Ascension
+  Map -.-> Ascension
+```
+
+Open the [wireframe gallery](wireframes/index.html) while implementing.
