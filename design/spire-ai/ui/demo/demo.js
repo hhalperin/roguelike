@@ -554,15 +554,17 @@
     treasure: "▮", unknown: "?", boss: "☠"
   };
 
-  // The boss occupies one row above the climbable floors, so lay out rows + 1.
-  function layoutRows() { return MAP.rows + 1; }
-  function xPct(col) { return ((col + 0.5) / MAP.cols) * 100; }
-  function yPct(row) { return (1 - (row + 0.5) / layoutRows()) * 100; }
+  // The path runs left to right, floor 1 to boss, as formats/map.md specifies.
+  // Horizontal keeps all 15 floors plus the boss inside the panel with no
+  // scrolling, which is what makes every node reachable by a click.
+  function layoutFloors() { return MAP.rows + 1; }
+  function xPct(row) { return ((row + 0.5) / layoutFloors()) * 100; }
+  function yPct(col) { return ((col + 0.5) / MAP.cols) * 100; }
 
   function renderMap() {
     var canvas = els.mapCanvas;
     canvas.innerHTML = "";
-    canvas.style.setProperty("--rows", layoutRows());
+    canvas.style.setProperty("--lanes", MAP.cols);
     $("map-boss").textContent = MAP.boss.name;
     $("map-act").textContent = actLabel(MAP.act) + " · seed " + MAP.seed;
 
@@ -575,13 +577,18 @@
     MAP.nodes.forEach(function (n) {
       nextNodes(n).forEach(function (t) {
         var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", xPct(n.col));
-        line.setAttribute("y1", yPct(n.row));
-        line.setAttribute("x2", xPct(t.col));
-        line.setAttribute("y2", yPct(t.row));
+        line.setAttribute("x1", xPct(n.row));
+        line.setAttribute("y1", yPct(n.col));
+        line.setAttribute("x2", xPct(t.row));
+        line.setAttribute("y2", yPct(t.col));
         line.setAttribute("vector-effect", "non-scaling-stroke");
-        var lit = MAP.cleared[n.id] && (MAP.cleared[t.id] || legalIds.indexOf(t.id) !== -1);
-        line.setAttribute("class", "map-edge" + (lit ? " lit" : ""));
+        var cls = "map-edge";
+        if (n.id === state.currentId && legalIds.indexOf(t.id) !== -1) {
+          cls += " open"; // the moves available right now
+        } else if (MAP.cleared[n.id] && MAP.cleared[t.id]) {
+          cls += " lit"; // the path already walked
+        }
+        line.setAttribute("class", cls);
         svg.appendChild(line);
       });
     });
@@ -591,8 +598,8 @@
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "mnode k-" + n.kind;
-      btn.style.left = xPct(n.col) + "%";
-      btn.style.top = yPct(n.row) + "%";
+      btn.style.left = xPct(n.row) + "%";
+      btn.style.top = yPct(n.col) + "%";
       var legal = legalIds.indexOf(n.id) !== -1;
       if (MAP.cleared[n.id]) btn.classList.add("cleared");
       if (n.id === state.currentId) btn.classList.add("current");
@@ -612,23 +619,17 @@
       canvas.appendChild(btn);
     });
 
-    updateMapDetail();
-    scrollMapToPlayer();
-  }
-
-  /* The map is taller than the panel, so bring the player's position into view
-     rather than making them discover that it scrolls. */
-  function scrollMapToPlayer() {
-    var focus = state.currentId ? node(state.currentId) : null;
-    if (!focus) {
-      var legal = legalNodes();
-      focus = legal.length ? legal[0] : null;
+    var here = node(state.currentId);
+    if (here) {
+      var tag = document.createElement("span");
+      tag.className = "you-are-here";
+      tag.textContent = "you are here";
+      tag.style.left = xPct(here.row) + "%";
+      tag.style.top = "calc(" + yPct(here.col) + "% + 20px)";
+      canvas.appendChild(tag);
     }
-    if (!focus) return;
-    var graph = els.mapGraph;
-    var canvasH = els.mapCanvas.offsetHeight;
-    var y = (yPct(focus.row) / 100) * canvasH;
-    graph.scrollTop = Math.max(0, y - graph.clientHeight / 2);
+
+    updateMapDetail();
   }
 
   var KIND_TITLE = {

@@ -227,7 +227,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   border-radius: var(--radius-lg);
   background: var(--paper-2);
   box-shadow: var(--shadow-2);
-  min-height: 560px;
+  min-height: 620px;
   overflow: hidden;
   flex: 1;
 }
@@ -237,7 +237,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   flex-direction: column;
   gap: 16px;
   padding: 26px 28px 24px;
-  min-height: 560px;
+  min-height: 620px;
 }
 .screen.is-active { display: flex; animation: screen-in var(--t-mid) var(--ease); }
 
@@ -304,7 +304,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .title-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
 
 /* ============================ MAP ============================ */
-.map-layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; flex: 1; min-height: 0; }
+/* The graph is wide, so it gets its own full-width row and the detail rail
+   sits beneath it rather than squeezing it into a column. */
+.map-layout { display: flex; flex-direction: column; gap: 16px; flex: 1; min-height: 0; }
 .map-graph-wrap { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
 
 .boss-header {
@@ -319,24 +321,27 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .boss-header strong { font-family: var(--font-display); font-size: 18px; }
 .boss-header .hint { margin-left: auto; }
 
+/* No inner scrollbar. The whole act is visible and the page scrolls if it has
+   to, because two nested scroll areas is one too many and cramming 15 floors
+   into a short panel put the click targets on top of each other. */
 .map-graph {
   position: relative;
-  flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
   border: 1px solid var(--line); border-radius: var(--radius-lg);
   background: var(--panel);
-  padding: 14px 10px;
-  /* Fade the cut edges so it is obvious the climb continues past the panel. */
-  mask-image: linear-gradient(180deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
-  scroll-behavior: smooth;
+  padding: 16px 10px;
 }
-.map-canvas { position: relative; height: calc(var(--rows, 15) * 40px); min-height: 480px; }
+/* Lane spacing has to clear the node diameter with room to spare, or adjacent
+   lanes become one click target. */
+.map-canvas { position: relative; height: calc(var(--lanes, 7) * 42px); }
 .map-edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.map-edge { stroke: var(--line); stroke-width: 2; }
-.map-edge.lit { stroke: var(--facet-map); stroke-width: 3; }
+.map-edge { stroke: var(--line); stroke-width: 1.5; opacity: 0.55; }
+.map-edge.lit { stroke: var(--facet-map); stroke-width: 2.5; opacity: 1; }
+/* The edges you may actually take next. */
+.map-edge.open { stroke: var(--facet-map); stroke-width: 3; opacity: 1; }
 
 .mnode {
   position: absolute; transform: translate(-50%, -50%);
-  width: 30px; height: 30px; padding: 0;
+  width: 24px; height: 24px; padding: 0; font-size: 11px;
   display: grid; place-items: center;
   border: 2px solid var(--line); border-radius: 50%;
   background: var(--paper-2); color: var(--muted);
@@ -345,34 +350,55 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
     background-color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
-.mnode.k-elite, .mnode.k-boss { width: 36px; height: 36px; font-size: 15px; }
-.mnode.k-rest { border-radius: 8px; }
+.mnode.k-elite { width: 30px; height: 30px; font-size: 13px; box-shadow: inset 0 0 0 2px var(--paper-2); }
+.mnode.k-boss { width: 34px; height: 34px; font-size: 15px; border-width: 3px; border-color: var(--ink); color: var(--ink); }
+.mnode.k-rest { border-radius: 7px; }
 .mnode.k-shop { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); border-radius: 0; }
-.mnode.k-treasure { border-radius: 4px; }
+.mnode.k-treasure { border-radius: 3px; }
 
-.mnode.cleared { border-color: var(--facet-map); color: var(--facet-map); background: var(--panel-2); opacity: 0.75; }
+/* Unreachable nodes recede hard, so the reachable set reads instantly. */
+.mnode { opacity: 0.28; }
+.mnode.cleared {
+  opacity: 0.8; border-color: var(--facet-map); color: var(--facet-map);
+  background: var(--panel-2);
+}
 .mnode.current {
-  border-color: var(--ink); color: var(--ink); background: var(--paper);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--facet-map) 26%, transparent);
+  opacity: 1; border-color: var(--ink); color: var(--paper); background: var(--ink);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--facet-map) 30%, transparent);
+  transform: translate(-50%, -50%) scale(1.15);
 }
 .mnode.legal {
-  cursor: pointer; border-color: var(--facet-map); color: var(--ink);
-  background: var(--paper);
+  opacity: 1; cursor: pointer; border-color: var(--facet-map); color: var(--ink);
+  background: var(--paper); border-width: 3px;
   animation: node-pulse 2.2s var(--ease) infinite;
 }
-.mnode.legal:hover { transform: translate(-50%, -50%) scale(1.18); }
+.mnode.legal:hover { transform: translate(-50%, -50%) scale(1.3); }
 .mnode.selected {
-  background: var(--facet-map); color: var(--paper); border-color: var(--facet-map);
-  animation: none; transform: translate(-50%, -50%) scale(1.18);
+  opacity: 1; background: var(--facet-map); color: var(--paper);
+  border-color: var(--facet-map);
+  animation: none; transform: translate(-50%, -50%) scale(1.3);
 }
 .mnode:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
+/* Sits below the current node, in space already walked, so it never covers a
+   node you still have to click. */
+.you-are-here {
+  position: absolute; transform: translate(-50%, 0);
+  font-family: var(--font-ui); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--paper); background: var(--ink);
+  padding: 1px 6px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+}
+
 .map-rail {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background: var(--panel); padding: 18px; display: flex; flex-direction: column;
+  background: var(--panel); padding: 16px 18px;
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; align-items: center;
 }
-.map-title { font-family: var(--font-body); font-size: 18px; margin: 8px 0 6px; }
-.map-prior { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+.map-rail .section-h { grid-column: 1; }
+.map-rail .rail-actions { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
+.map-title { font-family: var(--font-body); font-size: 17px; margin: 0; grid-column: 1; }
+.map-prior { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin: 0; grid-column: 1; }
+.map-rail .hint { grid-column: 1; }
 
 /* ============================ INTENT ============================ */
 .intent-hero { display: flex; align-items: center; gap: 18px; }
