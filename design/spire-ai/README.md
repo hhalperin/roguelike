@@ -18,9 +18,10 @@ implementation can stay aligned without re-deriving the ideology each time.
 | [act-templates/ship-the-stub.md](act-templates/ship-the-stub.md) | Stage 2 vertical demo outline |
 | [fixtures/pressure-vector.example.json](fixtures/pressure-vector.example.json) | Example prior payload |
 | [ui/](ui/README.md) | Per-facet formats, design system, HTML wireframes |
+| [exec/](exec/README.md) | Who buys, why now, how we win, what we measure, what we fund |
 
 **One-line pitch:** Your project is the run. Your agent config is the deck. Spire is the game.
 
 **Discipline pitch:** One room at a time. Entertainment pays for focus. AI weights the dungeon; the player still picks the path.
 
-**Working agreement:** Ideology change → update GDD + non-goals in the same PR. `?` behavior change → update room-prior-contract + fixture.
+**Working agreement:** Ideology change → update GDD + non-goals in the same PR. `?` behavior change → update room-prior-contract + fixture. Exec ideology changes must update GDD/non-goals in the same change set ([exec working rules](exec/README.md)).
