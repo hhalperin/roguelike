@@ -176,6 +176,9 @@ and `deck.py stats` for deck-health numbers.
 starter powers recorded in `deck.json`, and class detection driven by
 `classes/detection.json`. More community classes and deck export still planned.
 
+**Spire AI (design).** The longer arc — a project-building roguelike with an MCP
+app UI — lives in [`design/spire-ai/`](design/spire-ai/README.md).
+
 ## Contributing
 
 The contribution surface is markdown and YAML — new **classes** and **card
