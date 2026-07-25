@@ -38,3 +38,26 @@ python3 -m pytest tests/          # scan + deck + class-schema + manifest tests
 ruff check scripts/ tests/        # lint (matches the repo's ruff-strict relic)
 claude plugin validate .          # manifest + skill frontmatter (needs the CLI)
 ```
+
+## Cursor Cloud specific instructions
+
+This is a pure-stdlib Python plugin engine — no build step, no services, no
+database. "Running the app" means exercising the engine CLIs and hooks.
+
+- **Dev deps** (`pytest`, `ruff`, `pyyaml`) are installed by the environment
+  update script via `pip install`. `pip` drops console scripts in
+  `~/.local/bin`, which is **not on `PATH`**. Invoke tools as modules to avoid
+  this: `python3 -m pytest tests/` and `python3 -m ruff check scripts/ tests/`
+  (the bare `ruff` command may be "not found").
+- **Test/lint** commands are in `CLAUDE.md` / `CONTRIBUTING.md`. One test
+  (`tests/test_curator_sdk_mocked.py`) is *skipped* unless the optional
+  `claude-agent-sdk` (and its `anyio` dep) is installed — this is by design; a
+  single skip is expected, not a failure.
+- **Exercise the engine** with the stdlib CLIs, e.g.
+  `python3 scripts/scan.py <repo>` (detect class) then
+  `python3 scripts/deck.py init|add-card|show|validate --path <repo>` (deal /
+  inspect a save file). `deck.py init` refuses to overwrite an existing
+  `.spire/deck.json`, so deal into a fresh dir.
+- **`claude plugin validate .`** needs the Claude Code CLI
+  (`npm i -g @anthropic-ai/claude-code`) and is optional; structural checks are
+  duplicated in `tests/test_plugin_manifests.py`, which runs with no CLI.
