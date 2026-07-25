@@ -1,13 +1,14 @@
 ---
-description: How to read and write a deck-builder save file (.claude/deck.json) safely — its schema, invariants, and the rule to always go through deck.py rather than hand-editing the JSON.
-when_to_use: When reading, updating, or reasoning about a repo's .claude/deck.json deck-builder save file.
+description: How to read and write a spire save file (.spire/deck.json) safely — its schema, invariants, and the rule to always go through deck.py rather than hand-editing the JSON.
+when_to_use: When reading, updating, or reasoning about a repo's .spire/deck.json spire save file.
 user-invocable: false
 ---
 
 # Deck state (deck.json) — read/write safely
 
-The save file lives **with the target project** at `<repo>/.claude/deck.json`,
+The save file lives **with the target project** at `<repo>/.spire/deck.json`,
 not with the plugin. Treat it as the single source of truth for a run.
+(Agent cards stay in `.claude/skills/`; only run knowledge lives under `.spire/`.)
 
 ## Golden rule
 
@@ -51,6 +52,6 @@ temp file and `os.replace`s it, so a crash never leaves a half-written deck.
 - `cards[].type` is one of `skill`, `relic`, `power`.
 - `rewards.taken / rewards.skipped` is a deck-health signal — a high skip rate is
   good. Don't optimize for "taken".
-- `ascension` (0–20) is raised only by `/deck-builder:ascend` (manual), never
+- `ascension` (0–20) is raised only by `/spire:ascend` (manual), never
   silently. `clean_room_streak` is reserved for a future opt-in auto-raise.
 - If `deck.py validate` fails, fix the deck before writing anything else.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""deck-builder :: reward_gate.py — Stop hook: did a room clear?
+"""spire :: reward_gate.py — Stop hook: did a room clear?
 
 The fast, deterministic half of the reward loop. Runs on every Stop event but
 does almost nothing most of the time: only when there's a real deterministic
@@ -10,12 +10,13 @@ actual evidence to judge.
 
 This hook must NEVER block or interrupt the session: reward offers are
 detected here but only *surfaced* at the next SessionStart
-(``status_line.py``) or via ``/deck-builder:campfire`` - never at Stop time.
+(``status_line.py``) or via ``/spire:campfire`` - never at Stop time.
 Any failure anywhere in this script degrades to a silent no-op.
 """
 from __future__ import annotations
 
 import datetime
+import json
 import os
 import subprocess
 import sys
@@ -79,7 +80,6 @@ def _write_pending_reward(repo: str, verdict: dict) -> None:
         "offer": verdict.get("offer", []),
         "remove": verdict.get("remove", []),
     }
-    import json
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2)

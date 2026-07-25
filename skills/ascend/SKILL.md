@@ -1,10 +1,10 @@
 ---
-description: Raise or lower the ascension tier (A0-A20) — how strictly deck-builder's hooks enforce lint/test/coverage in this repo. Manual only; never auto-raises.
+description: Raise or lower the ascension tier (A0-A20) — how strictly spire's hooks enforce lint/test/coverage in this repo. Manual only; never auto-raises.
 disable-model-invocation: true
 allowed-tools: Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/ascend.py" *), Read, Write
 ---
 
-# /deck-builder:ascend — the ascension ladder
+# /spire:ascend — the ascension ladder
 
 Raise (or lower) how strictly this repo's dealt hooks enforce quality gates.
 **Always manual** — never suggest or apply a change in tier without the user
@@ -15,12 +15,14 @@ explicitly choosing one this turn.
 - `ascension_gate.py` (to deal): `${CLAUDE_SKILL_DIR}/../../scripts/ascension_gate.py`
 - Class data: `${CLAUDE_SKILL_DIR}/../../classes/`
 - Target repo: `${CLAUDE_PROJECT_DIR}`
+- Gate home: `${CLAUDE_PROJECT_DIR}/.spire/bin/ascension_gate.py`
+- Gate config: `${CLAUDE_PROJECT_DIR}/.spire/ascension.json`
 
 ## Steps
 
 1. **Show the ladder.** Run
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/ascend.py" show --path "${CLAUDE_PROJECT_DIR}"`.
-   If there's no deck yet, tell the user to run `/deck-builder` first and stop.
+   If there's no deck yet, tell the user to run `/spire` first and stop.
 
 2. **Ask which tier.** Present the five tiers plainly and ask the user to pick
    one — do not default to "one tier up" without asking. The tiers:
@@ -43,7 +45,7 @@ explicitly choosing one this turn.
    and will stay warn-only, rather than guessing a command.
 
 4. **Deal the gate script.** If
-   `${CLAUDE_PROJECT_DIR}/.claude/deck-builder/ascension_gate.py` doesn't
+   `${CLAUDE_PROJECT_DIR}/.spire/bin/ascension_gate.py` doesn't
    already exist, copy it there verbatim from
    `${CLAUDE_SKILL_DIR}/../../scripts/ascension_gate.py` (same
    self-contained/no-engine-dependency reasoning as `record_play.py`).
@@ -51,8 +53,8 @@ explicitly choosing one this turn.
 5. **Apply.** Run
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/ascend.py" apply --path "${CLAUDE_PROJECT_DIR}" --tier <N> --lint-cmd "<resolved or omit>" --test-cmd "<resolved or omit>"`.
    This merges a Stop hook into the target repo's own `.claude/settings.json`
-   — it only ever touches deck-builder's own entry, never anything else
-   already there.
+   — it only ever touches spire's own entry, never anything else
+   already there. The hook command points at `.spire/bin/ascension_gate.py`.
 
 6. **Confirm.** Re-run `ascend.py show` and report the new tier plainly,
    including any gate that's staying warn-only for lack of a known command.

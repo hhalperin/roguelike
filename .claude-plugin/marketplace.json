@@ -1,14 +1,14 @@
 {
-  "name": "deck-builder",
-  "description": "The deck-builder marketplace — a roguelike deck for every repo.",
+  "name": "spire",
+  "description": "The spire marketplace — a roguelike deck for every repo.",
   "owner": {
     "name": "hhalperin"
   },
   "plugins": [
     {
-      "name": "deck-builder",
+      "name": "spire",
       "source": "./",
-      "description": "A roguelike deck for every repo — scan, detect the repo's class, and deal it a starter deck of Claude config (CLAUDE.md rules + .claude/skills/ cards) tracked in a deck.json save file."
+      "description": "A roguelike deck for every repo — scan, detect the repo's class, and deal it a starter deck of Claude config (CLAUDE.md rules + .claude/skills/ cards) tracked in a .spire/deck.json save file."
     }
   ]
 }

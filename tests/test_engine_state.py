@@ -16,19 +16,20 @@ def test_save_load_round_trip(tmp_path):
     assert engine_state.load(str(tmp_path)) == {
         "last_check_sha": "abc", "last_check_at": "t", "activity_count": 3,
     }
+    assert (tmp_path / ".spire" / "state.json").exists()
 
 
 def test_load_tolerates_malformed_json(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
-    (d / "deck-builder-state.json").write_text("{not json")
+    (d / "state.json").write_text("{not json")
     state = engine_state.load(str(tmp_path))
     assert state["activity_count"] == 0
 
 
 def test_deck_exists(tmp_path):
     assert engine_state.deck_exists(str(tmp_path)) is False
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
     (d / "deck.json").write_text("{}")
     assert engine_state.deck_exists(str(tmp_path)) is True
@@ -39,23 +40,23 @@ def test_load_pending_reward_missing(tmp_path):
 
 
 def test_load_pending_reward_malformed_json(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
-    (d / "deck-pending-reward.json").write_text("{not json")
+    (d / "pending-reward.json").write_text("{not json")
     assert engine_state.load_pending_reward(str(tmp_path)) is None
 
 
 def test_load_pending_reward_without_offer_is_not_pending(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
-    (d / "deck-pending-reward.json").write_text(json.dumps({"reason": "x", "offer": []}))
+    (d / "pending-reward.json").write_text(json.dumps({"reason": "x", "offer": []}))
     assert engine_state.load_pending_reward(str(tmp_path)) is None
 
 
 def test_load_pending_reward_valid(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
-    (d / "deck-pending-reward.json").write_text(json.dumps({
+    (d / "pending-reward.json").write_text(json.dumps({
         "reason": "repeated pattern", "offer": [{"name": "new-card"}],
     }))
     pending = engine_state.load_pending_reward(str(tmp_path))

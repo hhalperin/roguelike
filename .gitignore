@@ -221,7 +221,12 @@ __marimo__/
 # .claude/settings.json IS committed (shared, repo-wide config).
 .claude/settings.local.json
 
-# deck-builder: ephemeral engine bookkeeping, not part of the versioned save
-# file (deck.json and deck-builder-ascension.json ARE committed).
+# spire: disposable bookkeeping under .spire/ (deck.json and ascension.json
+# ARE committed as the durable run). Agent cards stay in .claude/skills/.
+.spire/state.json
+.spire/pending-reward.json
+
+# Legacy deck-builder ephemeral paths (pre-.spire layout); keep ignoring
+# them so a half-migrated checkout stays clean.
 .claude/deck-builder-state.json
 .claude/deck-pending-reward.json

@@ -8,11 +8,11 @@ import engine_state
 def test_noop_without_deck(tmp_path, monkeypatch):
     monkeypatch.setenv("CLAUDE_PROJECT_DIR", str(tmp_path))
     assert activity_log.main() == 0
-    assert not (tmp_path / ".claude").exists()
+    assert not (tmp_path / ".spire").exists()
 
 
 def _deal(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
     (d / "deck.json").write_text(json.dumps({"class": "defect", "cards": []}))
 

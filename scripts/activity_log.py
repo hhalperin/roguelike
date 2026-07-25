@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""deck-builder :: activity_log.py — PostToolUse hook: count activity.
+"""spire :: activity_log.py — PostToolUse hook: count activity.
 
 Fires after every tool call. Deliberately does almost nothing: if the current
 directory hasn't been dealt a deck, it's a silent no-op. Otherwise it bumps a

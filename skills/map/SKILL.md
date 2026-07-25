@@ -1,10 +1,10 @@
 ---
-description: Show the current deck-builder run state from .claude/deck.json — class, act/floor, ascension, cards with play counts, relics, and the reward ratio.
+description: Show the current spire run state from .spire/deck.json — class, act/floor, ascension, cards with play counts, relics, and the reward ratio.
 disable-model-invocation: true
 allowed-tools: Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" *)
 ---
 
-# /deck-builder:map — the run map
+# /spire:map — the run map
 
 Render the current run state for this project.
 
@@ -17,6 +17,6 @@ Render the current run state for this project.
    `show`'s raw list.
 3. Present both outputs together as one coherent run summary.
 4. If there is no deck yet (either command reports none), tell the user to run
-   `/deck-builder` first to deal a starter deck.
+   `/spire` first to deal a starter deck.
 
-Do not modify the deck here — `/deck-builder:map` is read-only.
+Do not modify the deck here — `/spire:map` is read-only.

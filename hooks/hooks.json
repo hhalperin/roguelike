@@ -1,5 +1,5 @@
 {
-  "description": "deck-builder's engine loop: log activity, judge whether a room cleared, and surface the run status.",
+  "description": "spire's engine loop: log activity, judge whether a room cleared, and surface the run status.",
   "hooks": {
     "PostToolUse": [
       {

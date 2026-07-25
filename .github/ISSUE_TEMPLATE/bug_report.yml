@@ -17,14 +17,14 @@ body:
     id: repro
     attributes:
       label: Steps to reproduce
-      description: Include the command (e.g. `/deck-builder`) and the kind of repo it ran against.
+      description: Include the command (e.g. `/spire`) and the kind of repo it ran against.
     validations:
       required: true
   - type: input
     id: version
     attributes:
-      label: deck-builder version
-      placeholder: "0.1.0"
+      label: spire version
+      placeholder: "0.2.0"
   - type: textarea
     id: env
     attributes:

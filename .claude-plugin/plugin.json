@@ -1,7 +1,7 @@
 {
-  "name": "deck-builder",
+  "name": "spire",
   "description": "A roguelike deck for every repo — scan a project, deal it a starter deck of Claude config, and grow that deck as you clear rooms.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "hhalperin"
   },
@@ -10,6 +10,7 @@
   "license": "MIT",
   "keywords": [
     "roguelike",
+    "spire",
     "deck-builder",
     "claude-config",
     "skills",

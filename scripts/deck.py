@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""deck-builder :: deck.py — the save-file (deck.json) manager.
+"""spire :: deck.py — the save-file (``.spire/deck.json``) manager.
 
-Reads, writes, and validates ``<repo>/.claude/deck.json`` — the roguelike save
-file that lives *with the target project*, not with the plugin. Standard library
-only. All mutations go through here so the schema stays consistent and writes
-stay atomic; the ``/deck-builder`` and ``/deck-builder:map`` skills shell out to
-this script rather than editing the JSON directly.
+Reads, writes, and validates the roguelike save file that lives *with the
+target project* under ``.spire/``, not with the plugin. Agent primitives
+(skills) stay in ``.claude/skills/``; this script only owns run knowledge.
+Standard library only. All mutations go through here so the schema stays
+consistent and writes stay atomic; the ``/spire`` and ``/spire:map`` skills
+shell out to this script rather than editing the JSON directly.
 
 Subcommands
 -----------
@@ -19,7 +20,7 @@ Subcommands
     mark-offered  bump rewards.offered (by --count, default 1)
     mark-taken    bump rewards.taken (by --count, default 1)
     mark-skipped  bump rewards.skipped (by --count, default 1)
-    show          render human-readable run state (backs /deck-builder:map)
+    show          render human-readable run state (backs /spire:map)
     stats         aggregate deck-health stats (plays, unplayed, reward rate)
     validate      check the deck.json schema; exit non-zero if invalid
 
@@ -39,6 +40,9 @@ import os
 import shutil
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths  # noqa: E402
+
 SCHEMA_VERSION = 1
 
 # Engine-side flavor only (not project knowledge): display names for classes.
@@ -54,15 +58,16 @@ CARD_TYPES = ("skill", "relic", "power")
 
 
 def _today() -> str:
-    """Today's date (YYYY-MM-DD). Overridable via DECK_BUILDER_TODAY for tests."""
-    override = os.environ.get("DECK_BUILDER_TODAY")
+    """Today's date (YYYY-MM-DD). Overridable via SPIRE_TODAY for tests."""
+    override = os.environ.get("SPIRE_TODAY") or os.environ.get("DECK_BUILDER_TODAY")
     if override:
         return override
     return datetime.date.today().isoformat()
 
 
 def deck_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", "deck.json")
+    paths.ensure_migrated(repo)
+    return paths.deck_path(repo)
 
 
 def skeleton(classes: list[str], floor: int = 0) -> dict:
@@ -86,12 +91,14 @@ def skeleton(classes: list[str], floor: int = 0) -> dict:
 
 
 def load(repo: str) -> dict:
+    paths.ensure_migrated(repo)
     with open(deck_path(repo), encoding="utf-8") as fh:
         return json.load(fh)
 
 
 def save(repo: str, deck: dict) -> None:
     """Atomically write deck.json (temp file in the same dir + os.replace)."""
+    paths.ensure_migrated(repo)
     path = deck_path(repo)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
@@ -259,7 +266,7 @@ def remove_card(repo: str, name: str) -> bool:
     if _is_safe_card_name(name):
         for card in matches:
             if card.get("type", "skill") == "skill":
-                shutil.rmtree(os.path.join(repo, ".claude", "skills", name), ignore_errors=True)
+                shutil.rmtree(os.path.join(paths.skills_dir(repo), name), ignore_errors=True)
     d["cards"] = [c for c in d["cards"] if c.get("name") != name]
     save(repo, d)
     return True
@@ -323,13 +330,13 @@ def cmd_show(args: argparse.Namespace) -> int:
     try:
         deck = load(args.path)
     except FileNotFoundError:
-        print("No deck yet. Run /deck-builder to deal a starter deck.", file=sys.stderr)
+        print("No deck yet. Run /spire to deal a starter deck.", file=sys.stderr)
         return 1
 
     names = deck.get("classes") or [deck.get("class", "colorless")]
     label = " + ".join(CLASS_NAMES.get(c, c) for c in names)
     lines = [
-        "🎴 deck-builder — run state",
+        "🎴 spire — run state",
         f"Class: {label}   Act {deck.get('act', 1)} · Floor {deck.get('floor', 0)}"
         f" · Ascension {deck.get('ascension', 0)}",
     ]
@@ -394,13 +401,13 @@ def cmd_stats(args: argparse.Namespace) -> int:
     try:
         d = load(args.path)
     except FileNotFoundError:
-        print("No deck yet. Run /deck-builder to deal a starter deck.", file=sys.stderr)
+        print("No deck yet. Run /spire to deal a starter deck.", file=sys.stderr)
         return 1
 
     s = stats_summary(d)
     tier_label = ASCENSION_LABELS.get(s["ascension"], f"A{s['ascension']}")
     lines = [
-        "📊 deck-builder — stats",
+        "📊 spire — stats",
         f"Ascension: {tier_label}",
         f"Cards: {s['card_count']}"
         + ("  (at/over the ~12-card soft cap)" if s["over_soft_cap"] else ""),

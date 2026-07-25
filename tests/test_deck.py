@@ -11,7 +11,7 @@ def fixed_date(monkeypatch):
 
 
 def read_deck(root):
-    return json.loads((root / ".claude" / "deck.json").read_text())
+    return json.loads((root / ".spire" / "deck.json").read_text())
 
 
 def test_init_creates_valid_deck(tmp_path):
@@ -46,7 +46,7 @@ def test_init_dual_class(tmp_path):
 
 def test_init_rejects_unknown_class(tmp_path):
     assert deck.main(["init", "--path", str(tmp_path), "--class", "wizard"]) == 2
-    assert not (tmp_path / ".claude" / "deck.json").exists()
+    assert not (tmp_path / ".spire" / "deck.json").exists()
 
 
 def test_add_card_and_dedup(tmp_path):
@@ -105,7 +105,7 @@ def test_validate_detects_malformed(tmp_path):
 
 
 def test_validate_cli_on_malformed_json(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
     (d / "deck.json").write_text("{not valid json")
     assert deck.main(["validate", "--path", str(tmp_path)]) == 1
@@ -114,9 +114,9 @@ def test_validate_cli_on_malformed_json(tmp_path):
 def test_atomic_write_leaves_no_tmp(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
     deck.main(["add-card", "--path", str(tmp_path), "--name", "x"])
-    claude_dir = tmp_path / ".claude"
-    assert (claude_dir / "deck.json").exists()
-    assert not (claude_dir / "deck.json.tmp").exists()
+    spire_dir = tmp_path / ".spire"
+    assert (spire_dir / "deck.json").exists()
+    assert not (spire_dir / "deck.json.tmp").exists()
 
 
 def test_bool_not_accepted_as_int(tmp_path):
@@ -174,6 +174,7 @@ def test_remove_card_rejects_path_traversal_name(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
     deck.main(["add-card", "--path", str(tmp_path), "--name", "../evil"])
     canary = tmp_path / ".claude" / "canary.txt"
+    canary.parent.mkdir(parents=True, exist_ok=True)
     canary.write_text("must survive")
 
     assert deck.remove_card(str(tmp_path), "../evil") is True
@@ -186,6 +187,7 @@ def test_remove_card_rejects_bare_dotdot_name(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
     deck.main(["add-card", "--path", str(tmp_path), "--name", ".."])
     canary = tmp_path / ".claude" / "canary.txt"
+    canary.parent.mkdir(parents=True, exist_ok=True)
     canary.write_text("must survive")
 
     assert deck.remove_card(str(tmp_path), "..") is True

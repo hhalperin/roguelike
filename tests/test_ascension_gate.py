@@ -14,9 +14,9 @@ SCRIPT = Path(__file__).resolve().parent.parent / "scripts" / "ascension_gate.py
 
 def _run(tmp_path, config=None):
     if config is not None:
-        claude_dir = tmp_path / ".claude"
-        claude_dir.mkdir(exist_ok=True)
-        (claude_dir / "deck-builder-ascension.json").write_text(json.dumps(config))
+        spire_dir = tmp_path / ".spire"
+        spire_dir.mkdir(exist_ok=True)
+        (spire_dir / "ascension.json").write_text(json.dumps(config))
     env = {"CLAUDE_PROJECT_DIR": str(tmp_path), "PATH": "/usr/bin:/bin:/usr/local/bin"}
     return subprocess.run(
         [sys.executable, str(SCRIPT)], cwd=tmp_path, env=env,
@@ -25,7 +25,7 @@ def _run(tmp_path, config=None):
 
 
 def _config_after(tmp_path):
-    return json.loads((tmp_path / ".claude" / "deck-builder-ascension.json").read_text())
+    return json.loads((tmp_path / ".spire" / "ascension.json").read_text())
 
 
 def _cfg(tier, lint_cmd=None, test_cmd=None, coverage_baseline=None):
@@ -104,9 +104,9 @@ def test_tier_15_no_coverage_found_is_silent(tmp_path):
 
 
 def test_malformed_config_fails_open(tmp_path):
-    claude_dir = tmp_path / ".claude"
-    claude_dir.mkdir(exist_ok=True)
-    (claude_dir / "deck-builder-ascension.json").write_text("{not valid json")
+    spire_dir = tmp_path / ".spire"
+    spire_dir.mkdir(exist_ok=True)
+    (spire_dir / "ascension.json").write_text("{not valid json")
     result = _run(tmp_path, config=None)
     assert result.returncode == 0
     assert result.stdout.strip() == ""

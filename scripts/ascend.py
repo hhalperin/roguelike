@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
-"""deck-builder :: ascend.py — the ascension ladder (A0-A20).
+"""spire :: ascend.py — the ascension ladder (A0-A20).
 
 Writes/updates the target repo's own ``.claude/settings.json`` (a **merge**,
 never a blind overwrite — a repo may already have unrelated settings, like its
 own permissions allowlist) so ``ascension_gate.py`` runs as a Stop hook,
-writes ``.claude/deck-builder-ascension.json`` (the gate's config: tier +
-lint/test commands), and updates ``deck.json``'s ``ascension`` field.
+writes ``.spire/ascension.json`` (the gate's config: tier + lint/test
+commands), and updates ``deck.json``'s ``ascension`` field.
 
-Deliberately does **not** parse class YAML - the ``/deck-builder:ascend``
-skill reads the class file(s) and passes already-resolved ``--lint-cmd``/
-``--test-cmd`` strings, the same division of labor as ``/deck-builder``
-itself (scan.py detects, the skill interprets class data, the script mutates
-files).
+Deliberately does **not** parse class YAML - the ``/spire:ascend`` skill
+reads the class file(s) and passes already-resolved ``--lint-cmd``/
+``--test-cmd`` strings, the same division of labor as ``/spire`` itself
+(scan.py detects, the skill interprets class data, the script mutates files).
 
 Ascension only ever moves when a human runs this - never automatically.
 """
@@ -24,6 +23,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import deck  # noqa: E402
+import paths  # noqa: E402
 
 MAX_TIER = 20
 VALID_TIERS = (0, 5, 10, 15, 20)
@@ -40,11 +40,12 @@ GATE_MARKER = "ascension_gate.py"  # identifies "our" entry among other Stop hoo
 
 
 def settings_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", "settings.json")
+    return paths.settings_path(repo)
 
 
 def ascension_config_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", "deck-builder-ascension.json")
+    paths.ensure_migrated(repo)
+    return paths.ascension_path(repo)
 
 
 def _load_json(path: str) -> dict:
@@ -83,7 +84,9 @@ def _merge_settings(repo: str, tier: int) -> None:
             "matcher": "*",
             "hooks": [{
                 "type": "command",
-                "command": 'python3 "${CLAUDE_PROJECT_DIR}/.claude/deck-builder/ascension_gate.py"',
+                "command": (
+                    'python3 "${CLAUDE_PROJECT_DIR}/.spire/bin/ascension_gate.py"'
+                ),
                 "timeout": 320,
             }],
         })
@@ -118,11 +121,11 @@ def cmd_apply(args: argparse.Namespace) -> int:
 
     # Load (and validate the save file exists) BEFORE writing any side
     # effects: a missing/unloadable deck.json must leave settings.json and
-    # deck-builder-ascension.json untouched, never a half-applied ascension.
+    # .spire/ascension.json untouched, never a half-applied ascension.
     try:
         d = deck.load(args.path)
     except FileNotFoundError:
-        print("ascend.py: no deck.json found. Run /deck-builder first.", file=sys.stderr)
+        print("ascend.py: no deck.json found. Run /spire first.", file=sys.stderr)
         return 1
 
     _merge_settings(args.path, args.tier)
@@ -144,7 +147,7 @@ def cmd_show(args: argparse.Namespace) -> int:
     try:
         d = deck.load(args.path)
     except FileNotFoundError:
-        print("No deck yet. Run /deck-builder first.", file=sys.stderr)
+        print("No deck yet. Run /spire first.", file=sys.stderr)
         return 1
     tier = d.get("ascension", 0)
     print(f"Current: {TIER_DESCRIPTIONS.get(tier, f'A{tier}')}")

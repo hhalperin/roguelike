@@ -7,7 +7,7 @@ flavor: >-
   TypeScript and frontend work. Small, sharp components and fast tests keep you
   quiet and deadly. Strict types, no loose ends.
 
-# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# Used by /spire:ascend to generate class-appropriate gate hooks.
 commands:
   lint: "npm run lint"
   test: "npm test"

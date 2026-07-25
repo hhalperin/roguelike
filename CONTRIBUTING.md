@@ -1,6 +1,6 @@
 # Contributing — the modding guide
 
-deck-builder is built to be modded. The most valuable contributions aren't
+spire is built to be modded. The most valuable contributions aren't
 Python — they're **classes** and **card packs**, written in markdown and YAML.
 Low barrier, high creativity. This is the Slay-the-Spire modding scene, on
 purpose.
@@ -18,7 +18,7 @@ name: The <Name>         # display name
 detected_by: [ ... ]     # human-readable list of the signals that pick this class
 flavor: >-               # one or two sentences of theme
   ...
-commands:                # used by /deck-builder:ascend to build gate hooks;
+commands:                # used by /spire:ascend to build gate hooks;
   lint: "..."            #   null if no command is universal enough for this
   test: "..."            #   class to enforce automatically (e.g. Colorless)
 relics:                  # rules written into the target repo's CLAUDE.md

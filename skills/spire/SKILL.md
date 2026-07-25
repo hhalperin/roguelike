@@ -1,27 +1,31 @@
 ---
-description: Neow's blessing — scan this repo, detect its class, and deal it a starter deck of Claude config (CLAUDE.md relics + .claude/skills cards) tracked in .claude/deck.json. Run once to start a run.
+description: Neow's blessing — scan this repo, detect its class, and deal it a starter deck of Claude config (CLAUDE.md relics + .claude/skills cards) tracked in .spire/deck.json. Run once to start a run.
 disable-model-invocation: true
 allowed-tools: Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/scan.py" *), Bash(python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" *)
 ---
 
-# /deck-builder — Neow's blessing
+# /spire — Neow's blessing
 
 Deal this project a starter deck: detect its **class** (archetype) and write a
-matching set of Claude config into the repo, tracked in a `deck.json` save file.
+matching set of Claude config into the repo, tracked in a `.spire/deck.json`
+save file.
 
 **Paths** (already substituted for you):
 - Engine scripts: `${CLAUDE_SKILL_DIR}/../../scripts/` (i.e. `scan.py`, `deck.py`)
 - Class data: `${CLAUDE_SKILL_DIR}/../../classes/`
 - Target repo (the save file lives here): `${CLAUDE_PROJECT_DIR}` — the project
-  you're working in; `/deck-builder` always decks this project.
+  you're working in; `/spire` always decks this project.
+- Run home: `${CLAUDE_PROJECT_DIR}/.spire/` (deck + bookkeeping + dealt helpers)
+- Agent cards: `${CLAUDE_PROJECT_DIR}/.claude/skills/` (where Claude loads them)
 
 ## Steps
 
-1. **Guard against re-dealing.** If `${CLAUDE_PROJECT_DIR}/.claude/deck.json`
-   already exists, do **not** re-deal. Run
+1. **Guard against re-dealing.** If `${CLAUDE_PROJECT_DIR}/.spire/deck.json`
+   already exists (or a legacy `${CLAUDE_PROJECT_DIR}/.claude/deck.json` that
+   `deck.py` will migrate), do **not** re-deal. Run
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" show --path "${CLAUDE_PROJECT_DIR}"`,
-   show the result, and tell the user to use `/deck-builder:map` to view the run
-   or (coming later) `/deck-builder:campfire` to change cards. Stop here.
+   show the result, and tell the user to use `/spire:map` to view the run
+   or `/spire:campfire` to change cards. Stop here.
 
 2. **Scan.** Run:
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/scan.py" "${CLAUDE_PROJECT_DIR}"`
@@ -38,17 +42,18 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" init --path "${CLAUDE_PROJECT_DIR}" --class <primary> [--class <secondary>]`.
 
 5. **Deal relics → CLAUDE.md.** For each relic in the class file(s), add its
-   `rule` as a bullet under a `## deck-builder relics` heading in
+   `rule` as a bullet under a `## spire relics` heading in
    `${CLAUDE_PROJECT_DIR}/CLAUDE.md`. In a dual-class run, de-duplicate relics by
    `id`. If `CLAUDE.md` already exists, **append** the section (read first, don't
-   overwrite). Record each with
+   overwrite). If a legacy `## deck-builder relics` section already exists, append
+   new bullets there instead of creating a second heading. Record each with
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-relic --path "${CLAUDE_PROJECT_DIR}" --id <relic-id>`.
 
 6. **Deal the play-tracking helper.** Copy
    `${CLAUDE_SKILL_DIR}/../../scripts/record_play.py` to
-   `${CLAUDE_PROJECT_DIR}/.claude/deck-builder/record_play.py` verbatim (create
+   `${CLAUDE_PROJECT_DIR}/.spire/bin/record_play.py` verbatim (create
    the directory if needed). This file is intentionally self-contained — it
-   keeps working even if the deck-builder plugin is later uninstalled, because
+   keeps working even if the spire plugin is later uninstalled, because
    the save file must not depend on the engine that dealt it.
 
 7. **Deal cards → skills.** Gather the cards from the class file(s). In a
@@ -72,7 +77,7 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
        - matcher: "*"
          hooks:
            - type: command
-             command: python3 "${CLAUDE_PROJECT_DIR}/.claude/deck-builder/record_play.py" --name <card-name>
+             command: python3 "${CLAUDE_PROJECT_DIR}/.spire/bin/record_play.py" --name <card-name>
    ---
    <card.body>
    ```
@@ -92,3 +97,5 @@ matching set of Claude config into the repo, tracked in a `deck.json` save file.
 - **Don't overwrite the user's work:** append to an existing `CLAUDE.md`, and
   never clobber a card the user already has.
 - Keep the starter deck small. More cards are *earned*, not front-loaded.
+- **Run vs agent dirs:** `.spire/` holds run knowledge; `.claude/skills/` holds
+  cards the agent loads. Don't put skills inside `.spire/`.

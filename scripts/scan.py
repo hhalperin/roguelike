@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""deck-builder :: scan.py — deterministic repo stack detector.
+"""spire :: scan.py — deterministic repo stack detector.
 
 Walks a target repository and detects its roguelike "class" (archetype) purely
 from the files present. Standard library only: no third-party dependencies, no
-network, no LLM. Emits a JSON summary on stdout that the ``/deck-builder`` skill
+network, no LLM. Emits a JSON summary on stdout that the ``/spire`` skill
 interprets to deal a starter deck.
 
 Classes
@@ -209,7 +209,7 @@ def _classify(signals: dict[str, set[str]], ext_counts: dict[str, int], root: st
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="scan.py",
-        description="Detect a repository's deck-builder class from its files.",
+        description="Detect a repository's spire class from its files.",
     )
     parser.add_argument("path", nargs="?", default=".", help="repo root to scan (default: .)")
     args = parser.parse_args(argv)
