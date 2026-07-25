@@ -477,8 +477,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .play-card h4 { font-family: var(--font-display); font-size: 15px; margin: 8px 0 6px; }
 .play-card .body { font-size: 13px; color: var(--ink-soft); }
 .play-card .rtype { position: absolute; bottom: 10px; left: 12px; font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.play-card:disabled { cursor: not-allowed; }
-.play-card.illegal { filter: grayscale(0.85); opacity: 0.5; }
+.play-card:disabled { cursor: not-allowed; opacity: 0.3; }
+/* Unplayable cards stay clickable so they can say why. */
+.play-card[aria-disabled="true"] { filter: grayscale(0.8); opacity: 0.55; cursor: help; }
+.play-card[aria-disabled="true"]:hover {
+  transform: translateX(var(--tx)) translateY(-10px) rotate(var(--rot));
+  opacity: 0.8;
+}
+.play-card.illegal { filter: grayscale(0.85); }
 .play-card.too-costly { opacity: 0.55; }
 .play-card.committing { animation: card-commit var(--t-slow) var(--ease); }
 

@@ -74,7 +74,9 @@
     }
   ];
 
-  var BOSS_ROOMS = { 1: "design", 2: "feature", 3: "infra" };
+  // The boss's room type comes from content/bosses.json via the map data, so
+  // acts past the Heart get a real room instead of undefined.
+  var FALLBACK_BOSS_ROOM = "design";
 
   var ALL_CARDS = [
     { id: "c-ftf", cost: 1, title: "Failing Test First", body: "Pin the defect with a red test.", rooms: ["bug", "refactor"], progress: 2, rarity: "common" },
@@ -256,10 +258,10 @@
   function enemyFor(n) {
     if (n.kind === "boss") {
       return {
-        name: MAP.boss.name, room: BOSS_ROOMS[MAP.act], maxHp: 5,
-        intent: "Will block ship until someone owns the decision.",
+        name: MAP.boss.name, room: MAP.boss.room || FALLBACK_BOSS_ROOM, maxHp: 5,
+        intent: MAP.boss.intent || "Will block ship until someone owns the decision.",
         blurb: actLabel(MAP.act) + " boss. Known from floor 1, so build for it.",
-        acceptance: "decision recorded + checks green",
+        acceptance: MAP.boss.acceptance || "decision recorded + checks green",
         telegraph: "Telegraph: move the goalposts",
         turnEffect: "The goalposts slide two feet to the left."
       };
@@ -680,7 +682,6 @@
       btn.className = "play-card " + c.rarity;
       if (!entry.legal) btn.classList.add("illegal");
       if (costly && entry.legal) btn.classList.add("too-costly");
-      btn.disabled = played || !entry.legal || costly;
       var mid = (n - 1) / 2;
       btn.style.setProperty("--rot", (i - mid) * 5 + "deg");
       btn.style.setProperty("--ty", Math.abs(i - mid) * 7 + "px");
@@ -693,7 +694,22 @@
         "<h4>" + c.title + "</h4>" +
         '<div class="body">' + c.body + "</div>" +
         '<div class="rtype">' + reason + "</div>";
-      if (!btn.disabled) {
+
+      // An unplayable card explains itself rather than swallowing the click.
+      // A dead control that gives no feedback reads as a broken game.
+      if (played) {
+        btn.disabled = true;
+      } else if (!entry.legal) {
+        btn.setAttribute("aria-disabled", "true");
+        btn.addEventListener("click", function () {
+          toast(c.title + " is illegal in a " + e.room + " room. Legal in " + c.rooms.join(", ") + ".");
+        });
+      } else if (costly) {
+        btn.setAttribute("aria-disabled", "true");
+        btn.addEventListener("click", function () {
+          toast(c.title + " costs " + c.cost + " energy and you have " + state.energy + ". End the turn to refill.");
+        });
+      } else {
         btn.addEventListener("click", function () { playCard(c, btn); });
       }
       els.combatHand.appendChild(btn);
@@ -1088,6 +1104,49 @@
     });
   }
 
+  /* ------------------------------ content audit ------------------------------ */
+  function bestProgressInOneTurn(room, energy) {
+    var legal = ALL_CARDS.filter(function (c) { return c.rooms.indexOf(room) !== -1; });
+    var best = 0;
+    // Small hand, so brute force every affordable subset.
+    for (var mask = 0; mask < 1 << legal.length; mask++) {
+      var cost = 0;
+      var prog = 0;
+      for (var i = 0; i < legal.length; i++) {
+        if (mask & (1 << i)) {
+          cost += legal[i].cost;
+          prog += legal[i].progress;
+        }
+      }
+      if (cost <= energy && prog > best) best = prog;
+    }
+    return best;
+  }
+
+  /* Every room must be clearable with the starting hand. A room whose type has
+     no legal cards is not a hard fight, it is a dead end, and that is the kind
+     of content mistake that should not reach a player. */
+  function auditContent() {
+    var rooms = {};
+    MONSTERS.concat(ELITES).forEach(function (e) { rooms[e.room] = Math.max(rooms[e.room] || 0, e.maxHp); });
+    MAPS.forEach(function (m) {
+      if (m.boss && m.boss.room) rooms[m.boss.room] = Math.max(rooms[m.boss.room] || 0, 5);
+    });
+    var problems = [];
+    Object.keys(rooms).forEach(function (room) {
+      var perTurn = bestProgressInOneTurn(room, DEFAULTS.energyMax);
+      if (perTurn === 0) {
+        problems.push("no card is legal in a " + room + " room");
+      } else if (perTurn * 3 < rooms[room]) {
+        problems.push(room + " needs more than three turns to clear");
+      }
+    });
+    if (problems.length) {
+      console.error("Spire content audit failed:\n  " + problems.join("\n  "));
+    }
+    return problems;
+  }
+
   /* ------------------------------ boot ------------------------------ */
   if (!MAPS.length) {
     document.addEventListener("DOMContentLoaded", function () {
@@ -1099,6 +1158,7 @@
   }
 
   resetState();
+  auditContent();
   wire();
   applyTheme();
   syncCampModeButtons();
