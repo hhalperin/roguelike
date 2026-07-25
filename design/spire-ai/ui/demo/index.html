@@ -29,6 +29,8 @@
           <button type="button" class="jump-btn" data-go="campfire">Campfire</button>
           <button type="button" class="jump-btn" data-go="shop">Shop</button>
           <button type="button" class="jump-btn" data-go="ascension">Ascension</button>
+          <button type="button" class="jump-btn" data-go="deck">Deck</button>
+          <button type="button" class="jump-btn" data-go="metrics">Metrics</button>
         </nav>
         <button type="button" class="icon-btn" id="btn-theme" aria-label="Toggle dark theme" title="Toggle theme">
           <span class="theme-dot"></span><span id="theme-label">Dark</span>
@@ -254,6 +256,72 @@
             </div>
           </aside>
         </div>
+      </section>
+
+      <!-- ---------- DECK ---------- -->
+      <section class="screen" data-screen="deck" data-facet="map" aria-label="Deck">
+        <div class="facet-tab">Deck · the codebase as a run</div>
+        <p class="hint deck-intro">
+          Objects are decided by how they are spent, not by what they are. Silhouette carries the
+          meaning, so every row reads without colour. See <code>../ENTITY_STANDARDS.md</code>.
+        </p>
+        <div class="deck-grid">
+          <section class="deck-group">
+            <h3 class="section-h">Cards · invoked, costs budget <span class="grp-count" id="cnt-cards">0</span></h3>
+            <p class="grp-note">Skills and playbooks in <code>.claude/skills/</code>. Each one costs attention every time it is considered, which is why the deck has a cap.</p>
+            <div class="obj-row" id="obj-cards"></div>
+          </section>
+          <section class="deck-group">
+            <h3 class="section-h">Relics · always on <span class="grp-count" id="cnt-relics">0</span></h3>
+            <p class="grp-note">Rules in <code>CLAUDE.md</code> and standing tooling. Never invoked, free to carry, expensive to violate.</p>
+            <div class="obj-row" id="obj-relics"></div>
+          </section>
+          <section class="deck-group">
+            <h3 class="section-h">Powers · fire on an event <span class="grp-count" id="cnt-powers">0</span></h3>
+            <p class="grp-note">Hooks. They act without you choosing, so they are not cards.</p>
+            <div class="obj-row" id="obj-powers"></div>
+          </section>
+          <section class="deck-group">
+            <h3 class="section-h">Potions · consumed once <span class="grp-count" id="cnt-potions">0</span></h3>
+            <p class="grp-note">One-shot diagnostics. A bisect, a profiler run, a spike. Cannot be hoarded.</p>
+            <div class="obj-row" id="obj-potions"></div>
+          </section>
+          <section class="deck-group">
+            <h3 class="section-h">Curses · cost you continuously <span class="grp-count" id="cnt-curses">0</span></h3>
+            <p class="grp-note">Debt you agreed to carry. Never hidden, always at full contrast.</p>
+            <div class="obj-row" id="obj-curses"></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ---------- METRICS ---------- -->
+      <section class="screen" data-screen="metrics" data-facet="ascension" aria-label="Metrics">
+        <div class="facet-tab">Metrics · run report</div>
+        <div class="metrics-grid">
+          <section class="metric-card">
+            <h3 class="section-h">Cost</h3>
+            <p class="grp-note">What this climb has spent. Trends, not snapshots.</p>
+            <div class="bars" id="m-cost"></div>
+            <div class="metric-foot">
+              <span>Total <strong id="m-cost-total">—</strong></span>
+              <span>Per room <strong id="m-cost-room">—</strong></span>
+            </div>
+          </section>
+          <section class="metric-card">
+            <h3 class="section-h">Quality</h3>
+            <p class="grp-note">Is the codebase better than when the climb started.</p>
+            <div class="trends" id="m-quality"></div>
+          </section>
+          <section class="metric-card">
+            <h3 class="section-h">Discipline</h3>
+            <p class="grp-note">Whether the run is being played well.</p>
+            <div class="gauges" id="m-discipline"></div>
+          </section>
+        </div>
+        <p class="caption">
+          Any metric that cannot be measured from the repository or the run log does not belong
+          here. The numbers below are illustrative for the demo.
+        </p>
       </section>
 
     </main>

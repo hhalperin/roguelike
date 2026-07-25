@@ -120,6 +120,31 @@
     { level: 20, blurb: "Every room requires review evidence." }
   ];
 
+  /* The run's objects, filed by how they are spent. See ../ENTITY_STANDARDS.md. */
+  var RELICS = [
+    { id: "ruff-strict", name: "Ruff Strict", rule: "Lint and format with Ruff. Resolve every warning before committing." },
+    { id: "typed-public-api", name: "Typed Public API", rule: "Type-hint public functions and keep the type checker clean." },
+    { id: "no-mocks-in-prod", name: "No Mocks In Prod", rule: "Never ship mock, stub, or placeholder data in production paths." },
+    { id: "stdlib-only", name: "Stdlib Only", rule: "Engine scripts import the standard library and nothing else." }
+  ];
+
+  var POWERS = [
+    { id: "ruff-on-edit", name: "ruff-on-edit", event: "PostToolUse", note: "Lints touched Python after an edit." },
+    { id: "reward-gate", name: "reward-gate", event: "Stop", note: "Decides whether a room was cleared." },
+    { id: "status-line", name: "status-line", event: "SessionStart", note: "Prints the run line." }
+  ];
+
+  var POTIONS = [
+    { id: "bisect", name: "Bisect", cls: "diag", spent: "Find the commit that broke it", uses: 1 },
+    { id: "profiler", name: "Profiler Run", cls: "perf", spent: "Name one bottleneck", uses: 1 },
+    { id: "spike", name: "Timeboxed Spike", cls: "", spent: "Answer one design question", uses: 1 }
+  ];
+
+  var CURSES = [
+    { id: "bloated-scope", name: "Bloated Scope", cost: "Every feature room costs 1 extra energy.", why: "Accepted at an event." },
+    { id: "deprecated-client", name: "Deprecated Client", cost: "Infra rooms may reopen after clearing.", why: "Carried since the migration." }
+  ];
+
   function freshDeck() {
     return [
       { id: "d1", name: "orient", plays: 0, when: "floor 0", upgraded: false },
@@ -358,7 +383,168 @@
       case "campfire": renderCamp(); break;
       case "shop": renderShop(); break;
       case "ascension": renderAscension(); break;
+      case "deck": renderDeck(); break;
+      case "metrics": renderMetrics(); break;
     }
+  }
+
+  /* ------------------------------ deck facet ------------------------------ */
+  function roomChips(rooms) {
+    return rooms.map(function (r) {
+      return '<span class="room-chip rt-' + r + '">' + r + "</span>";
+    }).join("");
+  }
+
+  function fill(el, items, build, emptyNote) {
+    el.innerHTML = "";
+    if (!items.length) {
+      el.innerHTML = '<p class="empty-note">' + emptyNote + "</p>";
+      return;
+    }
+    items.forEach(function (it) {
+      var node = document.createElement("div");
+      build(node, it);
+      el.appendChild(node);
+    });
+  }
+
+  function renderDeck() {
+    fill($("obj-cards"), ALL_CARDS, function (el, c) {
+      el.className = "o-card " + c.rarity;
+      el.innerHTML =
+        '<span class="cost">' + c.cost + "</span>" +
+        '<span class="notch" aria-hidden="true"></span>' +
+        "<h4>" + c.title + "</h4>" +
+        '<div class="rooms">' + roomChips(c.rooms) + "</div>" +
+        '<span class="meta">' + c.rarity + "</span>";
+    }, "No cards yet.");
+
+    fill($("obj-relics"), RELICS, function (el, r) {
+      el.className = "o-relic";
+      el.innerHTML =
+        '<span class="sil" aria-hidden="true">\u25cf</span>' +
+        '<span><span class="name">' + r.name + "</span>" +
+        '<div class="rule">' + r.rule + "</div></span>";
+    }, "No relics yet.");
+
+    fill($("obj-powers"), POWERS, function (el, p) {
+      el.className = "o-power";
+      el.innerHTML =
+        '<span class="sil" aria-hidden="true">\u26a1</span>' +
+        '<span><span class="name">' + p.name + "</span>" +
+        '<div class="evt">' + p.event + "</div>" +
+        '<div class="grp-note" style="margin:2px 0 0">' + p.note + "</div></span>";
+    }, "No powers yet.");
+
+    fill($("obj-potions"), POTIONS, function (el, p) {
+      el.className = "o-potion " + p.cls;
+      el.innerHTML =
+        '<div class="sil" aria-hidden="true"></div>' +
+        '<div class="name">' + p.name + "</div>" +
+        '<div class="uses">' + p.spent + "</div>" +
+        '<div class="uses">' + p.uses + " use left</div>";
+    }, "No potions held.");
+
+    fill($("obj-curses"), CURSES.slice(0, 1 + state.curses), function (el, c) {
+      el.className = "o-curse";
+      el.innerHTML =
+        '<div class="name">\u2716 ' + c.name + "</div>" +
+        "<div>" + c.cost + "</div>" +
+        '<div class="cost-line">' + c.why + "</div>";
+    }, "No curses. Keep it that way.");
+
+    $("cnt-cards").textContent = ALL_CARDS.length;
+    $("cnt-relics").textContent = RELICS.length;
+    $("cnt-powers").textContent = POWERS.length;
+    $("cnt-potions").textContent = POTIONS.length;
+    $("cnt-curses").textContent = Math.min(CURSES.length, 1 + state.curses);
+  }
+
+  /* ------------------------------ metrics facet ------------------------------ */
+  function renderMetrics() {
+    // Illustrative for the demo. Anything not measurable from the repo or the
+    // run log has no place on this page.
+    var acts = [];
+    for (var a = 1; a <= Math.max(3, state.act); a++) {
+      acts.push({ label: actShort(a), spend: a <= state.act ? 4 + a * 3 + (a % 2) * 2 : 0 });
+    }
+    var max = Math.max.apply(null, acts.map(function (x) { return x.spend; })) || 1;
+    var total = acts.reduce(function (s, x) { return s + x.spend; }, 0);
+
+    var cost = $("m-cost");
+    cost.innerHTML = "";
+    acts.forEach(function (x) {
+      var wrap = document.createElement("div");
+      wrap.className = "bar-wrap";
+      wrap.innerHTML =
+        '<span class="bar-value">' + (x.spend || "-") + "</span>" +
+        '<div class="bar" style="height:' + Math.round((x.spend / max) * 100) + '%"></div>' +
+        '<span class="bar-label">Act ' + x.label + "</span>";
+      cost.appendChild(wrap);
+    });
+    $("m-cost-total").textContent = total + " units";
+    var rooms = Math.max(1, currentFloor() + (state.actsCleared * 15));
+    $("m-cost-room").textContent = (total / rooms).toFixed(1);
+
+    var trends = [
+      { name: "Test coverage", series: [61, 63, 62, 66, 71, 74], unit: "%", good: "up" },
+      { name: "Lint violations", series: [22, 17, 15, 9, 4, 0], unit: "", good: "down" },
+      { name: "Suite pass rate", series: [88, 91, 90, 96, 99, 100], unit: "%", good: "up" }
+    ];
+    var q = $("m-quality");
+    q.innerHTML = "";
+    trends.forEach(function (t) {
+      var first = t.series[0];
+      var last = t.series[t.series.length - 1];
+      var delta = last - first;
+      var improving = t.good === "up" ? delta > 0 : delta < 0;
+      var peak = Math.max.apply(null, t.series) || 1;
+      var spark = t.series.map(function (v) {
+        return '<span style="height:' + Math.max(8, Math.round((v / peak) * 100)) + '%"></span>';
+      }).join("");
+      var row = document.createElement("div");
+      row.className = "trend";
+      row.innerHTML =
+        '<span class="trend-name">' + t.name + "</span>" +
+        '<span class="trend-val ' + (improving ? "up" : "down") + '">' +
+        (delta > 0 ? "+" : "") + delta + t.unit + "</span>" +
+        '<div class="spark">' + spark + "</div>";
+      q.appendChild(row);
+    });
+
+    var attempts = state.taken + state.skips;
+    var gauges = [
+      {
+        name: "Skip ratio", value: attempts ? Math.round((state.skips / attempts) * 100) : 0,
+        suffix: "%", tone: "good", note: "Refusing an offer is skilled play, and it pays focus."
+      },
+      {
+        name: "Deck against cap", value: Math.round((state.deckSize / SOFT_CAP) * 100),
+        suffix: "% of " + SOFT_CAP, tone: state.deckSize >= SOFT_CAP ? "warn" : "",
+        note: "Bloat is invisible in a repo, so it lives on screen."
+      },
+      {
+        name: "Clean-room streak", value: Math.min(100, state.streak * 10),
+        suffix: " (" + state.streak + " rooms)", tone: "", note: "Broken by fleeing a room."
+      },
+      {
+        name: "Acts cleared", value: Math.min(100, state.actsCleared * 20),
+        suffix: " (" + state.actsCleared + ")", tone: "", note: "The climb has no level limit."
+      }
+    ];
+    var g = $("m-discipline");
+    g.innerHTML = "";
+    gauges.forEach(function (x) {
+      var el = document.createElement("div");
+      el.className = "gauge";
+      el.innerHTML =
+        '<div class="gauge-head"><span>' + x.name + "</span><strong>" +
+        x.value + x.suffix + "</strong></div>" +
+        '<div class="gauge-track"><div class="gauge-fill ' + x.tone +
+        '" style="width:' + Math.min(100, x.value) + '%"></div></div>' +
+        '<div class="gauge-note">' + x.note + "</div>";
+      g.appendChild(el);
+    });
   }
 
   var GLYPH = {

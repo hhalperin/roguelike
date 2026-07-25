@@ -37,6 +37,16 @@
   --facet: var(--facet-map);
   --facet-tint: color-mix(in srgb, var(--facet) 12%, var(--paper));
 
+  /* Room type is the most repeated signal in the UI, so it owns its own scale
+     and nothing else may use these hues as a primary. */
+  --room-bug: #8f2d2d;
+  --room-feature: #3a5f7a;
+  --room-refactor: #5c4d7a;
+  --room-design: #4a4a6a;
+  --room-docs: #4a6741;
+  --room-infra: #8a4b2e;
+  --room-orient: #6b645c;
+
   /* structure */
   --radius: 6px;
   --radius-lg: 12px;
@@ -84,6 +94,14 @@
   --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55);
   --shadow-card: 0 14px 34px rgba(0, 0, 0, 0.6);
   --facet-tint: color-mix(in srgb, var(--facet) 16%, var(--paper));
+
+  --room-bug: #d76a5f;
+  --room-feature: #7fb0d0;
+  --room-refactor: #a996d6;
+  --room-design: #9a9ad0;
+  --room-docs: #8fb583;
+  --room-infra: #d79a6a;
+  --room-orient: #9a9084;
 }
 
 * { box-sizing: border-box; }
@@ -592,6 +610,157 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .rung .applied-tag { margin-left: auto; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--safe); }
 .asc-detail { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); padding: 18px; display: flex; flex-direction: column; }
 .asc-detail p { color: var(--ink-soft); }
+
+/* ============================ ENTITY STANDARDS ============================
+   Silhouette carries the meaning so objects survive greyscale. Accent is
+   always secondary. See ../ENTITY_STANDARDS.md. */
+
+.deck-intro { max-width: 68ch; }
+.deck-grid { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+.deck-group { border-top: 1px solid var(--line); padding-top: 12px; }
+.grp-count {
+  font-family: var(--font-ui); font-size: 11px; color: var(--paper);
+  background: var(--muted); border-radius: 999px; padding: 1px 8px; margin-left: 6px;
+}
+.grp-note { font-family: var(--font-ui); font-size: 12px; color: var(--muted); margin: 4px 0 10px; max-width: 70ch; }
+.obj-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+
+/* Card: tall rounded rectangle, cost pip, rarity notch. */
+.o-card {
+  position: relative; width: 150px; min-height: 132px;
+  border: 1px solid var(--ink); border-radius: 12px;
+  background: linear-gradient(180deg, var(--paper), var(--panel));
+  padding: 14px 12px 24px; box-shadow: var(--shadow-1);
+}
+.o-card .cost {
+  position: absolute; top: -10px; left: -10px;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-ui); font-weight: 700; font-size: 13px;
+  color: var(--paper); background: var(--ink);
+  border: 2px solid var(--paper); box-shadow: var(--shadow-1);
+}
+.o-card .notch {
+  position: absolute; top: 10px; right: 10px;
+  width: 10px; height: 10px; transform: rotate(45deg); border: 1.5px solid var(--ink);
+}
+.o-card.uncommon .notch { background: var(--class-defect); border-color: var(--class-defect); }
+.o-card.rare .notch { background: var(--gold); border-color: var(--gold); }
+.o-card h4 { font-family: var(--font-display); font-size: 14px; margin: 6px 0 6px; }
+.o-card .rooms { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.o-card .meta {
+  position: absolute; bottom: 8px; left: 12px;
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* Relic: circle with a ring. */
+.o-relic { display: flex; gap: 10px; align-items: flex-start; width: 260px; }
+.o-relic .sil {
+  width: 38px; height: 38px; flex: none; border-radius: 50%;
+  border: 2px solid var(--class-defect);
+  box-shadow: inset 0 0 0 3px var(--paper-2);
+  display: grid; place-items: center; color: var(--class-defect); font-size: 14px;
+  background: var(--panel);
+}
+.o-relic .rule { font-size: 13px; line-height: 1.4; }
+.o-relic .name { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+
+/* Power: hexagon. */
+.o-power { display: flex; gap: 10px; align-items: flex-start; width: 260px; }
+.o-power .sil {
+  width: 38px; height: 38px; flex: none;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+  background: var(--facet-campfire); color: var(--paper);
+  display: grid; place-items: center; font-size: 14px;
+}
+.o-power .name { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+.o-power .evt { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* Potion: downward flask with a narrow base. */
+.o-potion { width: 132px; text-align: center; }
+.o-potion .sil {
+  width: 44px; height: 44px; margin: 0 auto 6px;
+  clip-path: polygon(12% 0, 88% 0, 62% 46%, 62% 100%, 38% 100%, 38% 46%);
+  background: var(--facet-reward);
+}
+.o-potion.diag .sil { background: var(--facet-shop); }
+.o-potion.perf .sil { background: var(--facet-intent); }
+.o-potion .name { font-family: var(--font-display); font-size: 13px; font-weight: 600; }
+.o-potion .uses { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
+
+/* Curse: torn rectangle, dashed, danger. */
+.o-curse {
+  width: 240px; padding: 10px 12px;
+  border: 2px dashed var(--danger); color: var(--ink);
+  background: color-mix(in srgb, var(--danger) 8%, var(--paper));
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%);
+}
+.o-curse .name {
+  font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--danger);
+}
+.o-curse .cost-line { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
+
+/* Room-type chips. Colour is never the only signal. */
+.room-chip {
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.04em;
+  padding: 1px 7px; border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.rt-bug { color: var(--room-bug); }
+.rt-feature { color: var(--room-feature); }
+.rt-refactor { color: var(--room-refactor); }
+.rt-design { color: var(--room-design); }
+.rt-docs { color: var(--room-docs); }
+.rt-infra { color: var(--room-infra); }
+.rt-orient { color: var(--room-orient); }
+
+.empty-note { font-family: var(--font-ui); font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* ============================ METRICS ============================ */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.metric-card {
+  border: 1px solid var(--line); border-top: 3px solid var(--facet);
+  border-radius: var(--radius-lg); background: var(--panel); padding: 16px;
+}
+.bars { display: flex; align-items: flex-end; gap: 10px; height: 130px; margin-top: 8px; }
+.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.bar {
+  width: 100%; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--facet), color-mix(in srgb, var(--facet) 55%, var(--panel)));
+  transition: height var(--t-slow) var(--ease);
+}
+.bar-label { font-family: var(--font-ui); font-size: 10px; color: var(--muted); }
+.bar-value { font-family: var(--font-ui); font-size: 11px; font-weight: 600; }
+.metric-foot {
+  display: flex; justify-content: space-between; gap: 10px; margin-top: 12px;
+  padding-top: 10px; border-top: 1px solid var(--line);
+  font-family: var(--font-ui); font-size: 12px; color: var(--muted);
+}
+.metric-foot strong { color: var(--ink); }
+
+.trends { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.trend { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.trend-name { font-family: var(--font-ui); font-size: 12px; }
+.trend-val { font-family: var(--font-ui); font-size: 12px; font-weight: 700; }
+.trend-val.up { color: var(--safe); }
+.trend-val.down { color: var(--danger); }
+.spark { grid-column: 1 / -1; display: flex; align-items: flex-end; gap: 2px; height: 26px; }
+.spark span { flex: 1; background: var(--muted); border-radius: 1px; opacity: 0.55; }
+.spark span:last-child { background: var(--facet); opacity: 1; }
+
+.gauges { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.gauge { display: flex; flex-direction: column; gap: 4px; }
+.gauge-head {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-ui); font-size: 12px;
+}
+.gauge-head strong { font-weight: 700; }
+.gauge-track { height: 8px; border-radius: 999px; background: var(--panel-2); overflow: hidden; }
+.gauge-fill { height: 100%; border-radius: 999px; background: var(--facet); }
+.gauge-fill.warn { background: var(--danger); }
+.gauge-fill.good { background: var(--safe); }
+.gauge-note { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
 
 /* ============================ FANFARE / TOAST ============================ */
 .fanfare {
