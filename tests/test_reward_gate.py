@@ -89,6 +89,11 @@ def test_candidate_by_activity_threshold_invokes_curator_and_resets_state(tmp_pa
     assert state["activity_count"] == 0
     assert state["last_check_sha"]  # populated from git HEAD
     assert not (tmp_path / ".spire" / "pending-reward.json").exists()
+    # A candidate clears a room even when the curator skips.
+    cleared = deck.load(str(tmp_path))
+    assert cleared["floor"] == 1
+    assert cleared["clean_room_streak"] == 1
+    assert len(cleared["rooms_cleared"]) == 1
 
 
 def test_offer_verdict_writes_pending_reward_and_bumps_counter(tmp_path, monkeypatch):

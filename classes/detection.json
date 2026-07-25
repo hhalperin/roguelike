@@ -1,0 +1,110 @@
+{
+  "ml_libs": [
+    "numpy", "pandas", "scipy", "matplotlib", "seaborn", "scikit-learn",
+    "sklearn", "torch", "pytorch", "torchvision", "tensorflow", "keras",
+    "jax", "flax", "xgboost", "lightgbm", "catboost", "transformers",
+    "datasets", "accelerate", "jupyter", "jupyterlab", "notebook", "ipykernel",
+    "mlflow", "wandb", "statsmodels", "spacy", "nltk", "opencv-python",
+    "polars", "dask"
+  ],
+  "dep_files": [
+    "pyproject.toml", "setup.py", "setup.cfg", "Pipfile",
+    "environment.yml", "environment.yaml"
+  ],
+  "classes": {
+    "defect": {
+      "display_name": "The Defect",
+      "family": "python",
+      "priority": 3,
+      "exact_files": [
+        "pyproject.toml", "setup.py", "setup.cfg", "Pipfile",
+        "poetry.lock", "tox.ini"
+      ],
+      "requirements_txt": true,
+      "dir_markers": [],
+      "ext_markers": {},
+      "config_prefixes": [],
+      "dockerfile": false,
+      "ext_bonus": {".py": 3},
+      "ml_deps": false,
+      "fallback": false
+    },
+    "silent": {
+      "display_name": "The Silent",
+      "family": "javascript",
+      "priority": 2,
+      "exact_files": [
+        "package.json", "tsconfig.json", "pnpm-lock.yaml", "yarn.lock",
+        "angular.json", "svelte.config.js", "deno.json", "bun.lockb"
+      ],
+      "requirements_txt": false,
+      "dir_markers": [],
+      "ext_markers": {},
+      "config_prefixes": ["next.config.", "vite.config.", "nuxt.config."],
+      "dockerfile": false,
+      "ext_bonus": {".ts": 3, ".tsx": 3, ".js": 3, ".jsx": 3, ".mjs": 3, ".cjs": 3},
+      "ext_bonus_shared": true,
+      "ml_deps": false,
+      "fallback": false
+    },
+    "ironclad": {
+      "display_name": "The Ironclad",
+      "family": "infra",
+      "priority": 1,
+      "exact_files": [
+        "docker-compose.yml", "docker-compose.yaml",
+        "compose.yml", "compose.yaml", "Chart.yaml"
+      ],
+      "requirements_txt": false,
+      "dir_markers": ["terraform"],
+      "ext_markers": {
+        ".tf": "*.tf",
+        ".tfvars": "*.tfvars",
+        ".hcl": "*.hcl"
+      },
+      "config_prefixes": [],
+      "dockerfile": true,
+      "ext_bonus": {},
+      "ml_deps": false,
+      "fallback": false
+    },
+    "watcher": {
+      "display_name": "The Watcher",
+      "family": "python",
+      "priority": 0,
+      "exact_files": [],
+      "requirements_txt": false,
+      "dir_markers": ["notebooks", "models", "experiments"],
+      "ext_markers": {
+        ".ipynb": "*.ipynb",
+        ".parquet": "*.parquet (model/data artifact)",
+        ".h5": "*.h5 (model/data artifact)",
+        ".hdf5": "*.hdf5 (model/data artifact)",
+        ".ckpt": "*.ckpt (model/data artifact)",
+        ".pkl": "*.pkl (model/data artifact)",
+        ".pt": "*.pt (model/data artifact)",
+        ".onnx": "*.onnx (model/data artifact)",
+        ".safetensors": "*.safetensors (model/data artifact)"
+      },
+      "config_prefixes": [],
+      "dockerfile": false,
+      "ext_bonus": {},
+      "ml_deps": true,
+      "fallback": false
+    },
+    "colorless": {
+      "display_name": "The Colorless",
+      "family": "none",
+      "priority": 9,
+      "exact_files": [],
+      "requirements_txt": false,
+      "dir_markers": [],
+      "ext_markers": {},
+      "config_prefixes": [],
+      "dockerfile": false,
+      "ext_bonus": {},
+      "ml_deps": false,
+      "fallback": true
+    }
+  }
+}

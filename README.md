@@ -53,6 +53,7 @@ Then, in any project:
 /spire            # scan, detect class, deal the starter deck
 /spire:map        # show run state + deck-health stats
 /spire:campfire   # resolve a pending reward, or review the deck for pruning
+/spire:shop       # draw optional cards from a community card pack
 /spire:ascend     # raise or lower the ascension tier (A0-A20)
 ```
 
@@ -170,8 +171,10 @@ via the `deck-curator` agent.
 (`/spire:ascend`), ascension shown in the session-start status line,
 and `deck.py stats` for deck-health numbers.
 
-**The Heart — community (planned).** Card packs, community classes, and deck
-export.
+**The Heart — community (started).** Card packs (`packs/testing-discipline`,
+`/spire:shop`, `pack.py list`), room/floor progression on cleared rooms,
+starter powers recorded in `deck.json`, and class detection driven by
+`classes/detection.json`. More community classes and deck export still planned.
 
 ## Contributing
 

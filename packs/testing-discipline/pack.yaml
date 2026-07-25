@@ -1,0 +1,38 @@
+pack: testing-discipline
+name: Testing Discipline
+description: >-
+  Cards that keep a test suite honest — characterization before refactor,
+  failing-test-first for bugs, and a lean coverage floor relic.
+relics:
+  - id: coverage-floor
+    rule: "Never let coverage drop below its current value without an explicit, documented reason."
+cards:
+  - name: characterization-test
+    description: "Write a characterization test before refactoring untested code. Use when changing behavior you cannot yet prove with existing tests."
+    body: |
+      # Characterization test
+
+      1. Identify the behavior you're about to touch and the entry points that exercise it.
+      2. Capture current behavior with a focused test *before* changing anything —
+         assert on today's outputs, even if they're surprising.
+      3. Make the change / refactor.
+      4. Confirm the characterization test still passes (or update it only when
+         the new behavior is intentional and documented).
+  - name: failing-test-first
+    description: "Reproduce a bug with a failing test before fixing it. Use when triage finds a defect you can pin down."
+    body: |
+      # Failing test first
+
+      1. Write the smallest test that reproduces the bug and confirm it fails
+         for the right reason.
+      2. Fix the root cause — not the test.
+      3. Re-run until green, then run the nearby suite to catch regressions.
+  - name: test-the-bugfix
+    description: "Add a regression test for a bugfix that just landed. Use after merging or committing a fix that lacked coverage."
+    body: |
+      # Test the bugfix
+
+      1. Locate the fix and the conditions that triggered the original bug.
+      2. Add a regression test that would have failed before the fix.
+      3. Run it green, and note it in the PR/commit so future readers know why
+         the assertion exists.

@@ -269,3 +269,17 @@ def test_stats_cli_renders(tmp_path, capsys):
     out = capsys.readouterr().out
     assert "Unplayed cards (1): run-tests" in out
     assert "no rewards offered yet" in out
+
+
+def test_clear_room_advances_floor(tmp_path):
+    deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
+    assert deck.main(["clear-room", "--path", str(tmp_path), "--id", "abc123"]) == 0
+    data = read_deck(tmp_path)
+    assert data["floor"] == 1
+    assert data["rooms_cleared"] == ["abc123"]
+    assert data["clean_room_streak"] == 1
+    deck.clear_room(str(tmp_path))
+    data = read_deck(tmp_path)
+    assert data["floor"] == 2
+    assert data["rooms_cleared"][-1] == "floor-2"
+    assert data["clean_room_streak"] == 2

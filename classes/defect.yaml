@@ -52,5 +52,11 @@ cards:
          case, following the repo's existing test style.
       4. Run the test suite and confirm the new test passes before finishing.
 
-powers: []   # no hooks in the Act 1 starter deck
+# Powers become entries in deck.json.powers (hooks the run tracks). Starter
+# powers are recorded at deal time; wiring into .claude/settings.json is
+# optional and separate from ascension gates.
+powers:
+  - event: PostToolUse
+    name: ruff-on-edit
+    description: "After editing Python files, run ruff on the touched paths before finishing."
 agent: null

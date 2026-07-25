@@ -85,10 +85,20 @@ save file.
    Then record it:
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-card --path "${CLAUDE_PROJECT_DIR}" --name <card-name> --type skill --floor 0`.
 
-8. **Bless the run.** Finish by running
+8. **Deal powers → deck.json.** For each power in the class file(s), record it
+   with
+   `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" add-power --path "${CLAUDE_PROJECT_DIR}" --event <event> --name <power-name>`.
+   De-duplicate by `(event, name)` across dual-class runs (deck.py already
+   no-ops duplicates). Powers are tracked on the run; do **not** rewrite
+   `.claude/settings.json` here — ascension owns gate hooks, and optional
+   power wiring is a later choice. Mention each power's `description` in the
+   blessing summary so the player knows what it means.
+
+9. **Bless the run.** Finish by running
    `python3 "${CLAUDE_SKILL_DIR}/../../scripts/deck.py" show --path "${CLAUDE_PROJECT_DIR}"`
-   and present a short, in-theme summary: the class dealt, the relics and cards,
-   and a nudge that new cards are earned by clearing rooms (shipping real work).
+   and present a short, in-theme summary: the class dealt, the relics, cards,
+   and powers, plus a nudge that new cards are earned by clearing rooms
+   (shipping real work) and that `/spire:shop` can draw from card packs.
 
 ## House rules
 

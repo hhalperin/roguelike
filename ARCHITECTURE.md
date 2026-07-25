@@ -240,13 +240,19 @@ player would want preserved or would expect to hand-edit:
 ## Extending
 
 - **Add a class:** create `classes/<name>.yaml` (including a `commands`
-  block), register the name in `scripts/scan.py` (`FAMILY` + detection) and
-  `scripts/deck.py` (`CLASS_NAMES`). `tests/test_classes.py` enforces that the
-  data and code agree.
-- **Add a card pack:** see `packs/README.md`.
+  block) and register detection/display metadata in
+  `classes/detection.json`. `scan.py` / `deck.py` load that file — no Python
+  edits for markers or display names. `tests/test_classes.py` enforces that
+  the data agrees.
+- **Add a card pack:** add `packs/<name>/pack.yaml` (see `packs/README.md`);
+  `/spire:shop` deals from it. `scripts/pack.py list` indexes packs without
+  parsing YAML.
 
 ## Status
 
 Acts 1–3 (the starter deck, the reward-loop engine, and the ascension ladder)
-all ship in this repo today. Community card packs and classes are planned —
-see the roadmap in [README.md](README.md).
+ship in this repo today. The Heart has started: one bundled pack
+(`testing-discipline`), `/spire:shop`, room clears that advance `floor`,
+starter powers on the non-colorless classes, and data-driven detection via
+`classes/detection.json`. More community classes and deck export are still
+planned — see the roadmap in [README.md](README.md).

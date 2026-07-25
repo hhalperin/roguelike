@@ -46,5 +46,8 @@ cards:
       3. Recommend whether to reconcile in code or import the real state — do not
          silently overwrite live infrastructure.
 
-powers: []
+powers:
+  - event: Stop
+    name: plan-before-apply
+    description: "Before finishing infra edits, confirm a plan was produced and reviewed."
 agent: null

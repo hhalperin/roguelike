@@ -46,15 +46,16 @@ here should hard-code facts about a specific target project.
 
 ```
 .claude-plugin/   plugin.json + marketplace.json (ONLY these live here)
-skills/           spire, map, campfire, ascend (commands);
+skills/           spire, map, campfire, shop, ascend (commands);
                   card-evaluation, deck-state (model-invoked rubrics)
 agents/           deck-curator.md — interactive campfire reviewer (haiku)
 hooks/            hooks.json — the engine's own PostToolUse/Stop/SessionStart
-scripts/          scan.py, deck.py, ascend.py, paths.py — stdlib only
+scripts/          scan.py, deck.py, ascend.py, paths.py, pack.py — stdlib only
                   curator.py — the one soft-dependency exception (claude-agent-sdk)
                   record_play.py, ascension_gate.py — dealt into target repos
                   under .spire/bin/, self-contained, no engine imports
-classes/          the 5 archetypes as YAML data (incl. lint/test commands)
+classes/          archetypes as YAML + detection.json (stdlib-loaded markers)
+packs/            community card packs (pack.yaml; dealt via /spire:shop)
 tests/            pytest over the scripts + class schema + manifests
 ```
 

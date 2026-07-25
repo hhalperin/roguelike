@@ -43,5 +43,8 @@ cards:
          fix the root cause rather than the assertion unless the test is wrong.
       4. Re-run until green and report a one-line summary.
 
-powers: []
+powers:
+  - event: PostToolUse
+    name: lint-on-edit
+    description: "After editing TS/JS files, run the project linter on the touched paths before finishing."
 agent: null

@@ -49,7 +49,7 @@ def test_every_skill_has_valid_frontmatter():
 
 
 def test_command_skills_are_user_only():
-    # The two headline commands must not be model-invoked.
-    for name in ("spire", "map"):
+    # Headline commands must not be model-invoked.
+    for name in ("spire", "map", "shop"):
         meta = _frontmatter(ROOT / "skills" / name / "SKILL.md")
         assert meta.get("disable-model-invocation") is True, f"{name} must be user-invoked only"

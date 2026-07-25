@@ -55,11 +55,13 @@ Read `${CLAUDE_PROJECT_DIR}/.spire/pending-reward.json`.
    `deck.py remove-card` (or `remove-relic`) for exactly what they confirmed —
    never remove anything they didn't explicitly agree to.
 4. If nothing is pruned, say so plainly; a campfire with no changes is a
-   perfectly good outcome.
+   perfectly good outcome. If the user wants *new* themed cards rather than
+   a prune, point them at `/spire:shop` (packs) instead of inventing cards.
 
 ## House rules
 
 - **Never auto-apply.** Every accept/skip/remove needs the user's explicit
   confirmation — campfire proposes, the user decides.
 - **Don't front-load.** This is not a second `/spire` — no new cards
-  beyond what a pending reward or the curator's judgment already surfaced.
+  beyond what a pending reward already surfaced. Pack draws go through
+  `/spire:shop`.

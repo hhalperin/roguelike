@@ -42,17 +42,12 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
+import scan  # noqa: E402
 
 SCHEMA_VERSION = 1
 
-# Engine-side flavor only (not project knowledge): display names for classes.
-CLASS_NAMES = {
-    "defect": "The Defect",
-    "silent": "The Silent",
-    "ironclad": "The Ironclad",
-    "watcher": "The Watcher",
-    "colorless": "The Colorless",
-}
+# Display names come from classes/detection.json (same source scan.py uses).
+CLASS_NAMES = scan.CLASS_NAMES
 
 CARD_TYPES = ("skill", "relic", "power")
 
@@ -231,6 +226,22 @@ def bump_reward(repo: str, field: str, amount: int = 1) -> int:
     return d["rewards"][field]
 
 
+def clear_room(repo: str, room_id: str | None = None) -> dict:
+    """Advance the floor after a cleared room; returns the updated deck.
+
+    A "room" is whatever ``reward_gate`` already decided was worth judging
+    (a new commit, or enough activity). Clearing is deterministic bookkeeping
+    — it does not imply a card offer. Ascension still never auto-raises.
+    """
+    d = load(repo)
+    d["floor"] = int(d.get("floor", 0)) + 1
+    label = room_id or f"floor-{d['floor']}"
+    d.setdefault("rooms_cleared", []).append(label)
+    d["clean_room_streak"] = int(d.get("clean_room_streak", 0)) + 1
+    save(repo, d)
+    return d
+
+
 def _is_safe_card_name(name: str) -> bool:
     """A card name must be a single plain path segment.
 
@@ -318,6 +329,12 @@ def cmd_record_play(args: argparse.Namespace) -> int:
     return 1
 
 
+def cmd_clear_room(args: argparse.Namespace) -> int:
+    d = clear_room(args.path, room_id=args.id)
+    print(f"Cleared room → floor {d['floor']} (streak {d['clean_room_streak']})")
+    return 0
+
+
 def _cmd_mark(field: str):
     def _cmd(args: argparse.Namespace) -> int:
         new_value = bump_reward(args.path, field, args.count)
@@ -360,7 +377,12 @@ def cmd_show(args: argparse.Namespace) -> int:
         lines.append("Powers: none")
 
     cleared = deck.get("rooms_cleared", [])
-    lines.append(f"Rooms cleared ({len(cleared)}): " + (", ".join(cleared) if cleared else "none"))
+    streak = deck.get("clean_room_streak", 0)
+    lines.append(
+        f"Rooms cleared ({len(cleared)}): "
+        + (", ".join(cleared[-5:]) if cleared else "none")
+        + (f"  · streak {streak}" if streak else "")
+    )
 
     r = deck.get("rewards", {})
     lines.append(
@@ -498,6 +520,11 @@ def build_parser() -> argparse.ArgumentParser:
     add_path(p_play)
     p_play.add_argument("--name", required=True)
     p_play.set_defaults(func=cmd_record_play)
+
+    p_room = sub.add_parser("clear-room", help="advance floor after a cleared room")
+    add_path(p_room)
+    p_room.add_argument("--id", default=None, help="optional room label (default: floor-N)")
+    p_room.set_defaults(func=cmd_clear_room)
 
     for field in ("offered", "taken", "skipped"):
         p_mark = sub.add_parser(f"mark-{field}", help=f"bump rewards.{field}")

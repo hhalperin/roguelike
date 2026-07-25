@@ -45,5 +45,8 @@ cards:
       3. Look for leakage, class imbalance, and overfitting; call them out.
       4. State clearly whether the model meets the bar before it ships.
 
-powers: []
+powers:
+  - event: Stop
+    name: seed-and-log
+    description: "Before finishing ML work, confirm seeds and experiment params were recorded."
 agent: null

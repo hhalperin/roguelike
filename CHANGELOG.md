@@ -9,13 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Rebranded the plugin from `deck-builder` to `spire`; commands are now
-  `/spire`, `/spire:map`, `/spire:campfire`, and `/spire:ascend`.
+  `/spire`, `/spire:map`, `/spire:campfire`, `/spire:shop`, and `/spire:ascend`.
 - Moved the run home to `.spire/` (`deck.json`, `state.json`,
   `pending-reward.json`, `ascension.json`, `bin/`). Agent primitives
   (skills, settings hooks, CLAUDE.md relics) stay under `.claude/` /
   `CLAUDE.md`. Legacy `.claude/deck.json` layouts migrate automatically.
+- Class detection markers and display names live in `classes/detection.json`
+  (loaded by `scan.py` / `deck.py`) so new archetypes need no Python edits
+  for detection.
 
 ### Added
+- Room clears: `reward_gate` advances `floor` / `rooms_cleared` /
+  `clean_room_streak` whenever a candidate room is judged (offer or skip);
+  `deck.py clear-room` for the same bookkeeping.
+- First Heart pack: `packs/testing-discipline`, `scripts/pack.py` list/path,
+  and `/spire:shop` to draw pack cards/relics.
+- Starter powers on Defect, Silent, Ironclad, and Watcher (recorded in
+  `deck.json.powers` at deal time).
 - Open-source project files: SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, AGENTS, CHANGELOG, packs/, GitHub issue and PR templates, a CI workflow, and repo hygiene configs.
 - GitHub best-practice scaffolding: CODEOWNERS, Dependabot, a Python 3.9/3.12 CI matrix, a pre-commit job enforcing the existing .pre-commit-config.yaml, and an optional claude plugin validate CI job.
 - Project-level .claude/settings.json: a safe read-only/test/lint permissions allowlist and a non-blocking PostToolUse ruff hook.
