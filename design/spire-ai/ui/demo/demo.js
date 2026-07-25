@@ -613,6 +613,22 @@
     });
 
     updateMapDetail();
+    scrollMapToPlayer();
+  }
+
+  /* The map is taller than the panel, so bring the player's position into view
+     rather than making them discover that it scrolls. */
+  function scrollMapToPlayer() {
+    var focus = state.currentId ? node(state.currentId) : null;
+    if (!focus) {
+      var legal = legalNodes();
+      focus = legal.length ? legal[0] : null;
+    }
+    if (!focus) return;
+    var graph = els.mapGraph;
+    var canvasH = els.mapCanvas.offsetHeight;
+    var y = (yPct(focus.row) / 100) * canvasH;
+    graph.scrollTop = Math.max(0, y - graph.clientHeight / 2);
   }
 
   var KIND_TITLE = {
@@ -670,7 +686,12 @@
     orbRow(els.combatOrbs, state.energy, state.energyMax);
     orbRow(els.chromeOrbs, state.energy, state.energyMax);
 
-    var cards = legalCards();
+    // The hand holds only cards legal in this room. Illegal ones are listed
+    // separately as flat chips, because a card-shaped control that refuses to
+    // be played reads as a broken game no matter what text it carries.
+    var all = legalCards();
+    var cards = all.filter(function (x) { return x.legal; });
+    var illegal = all.filter(function (x) { return !x.legal; });
     var n = cards.length;
     els.combatHand.innerHTML = "";
     cards.forEach(function (entry, i) {
@@ -695,25 +716,35 @@
         '<div class="body">' + c.body + "</div>" +
         '<div class="rtype">' + reason + "</div>";
 
-      // An unplayable card explains itself rather than swallowing the click.
-      // A dead control that gives no feedback reads as a broken game.
+      // A legal card you cannot afford yet still explains itself on click.
       if (played) {
         btn.disabled = true;
-      } else if (!entry.legal) {
-        btn.setAttribute("aria-disabled", "true");
-        btn.addEventListener("click", function () {
-          toast(c.title + " is illegal in a " + e.room + " room. Legal in " + c.rooms.join(", ") + ".");
-        });
       } else if (costly) {
         btn.setAttribute("aria-disabled", "true");
         btn.addEventListener("click", function () {
-          toast(c.title + " costs " + c.cost + " energy and you have " + state.energy + ". End the turn to refill.");
+          toast(c.title + " costs " + c.cost + " energy and you have " +
+            state.energy + ". End the turn to refill.");
         });
       } else {
         btn.addEventListener("click", function () { playCard(c, btn); });
       }
       els.combatHand.appendChild(btn);
     });
+
+    els.combatBench.innerHTML = "";
+    if (illegal.length) {
+      var label = document.createElement("span");
+      label.className = "bench-label";
+      label.textContent = "Not legal in a " + e.room + " room";
+      els.combatBench.appendChild(label);
+      illegal.forEach(function (entry) {
+        var chip = document.createElement("span");
+        chip.className = "bench-chip";
+        chip.innerHTML = entry.card.title +
+          ' <span class="bench-rooms">' + entry.card.rooms.join("/") + "</span>";
+        els.combatBench.appendChild(chip);
+      });
+    }
   }
 
   function playCard(c, btn) {
@@ -1026,8 +1057,8 @@
       chrome: $("chrome"), chromeEnergy: $("chrome-energy"), chromeOrbs: $("chrome-orbs"),
       banner: $("banner"), bannerText: $("banner-text"), bannerActions: $("banner-actions"),
       toast: $("toast"), fanfare: $("fanfare"),
-      mapCanvas: $("map-canvas"), enter: $("btn-enter"),
-      combatHand: $("combat-hand"), combatOrbs: $("combat-orbs"),
+      mapCanvas: $("map-canvas"), mapGraph: $("map-graph"), enter: $("btn-enter"),
+      combatHand: $("combat-hand"), combatBench: $("combat-bench"), combatOrbs: $("combat-orbs"),
       eventChoices: $("event-choices"), rewardOffers: $("reward-offers"),
       campList: $("camp-list"), campConfirm: $("btn-camp-confirm"),
       shopWares: $("shop-wares"), buy: $("btn-buy"),
