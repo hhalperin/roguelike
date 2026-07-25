@@ -8,7 +8,8 @@ type hierarchy, motion budget, and do/don't list — then a wireframe that encod
 | --- | --- |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Tokens, type, class colors, motion, accessibility |
 | [formats/](formats/) | Per-facet layout + copy + interaction rules |
-| [wireframes/](wireframes/index.html) | Browsable low-fi HTML wireframes |
+| [wireframes/demo.html](wireframes/demo.html) | **Working click-through demo** of the core loop |
+| [wireframes/](wireframes/index.html) | Browsable low-fi HTML wireframes (static per facet) |
 | [templates/facet-format.md](templates/facet-format.md) | Blank template when adding a new facet |
 
 ## Facets (v0)
@@ -31,7 +32,7 @@ type hierarchy, motion budget, and do/don't list — then a wireframe that encod
 1. Implementing a screen → open its **format** first; treat layout regions as API.  
 2. Changing layout → update format + wireframe in the same PR.  
 3. New facet → copy `templates/facet-format.md`, add wireframe, link here.  
-4. Open `wireframes/index.html` in a browser (no build step).
+4. Open `wireframes/demo.html` for the playable loop, or `wireframes/index.html` for the gallery (no build step).
 
 ## Principle
 
