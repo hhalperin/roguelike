@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spire · Working wireframe demo</title>
+  <link rel="stylesheet" href="wireframe.css" />
+  <style>
+    :root { --facet: #3a5f7a; }
+    .demo-bar {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      justify-content: space-between; margin-bottom: 12px;
+      padding: 8px 0; border-bottom: 1px dashed var(--line);
+      font-size: 12px; color: var(--muted);
+    }
+    .demo-bar strong { color: var(--ink); letter-spacing: 0.08em; }
+    .screen { display: none; }
+    .screen.active { display: flex; flex-direction: column; flex: 1; min-height: 520px; }
+    .frame { min-height: 0; }
+    .frame.has-screen { display: block; }
+    button.btn { cursor: pointer; }
+    button.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+    button.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .node.btn-node {
+      cursor: pointer; appearance: none; font: inherit; color: inherit;
+    }
+    .node.btn-node:hover, .node.btn-node:focus-visible {
+      outline: 2px solid var(--ink); outline-offset: 2px;
+    }
+    .node.btn-node.selected { background: var(--ink); color: var(--paper); }
+    .node.btn-node:disabled { opacity: 0.35; cursor: not-allowed; }
+    .choice-stack { margin-top: 20px; display: grid; gap: 8px; }
+    .choice-stack .btn { text-align: left; width: 100%; }
+    .card.selectable { cursor: pointer; }
+    .card.selectable.selected { outline: 2px solid var(--ink); }
+    .log {
+      font-size: 12px; color: var(--muted); margin-top: 8px;
+      min-height: 1.2em;
+    }
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: var(--ink); color: var(--paper); padding: 10px 16px;
+      border-radius: 4px; font-size: 13px; opacity: 0; pointer-events: none;
+      transition: opacity 200ms ease;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      .toast { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <strong>SPIRE WIRES</strong>
+      <a href="index.html">Gallery</a>
+      <a href="demo.html" aria-current="page">Demo</a>
+      <a href="title.html">Title</a>
+      <a href="map.html">Map</a>
+      <a href="intent.html">Intent</a>
+      <a href="combat.html">Combat</a>
+      <a href="event.html">Event</a>
+      <a href="reward.html">Reward</a>
+      <a href="campfire.html">Campfire</a>
+      <a href="shop.html">Shop</a>
+      <a href="ascension.html">Ascension</a>
+    </nav>
+
+    <div class="demo-bar">
+      <div>
+        <strong>WORKING DEMO</strong>
+        <span id="demo-step"> · Title</span>
+      </div>
+      <div>
+        Floor <span id="stat-floor">3</span> · Deck <span id="stat-deck">6</span> ·
+        Tokens <span id="stat-tokens">4</span> · Skip streak <span id="stat-skips">4</span>
+        · <button type="button" class="btn ghost" id="btn-reset" style="padding:4px 8px">Reset run</button>
+      </div>
+    </div>
+
+    <div id="chrome" class="chrome" hidden>
+      <span>Act I</span><span>·</span><span>Floor <span id="chrome-floor">3</span></span>
+      <span class="chip">Defect</span>
+      <span>Streak <span id="chrome-streak">2</span></span>
+    </div>
+    <div id="banner" class="banner" hidden>
+      <span id="banner-text">● ROOM ACTIVE</span>
+      <span id="banner-extra"></span>
+    </div>
+
+    <div class="frame has-screen" id="app">
+      <!-- TITLE -->
+      <section class="screen active" data-screen="title" style="--facet:#3a5f7a">
+        <div class="facet-label">Title / Continue</div>
+        <div class="hero">
+          <div style="font-size:12px;letter-spacing:0.2em;color:var(--muted)">SPIRE</div>
+          <h1>One room at a time</h1>
+          <p>Your project is the run. Your config is the deck.</p>
+          <div class="wire" style="margin-top:20px;min-height:120px;text-align:left;padding:16px;place-items:start">
+            <div>
+              <strong>Climb · Ship the stub</strong><br />
+              Act I template · class will detect on begin<br />
+              <span style="color:var(--muted)">Hero = climb card, not splash art</span>
+            </div>
+          </div>
+          <div class="wire" style="margin-top:12px;min-height:64px;text-align:left;padding:12px;place-items:start">
+            Save found · Floor <span data-bind="floor">3</span> · Defect ·
+            <span data-bind="deck">6</span> cards · streak <span data-bind="streak">2</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" data-go="map">Continue</button>
+          <button type="button" class="btn ghost" data-action="new-climb">New climb</button>
+          <button type="button" class="btn ghost" data-go="ascension">Ascension preview</button>
+        </div>
+      </section>
+
+      <!-- MAP -->
+      <section class="screen" data-screen="map" style="--facet:#3a5f7a">
+        <div class="facet-label">Map</div>
+        <div class="split" style="flex:1">
+          <div class="panel" style="border-bottom:none">
+            <h2>Path</h2>
+            <div class="path" id="map-path" role="group" aria-label="Map nodes"></div>
+            <p style="font-size:12px;color:var(--muted)">Shapes encode kind — color is secondary. Only reachable nodes hittable.</p>
+          </div>
+          <div class="panel" style="border-bottom:none;border-right:none">
+            <h2>Selected · <span id="map-selected-kind">—</span></h2>
+            <p style="margin:0 0 8px;font-size:14px" id="map-selected-title"><strong>Pick a node</strong></p>
+            <p style="margin:0;font-size:13px;color:var(--muted)" id="map-selected-prior"></p>
+            <p style="margin:8px 0 0;font-size:12px;color:var(--muted)" id="map-selected-hint">Hint only — not an order.</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-enter-node" disabled>Enter node</button>
+          <button type="button" class="btn ghost" data-action="refresh-prior">Refresh prior</button>
+          <button type="button" class="btn ghost" data-go="ascension">Ascension</button>
+        </div>
+      </section>
+
+      <!-- INTENT -->
+      <section class="screen" data-screen="intent" style="--facet:#8a4b2e">
+        <div class="facet-label">Intent</div>
+        <div class="hero">
+          <div class="wire" style="min-height:100px;margin-bottom:12px">Enemy portrait / mark</div>
+          <h1 id="intent-name">Flaky Suite</h1>
+          <div class="intent" id="intent-text"><strong>Intent:</strong> Will fail CI randomly if ignored.</div>
+          <p id="intent-blurb">Elite · bug room. Clear by stabilizing the suite — not by quarantining tests.</p>
+          <div class="acceptance" style="margin-top:16px" id="intent-acceptance">acceptance: python -m pytest -q  → exit 0</div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" data-go="combat">Begin combat</button>
+          <button type="button" class="btn danger" data-action="flee">Flee</button>
+        </div>
+      </section>
+
+      <!-- COMBAT -->
+      <section class="screen" data-screen="combat" style="--facet:#8f2d2d">
+        <div class="facet-label">Combat</div>
+        <div class="hero" style="flex:0">
+          <h1 style="font-size:22px">
+            <span id="combat-name">Flaky Suite</span>
+            <span style="font-size:13px;color:var(--muted)">HP <span id="combat-hp">████░░</span></span>
+          </h1>
+          <div class="intent" style="margin-top:8px" id="combat-telegraph">Telegraph: CI roulette</div>
+          <p class="log" id="combat-log">Log: waiting for a play…</p>
+        </div>
+        <div class="panel" style="border-right:none">
+          <h2>Hand (legal only) · Energy <span id="combat-energy">●●○</span></h2>
+          <div class="row" id="combat-hand"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" data-action="run-acceptance">Run acceptance</button>
+          <button type="button" class="btn ghost" data-action="end-turn">End turn</button>
+          <button type="button" class="btn danger" data-action="flee">Flee</button>
+        </div>
+      </section>
+
+      <!-- EVENT -->
+      <section class="screen" data-screen="event" style="--facet:#4a6741">
+        <div class="facet-label">Event</div>
+        <div class="hero">
+          <h1>Just One More Requirement</h1>
+          <p>A stakeholder adds a “tiny” must-have before ship. It will expand the feature room into an elite if you accept.</p>
+          <div class="choice-stack">
+            <button type="button" class="btn ghost" data-action="event-accept">Accept scope — gain Bloated Scope curse</button>
+            <button type="button" class="btn ghost" data-action="event-cut">Cut scope — requires Cut Scope card</button>
+            <button type="button" class="btn ghost" data-action="event-park">Park in backlog — log and leave</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- REWARD -->
+      <section class="screen" data-screen="reward" style="--facet:#2f5d3a">
+        <div class="facet-label">Reward · Room cleared</div>
+        <div class="hero">
+          <h1>Keep it lean</h1>
+          <p>Offers are optional. Skip is skilled play.</p>
+          <div style="margin:20px 0">
+            <button type="button" class="btn safe hero-skip" data-action="skip-reward">Skip — take nothing</button>
+          </div>
+          <h2 style="font-size:12px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase">Offers</h2>
+          <div class="row" style="margin-top:8px" id="reward-offers"></div>
+          <p style="margin-top:12px;font-size:12px;color:var(--muted)">
+            Run stats · taken <span data-bind="taken">1</span> / skipped <span data-bind="skips">4</span> ·
+            deck <span data-bind="deck">6</span>/12
+          </p>
+        </div>
+      </section>
+
+      <!-- CAMPFIRE -->
+      <section class="screen" data-screen="campfire" style="--facet:#a65d2e">
+        <div class="facet-label">Campfire</div>
+        <div class="hero" style="flex:0">
+          <h1>Rest</h1>
+          <div class="row" style="margin-top:8px">
+            <button type="button" class="btn" data-action="camp-mode" data-mode="prune">Prune</button>
+            <button type="button" class="btn ghost" data-action="camp-mode" data-mode="upgrade">Upgrade</button>
+            <button type="button" class="btn ghost" data-action="camp-rest">Rest only</button>
+          </div>
+        </div>
+        <div class="panel" style="border-right:none;flex:1">
+          <h2>Deck · unplayed first</h2>
+          <div id="camp-deck"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-confirm-prune" disabled>Confirm prune</button>
+          <button type="button" class="btn ghost" data-go="map">Leave</button>
+        </div>
+      </section>
+
+      <!-- SHOP -->
+      <section class="screen" data-screen="shop" style="--facet:#5c4d7a">
+        <div class="facet-label">Shop · Focus tokens <span data-bind="tokens">4</span></div>
+        <div class="hero" style="flex:0">
+          <h1>Testing Discipline</h1>
+          <p>Pack hero identity — cards that keep a suite honest.</p>
+        </div>
+        <div class="panel" style="border-right:none">
+          <h2>Wares</h2>
+          <div class="row" id="shop-wares"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-buy" disabled>Buy selected</button>
+          <button type="button" class="btn ghost" data-go="map">Leave shop</button>
+        </div>
+      </section>
+
+      <!-- ASCENSION -->
+      <section class="screen" data-screen="ascension" style="--facet:#1c1916">
+        <div class="facet-label">Ascension</div>
+        <div class="split" style="flex:1">
+          <div class="panel" style="border-bottom:none">
+            <h2>Ladder</h2>
+            <div class="ladder" id="ascension-ladder"></div>
+          </div>
+          <div class="panel" style="border-bottom:none;border-right:none">
+            <h2>Selected · <span id="asc-selected-label">A10</span></h2>
+            <p style="margin:0;font-size:14px" id="asc-selected-blurb">
+              Lint and tests can block Stop. Coverage not yet enforced. Ascension only moves when you apply.
+            </p>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-apply-asc">Apply A10</button>
+          <button type="button" class="btn ghost" data-action="asc-cancel">Cancel</button>
+        </div>
+      </section>
+    </div>
+
+    <p class="note">
+      Click-through wireframe of the core loop:
+      Title → Map → (Intent → Combat → Reward) | Event | Campfire | Shop → Map.
+      Individual static screens remain in the gallery for format review.
+    </p>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var NODES = [
+        { id: "n0", kind: "combat", label: "bug", shape: "circle", done: true, reachable: false },
+        { id: "n1", kind: "unknown", label: "?", shape: "diamond", done: false, reachable: true },
+        { id: "n2", kind: "campfire", label: "rest", shape: "camp", done: false, reachable: false },
+        { id: "n3", kind: "combat", label: "feat", shape: "circle", done: false, reachable: false },
+        { id: "n4", kind: "event", label: "?", shape: "diamond", done: false, reachable: false },
+        { id: "n5", kind: "shop", label: "shop", shape: "hex", done: false, reachable: false },
+        { id: "n6", kind: "boss", label: "boss", shape: "boss", done: false, reachable: false }
+      ];
+
+      var ENEMIES = {
+        bug: {
+          name: "Flaky Suite",
+          intent: "Will fail CI randomly if ignored.",
+          blurb: "Elite · bug room. Clear by stabilizing the suite — not by quarantining tests.",
+          acceptance: "acceptance: python -m pytest -q  → exit 0",
+          telegraph: "Telegraph: CI roulette",
+          hpBars: ["██░░░░", "████░░", "██████"]
+        },
+        feat: {
+          name: "Scope Creep",
+          intent: "Will expand the PR until acceptance is undefined.",
+          blurb: "Feature room. Clear by shipping a vertical slice with a written Done.",
+          acceptance: "acceptance: PR open + checklist green → exit 0",
+          telegraph: "Telegraph: one more must-have",
+          hpBars: ["██░░░░", "████░░", "██████"]
+        },
+        boss: {
+          name: "Unclear Requirements",
+          intent: "Will block ship until someone owns the decision.",
+          blurb: "Act I boss. Clear by recording a decision and a spike outcome.",
+          acceptance: "acceptance: decision.md committed → exit 0",
+          telegraph: "Telegraph: move the goalposts",
+          hpBars: ["██░░░░", "████░░", "████████"]
+        }
+      };
+
+      var HAND = [
+        { id: "c1", cost: 1, title: "Failing Test First", body: "Pin the flake" },
+        { id: "c2", cost: 1, title: "Characterization", body: "Lock behavior" },
+        { id: "c3", cost: 0, title: "Run Acceptance", body: "pytest -q" }
+      ];
+
+      var OFFERS = [
+        { id: "o1", title: "Quarantine Test", rarity: "Rare · often a trap" },
+        { id: "o2", title: "Retry Gate", rarity: "Uncommon" },
+        { id: "o3", title: "Flake Journal", rarity: "Common" }
+      ];
+
+      var WARES = [
+        { id: "w1", title: "Characterization", price: 2, kind: "card" },
+        { id: "w2", title: "Failing Test First", price: 2, kind: "card" },
+        { id: "w3", title: "Coverage Floor", price: 3, kind: "relic" }
+      ];
+
+      var ASCENSION = [
+        { level: 0, label: "A0 — warn only", blurb: "Warn only. A0 always available." },
+        { level: 5, label: "A5 — lint blocks", blurb: "Lint can block Stop." },
+        { level: 10, label: "A10 — + tests block", blurb: "Lint and tests can block Stop. Coverage not yet enforced. Ascension only moves when you apply." },
+        { level: 15, label: "A15 — + coverage regression", blurb: "Coverage regressions can block Stop." },
+        { level: 20, label: "A20 — every room reviewed", blurb: "Every room requires review evidence." }
+      ];
+
+      var DECK = [
+        { id: "d1", name: "orient", plays: 0, when: "floor 0" },
+        { id: "d2", name: "add-endpoint", plays: 0, when: "floor 0" },
+        { id: "d3", name: "run-tests", plays: 4, when: "today" }
+      ];
+
+      var state = {
+        screen: "title",
+        returnScreen: "map",
+        floor: 3,
+        streak: 2,
+        deckSize: 6,
+        tokens: 4,
+        taken: 1,
+        skips: 4,
+        selectedNodeId: null,
+        currentEnemy: "bug",
+        combatHp: 1,
+        energy: 2,
+        energyMax: 3,
+        playedThisTurn: [],
+        campMode: "prune",
+        pruneId: null,
+        shopId: null,
+        ascension: 10,
+        ascPick: 10,
+        priorSeed: 0
+      };
+
+      var els = {
+        chrome: document.getElementById("chrome"),
+        banner: document.getElementById("banner"),
+        bannerText: document.getElementById("banner-text"),
+        bannerExtra: document.getElementById("banner-extra"),
+        demoStep: document.getElementById("demo-step"),
+        toast: document.getElementById("toast"),
+        mapPath: document.getElementById("map-path"),
+        enterNode: document.getElementById("btn-enter-node"),
+        combatHand: document.getElementById("combat-hand"),
+        rewardOffers: document.getElementById("reward-offers"),
+        shopWares: document.getElementById("shop-wares"),
+        campDeck: document.getElementById("camp-deck"),
+        confirmPrune: document.getElementById("btn-confirm-prune"),
+        buy: document.getElementById("btn-buy"),
+        ascLadder: document.getElementById("ascension-ladder"),
+        applyAsc: document.getElementById("btn-apply-asc")
+      };
+
+      var toastTimer = null;
+
+      function toast(msg) {
+        els.toast.textContent = msg;
+        els.toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          els.toast.classList.remove("show");
+        }, 1800);
+      }
+
+      function energyPips(n, max) {
+        var s = "";
+        for (var i = 0; i < max; i++) s += i < n ? "●" : "○";
+        return s;
+      }
+
+      function bindStats() {
+        document.querySelectorAll("[data-bind]").forEach(function (el) {
+          var key = el.getAttribute("data-bind");
+          var map = {
+            floor: state.floor,
+            deck: state.deckSize,
+            streak: state.streak,
+            tokens: state.tokens,
+            taken: state.taken,
+            skips: state.skips
+          };
+          el.textContent = String(map[key]);
+        });
+        document.getElementById("stat-floor").textContent = String(state.floor);
+        document.getElementById("stat-deck").textContent = String(state.deckSize);
+        document.getElementById("stat-tokens").textContent = String(state.tokens);
+        document.getElementById("stat-skips").textContent = String(state.skips);
+        document.getElementById("chrome-floor").textContent = String(state.floor);
+        document.getElementById("chrome-streak").textContent = String(state.streak);
+      }
+
+      function setFacet(screenEl) {
+        var facet = screenEl.style.getPropertyValue("--facet") || "#3a5f7a";
+        document.documentElement.style.setProperty("--facet", facet);
+      }
+
+      function showScreen(name) {
+        state.screen = name;
+        document.querySelectorAll(".screen").forEach(function (s) {
+          s.classList.toggle("active", s.getAttribute("data-screen") === name);
+        });
+        var active = document.querySelector('.screen[data-screen="' + name + '"]');
+        if (active) setFacet(active);
+
+        var inRun = name !== "title";
+        els.chrome.hidden = !inRun;
+        var roomActive = name === "intent" || name === "combat";
+        els.banner.hidden = !roomActive;
+        if (roomActive) {
+          var enemy = ENEMIES[state.currentEnemy];
+          els.bannerText.textContent = "● ROOM ACTIVE: " + enemy.name + " · " + state.currentEnemy;
+          els.bannerExtra.textContent = name === "combat"
+            ? "Energy " + energyPips(state.energy, state.energyMax)
+            : "";
+          els.bannerExtra.innerHTML = name === "intent"
+            ? '<a href="#" id="banner-return">Return</a>'
+            : els.bannerExtra.textContent;
+          var ret = document.getElementById("banner-return");
+          if (ret) {
+            ret.addEventListener("click", function (e) {
+              e.preventDefault();
+              showScreen("combat");
+              render();
+            });
+          }
+        }
+
+        var labels = {
+          title: "Title",
+          map: "Map",
+          intent: "Intent",
+          combat: "Combat",
+          event: "Event",
+          reward: "Reward",
+          campfire: "Campfire",
+          shop: "Shop",
+          ascension: "Ascension"
+        };
+        els.demoStep.textContent = " · " + (labels[name] || name);
+        bindStats();
+        render();
+      }
+
+      function selectedNode() {
+        for (var i = 0; i < NODES.length; i++) {
+          if (NODES[i].id === state.selectedNodeId) return NODES[i];
+        }
+        return null;
+      }
+
+      function advanceReachable() {
+        var foundNext = false;
+        for (var i = 0; i < NODES.length; i++) {
+          NODES[i].reachable = false;
+          if (!NODES[i].done && !foundNext) {
+            NODES[i].reachable = true;
+            foundNext = true;
+          }
+        }
+      }
+
+      function renderMap() {
+        els.mapPath.innerHTML = "";
+        NODES.forEach(function (node, idx) {
+          if (idx > 0) {
+            var link = document.createElement("div");
+            link.className = "link";
+            els.mapPath.appendChild(link);
+          }
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "node btn-node " + node.shape;
+          if (node.id === state.selectedNodeId) btn.classList.add("selected");
+          btn.disabled = !node.reachable || node.done;
+          btn.title = node.kind;
+          btn.setAttribute("aria-pressed", node.id === state.selectedNodeId ? "true" : "false");
+          if (node.shape === "diamond") {
+            var span = document.createElement("span");
+            span.textContent = node.label;
+            btn.appendChild(span);
+          } else {
+            btn.textContent = node.label;
+          }
+          btn.addEventListener("click", function () {
+            state.selectedNodeId = node.id;
+            renderMap();
+            updateMapDetail();
+          });
+          els.mapPath.appendChild(btn);
+        });
+        updateMapDetail();
+      }
+
+      function updateMapDetail() {
+        var node = selectedNode();
+        els.enterNode.disabled = !node || !node.reachable;
+        if (!node) {
+          document.getElementById("map-selected-kind").textContent = "—";
+          document.getElementById("map-selected-title").innerHTML = "<strong>Pick a node</strong>";
+          document.getElementById("map-selected-prior").textContent = "";
+          return;
+        }
+        document.getElementById("map-selected-kind").textContent = node.kind === "unknown" ? "?" : node.kind;
+        var titles = {
+          combat: node.label === "feat" ? "Feature room" : "Bug room",
+          unknown: "Unknown node",
+          campfire: "Campfire",
+          event: "Event node",
+          shop: "Shop",
+          boss: "Act boss"
+        };
+        document.getElementById("map-selected-title").innerHTML = "<strong>" + (titles[node.kind] || node.kind) + "</strong>";
+        var priors = [
+          "Prior bias: bug 36% · feature 22% · refactor 16%",
+          "Prior bias: feature 41% · bug 19% · chore 14%",
+          "Prior bias: refactor 28% · bug 27% · feature 21%"
+        ];
+        document.getElementById("map-selected-prior").textContent =
+          node.kind === "unknown" ? priors[state.priorSeed % priors.length] : "Reachable · enter to open the room.";
+      }
+
+      function renderIntent() {
+        var enemy = ENEMIES[state.currentEnemy];
+        document.getElementById("intent-name").textContent = enemy.name;
+        document.getElementById("intent-text").innerHTML = "<strong>Intent:</strong> " + enemy.intent;
+        document.getElementById("intent-blurb").textContent = enemy.blurb;
+        document.getElementById("intent-acceptance").textContent = enemy.acceptance;
+      }
+
+      function renderCombat() {
+        var enemy = ENEMIES[state.currentEnemy];
+        document.getElementById("combat-name").textContent = enemy.name;
+        document.getElementById("combat-hp").textContent = enemy.hpBars[state.combatHp] || enemy.hpBars[0];
+        document.getElementById("combat-telegraph").textContent = enemy.telegraph;
+        document.getElementById("combat-energy").textContent = energyPips(state.energy, state.energyMax);
+        if (els.banner && !els.banner.hidden) {
+          els.bannerExtra.textContent = "Energy " + energyPips(state.energy, state.energyMax);
+        }
+        els.combatHand.innerHTML = "";
+        HAND.forEach(function (card) {
+          var played = state.playedThisTurn.indexOf(card.id) !== -1;
+          var el = document.createElement("button");
+          el.type = "button";
+          el.className = "card selectable";
+          el.disabled = played || state.energy < card.cost;
+          el.innerHTML = '<span class="cost">' + card.cost + "</span><h3>" + card.title + "</h3>" + card.body;
+          el.addEventListener("click", function () {
+            if (state.energy < card.cost) return;
+            state.energy -= card.cost;
+            state.playedThisTurn.push(card.id);
+            state.combatHp = Math.min(state.combatHp + 1, enemy.hpBars.length - 1);
+            document.getElementById("combat-log").textContent =
+              "Log: played " + card.title + " · HP " + (enemy.hpBars[state.combatHp] || "");
+            renderCombat();
+          });
+          els.combatHand.appendChild(el);
+        });
+      }
+
+      function renderReward() {
+        els.rewardOffers.innerHTML = "";
+        OFFERS.forEach(function (offer) {
+          var el = document.createElement("button");
+          el.type = "button";
+          el.className = "card selectable";
+          el.innerHTML = "<h3>" + offer.title + "</h3>" + offer.rarity;
+          el.addEventListener("click", function () {
+            state.taken += 1;
+            state.deckSize += 1;
+            state.skips = Math.max(0, state.skips);
+            toast("Took " + offer.title);
+            completeNodeAndReturn("map");
+          });
+          els.rewardOffers.appendChild(el);
+        });
+      }
+
+      function renderCamp() {
+        els.campDeck.innerHTML = "";
+        DECK.forEach(function (card) {
+          var row = document.createElement("button");
+          row.type = "button";
+          row.className = "list-item";
+          row.style.width = "100%";
+          row.style.appearance = "none";
+          row.style.background = state.pruneId === card.id ? "var(--panel)" : "transparent";
+          row.style.border = "none";
+          row.style.borderBottom = "1px solid var(--line)";
+          row.style.cursor = state.campMode === "prune" ? "pointer" : "default";
+          row.style.textAlign = "left";
+          row.style.font = "inherit";
+          row.innerHTML = "<span>" + card.name + '</span><span style="color:var(--muted)">' +
+            card.plays + " plays · " + card.when + "</span>";
+          row.addEventListener("click", function () {
+            if (state.campMode !== "prune") return;
+            state.pruneId = card.id;
+            els.confirmPrune.disabled = false;
+            renderCamp();
+          });
+          els.campDeck.appendChild(row);
+        });
+        els.confirmPrune.disabled = !(state.campMode === "prune" && state.pruneId);
+      }
+
+      function renderShop() {
+        els.shopWares.innerHTML = "";
+        WARES.forEach(function (ware) {
+          var el = document.createElement("button");
+          el.type = "button";
+          el.className = "card selectable" + (state.shopId === ware.id ? " selected" : "");
+          var suffix = ware.kind === "relic" ? "relic · " + ware.price : "price " + ware.price;
+          if (state.shopId === ware.id) suffix += " · selected";
+          el.innerHTML = "<h3>" + ware.title + "</h3>" + suffix;
+          el.addEventListener("click", function () {
+            state.shopId = ware.id;
+            els.buy.disabled = false;
+            renderShop();
+          });
+          els.shopWares.appendChild(el);
+        });
+        els.buy.disabled = !state.shopId;
+      }
+
+      function renderAscension() {
+        els.ascLadder.innerHTML = "";
+        ASCENSION.forEach(function (rung) {
+          var el = document.createElement("button");
+          el.type = "button";
+          el.className = "rung" + (rung.level === state.ascPick ? " current" : "");
+          el.style.width = "100%";
+          el.style.textAlign = "left";
+          el.style.cursor = "pointer";
+          el.style.font = "inherit";
+          el.textContent = rung.label + (rung.level === state.ascension ? " · applied" : "");
+          el.addEventListener("click", function () {
+            state.ascPick = rung.level;
+            renderAscension();
+          });
+          els.ascLadder.appendChild(el);
+        });
+        var picked = ASCENSION.find(function (r) { return r.level === state.ascPick; }) || ASCENSION[2];
+        document.getElementById("asc-selected-label").textContent = "A" + picked.level;
+        document.getElementById("asc-selected-blurb").textContent = picked.blurb;
+        els.applyAsc.textContent = "Apply A" + picked.level;
+      }
+
+      function render() {
+        bindStats();
+        if (state.screen === "map") renderMap();
+        if (state.screen === "intent") renderIntent();
+        if (state.screen === "combat") renderCombat();
+        if (state.screen === "reward") renderReward();
+        if (state.screen === "campfire") renderCamp();
+        if (state.screen === "shop") renderShop();
+        if (state.screen === "ascension") renderAscension();
+      }
+
+      function completeNodeAndReturn(next) {
+        var node = selectedNode();
+        if (node) {
+          node.done = true;
+          node.reachable = false;
+        }
+        state.selectedNodeId = null;
+        state.floor += 1;
+        state.streak += 1;
+        advanceReachable();
+        showScreen(next || "map");
+      }
+
+      function enterNode() {
+        var node = selectedNode();
+        if (!node) return;
+        if (node.kind === "combat" || node.kind === "boss" || node.kind === "unknown") {
+          state.currentEnemy = node.kind === "boss" ? "boss" : (node.label === "feat" ? "feat" : "bug");
+          if (node.kind === "unknown") {
+            var roll = ["bug", "feat", "bug"][state.priorSeed % 3];
+            state.currentEnemy = roll;
+            toast("Unknown resolved · " + roll);
+          }
+          state.combatHp = 0;
+          state.energy = state.energyMax;
+          state.playedThisTurn = [];
+          showScreen("intent");
+          return;
+        }
+        if (node.kind === "event") {
+          showScreen("event");
+          return;
+        }
+        if (node.kind === "campfire") {
+          state.campMode = "prune";
+          state.pruneId = null;
+          showScreen("campfire");
+          return;
+        }
+        if (node.kind === "shop") {
+          state.shopId = null;
+          showScreen("shop");
+        }
+      }
+
+      document.getElementById("app").addEventListener("click", function (e) {
+        var t = e.target.closest("[data-go],[data-action]");
+        if (!t) return;
+        var go = t.getAttribute("data-go");
+        var action = t.getAttribute("data-action");
+        if (go) {
+          if (go === "ascension") state.returnScreen = state.screen === "ascension" ? "map" : state.screen;
+          if (go === "map" && (state.screen === "campfire" || state.screen === "shop")) {
+            completeNodeAndReturn("map");
+            return;
+          }
+          if (go === "combat") {
+            state.energy = state.energyMax;
+            state.playedThisTurn = [];
+            state.combatHp = 1;
+            document.getElementById("combat-log").textContent = "Log: combat begun · hand unlocked";
+          }
+          showScreen(go);
+          return;
+        }
+        if (action === "new-climb") {
+          state.floor = 1;
+          state.streak = 0;
+          state.deckSize = 4;
+          state.tokens = 4;
+          state.taken = 0;
+          state.skips = 0;
+          NODES.forEach(function (n, i) {
+            n.done = false;
+            n.reachable = i === 0;
+          });
+          state.selectedNodeId = null;
+          toast("New climb · Floor 1");
+          showScreen("map");
+          return;
+        }
+        if (action === "refresh-prior") {
+          state.priorSeed += 1;
+          toast("Priors refreshed");
+          renderMap();
+          return;
+        }
+        if (action === "flee") {
+          toast("Fled · back to map");
+          state.streak = Math.max(0, state.streak - 1);
+          state.selectedNodeId = null;
+          showScreen("map");
+          return;
+        }
+        if (action === "run-acceptance") {
+          var enemy = ENEMIES[state.currentEnemy];
+          if (state.combatHp < enemy.hpBars.length - 1 && state.playedThisTurn.length < 1) {
+            document.getElementById("combat-log").textContent =
+              "Log: acceptance failed · play a card first (wireframe hint)";
+            toast("Acceptance failed — play cards");
+            return;
+          }
+          state.combatHp = enemy.hpBars.length - 1;
+          document.getElementById("combat-log").textContent = "Log: acceptance passed · room clear";
+          toast("Room cleared");
+          showScreen("reward");
+          return;
+        }
+        if (action === "end-turn") {
+          state.energy = state.energyMax;
+          state.playedThisTurn = [];
+          document.getElementById("combat-log").textContent = "Log: end turn · energy refilled";
+          renderCombat();
+          return;
+        }
+        if (action === "skip-reward") {
+          state.skips += 1;
+          toast("Skipped — lean deck");
+          completeNodeAndReturn("map");
+          return;
+        }
+        if (action === "event-accept") {
+          toast("Bloated Scope curse · logged");
+          completeNodeAndReturn("map");
+          return;
+        }
+        if (action === "event-cut") {
+          toast("Cut scope · requires card (demo ok)");
+          completeNodeAndReturn("map");
+          return;
+        }
+        if (action === "event-park") {
+          toast("Parked in backlog");
+          completeNodeAndReturn("map");
+          return;
+        }
+        if (action === "camp-mode") {
+          state.campMode = t.getAttribute("data-mode");
+          state.pruneId = null;
+          document.querySelectorAll('[data-action="camp-mode"]').forEach(function (b) {
+            b.classList.toggle("ghost", b.getAttribute("data-mode") !== state.campMode);
+            if (b.getAttribute("data-mode") === state.campMode) b.classList.remove("ghost");
+            else b.classList.add("ghost");
+          });
+          renderCamp();
+          return;
+        }
+        if (action === "camp-rest") {
+          toast("Rested");
+          completeNodeAndReturn("map");
+          return;
+        }
+        if (action === "asc-cancel") {
+          showScreen(state.returnScreen || "map");
+        }
+      });
+
+      els.enterNode.addEventListener("click", enterNode);
+
+      els.confirmPrune.addEventListener("click", function () {
+        if (!state.pruneId) return;
+        var idx = DECK.findIndex(function (c) { return c.id === state.pruneId; });
+        if (idx >= 0) {
+          var name = DECK[idx].name;
+          DECK.splice(idx, 1);
+          state.deckSize = Math.max(0, state.deckSize - 1);
+          toast("Pruned " + name);
+        }
+        state.pruneId = null;
+        completeNodeAndReturn("map");
+      });
+
+      els.buy.addEventListener("click", function () {
+        var ware = WARES.find(function (w) { return w.id === state.shopId; });
+        if (!ware) return;
+        if (state.tokens < ware.price) {
+          toast("Not enough tokens");
+          return;
+        }
+        state.tokens -= ware.price;
+        if (ware.kind === "card") state.deckSize += 1;
+        toast("Bought " + ware.title);
+        state.shopId = null;
+        completeNodeAndReturn("map");
+      });
+
+      els.applyAsc.addEventListener("click", function () {
+        state.ascension = state.ascPick;
+        toast("Applied A" + state.ascension);
+        showScreen(state.returnScreen || "map");
+      });
+
+      document.getElementById("btn-reset").addEventListener("click", function () {
+        state.floor = 3;
+        state.streak = 2;
+        state.deckSize = 6;
+        state.tokens = 4;
+        state.taken = 1;
+        state.skips = 4;
+        state.ascension = 10;
+        state.ascPick = 10;
+        state.selectedNodeId = null;
+        NODES.forEach(function (n, i) {
+          n.done = i === 0;
+          n.reachable = i === 1;
+        });
+        DECK.length = 0;
+        DECK.push(
+          { id: "d1", name: "orient", plays: 0, when: "floor 0" },
+          { id: "d2", name: "add-endpoint", plays: 0, when: "floor 0" },
+          { id: "d3", name: "run-tests", plays: 4, when: "today" }
+        );
+        toast("Run reset");
+        showScreen("title");
+      });
+
+      advanceReachable();
+      NODES[0].done = true;
+      NODES[0].reachable = false;
+      NODES[1].reachable = true;
+      showScreen("title");
+    })();
+  </script>
+</body>
+</html>
