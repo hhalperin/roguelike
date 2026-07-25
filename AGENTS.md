@@ -28,6 +28,8 @@ about a project is written *into that project*, never stored here. See
 - **Run vs agent dirs.** `.spire/` holds run knowledge (save, bookkeeping,
   dealt helpers). `.claude/skills/` holds cards the agent loads. Don't put
   skills inside `.spire/`.
+- **Detection is data.** Class markers and display names live in
+  `classes/detection.json`; packs live under `packs/<name>/pack.yaml`.
 
 ## Checks before you commit
 
