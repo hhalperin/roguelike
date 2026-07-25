@@ -1,0 +1,4 @@
+ts	phase	decision	why	evidence	result
+2026-07-25T17:20:50Z	frame	Analyzed StS1 comprehensively via 4 parallel research delegates, then scoped to the map layer	needed the real mechanics before deciding what to emulate; the gap report showed structure is specced but zero of it is implemented	design/spire-ai/sts-fidelity.md	scoped
+2026-07-25T17:20:50Z	frame	Will NOT build HP, block, potions, buffs, or damage math	HP has no honest analogue in project work, so a health bar would be decorative theater and the repo non-goals already forbid mandatory gamification	design/spire-ai/non-goals.md	out of scope on purpose
+2026-07-25T17:20:50Z	frame	Chose the seeded map generator as the first unit	it is the foundational data structure everything else hangs off, it is pure stdlib, and it is the one load-bearing StS pillar that is fully implementable and fully checkable	scripts/mapgen.py	open
