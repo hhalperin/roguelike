@@ -8,7 +8,7 @@ flavor: >-
   Infrastructure and IaC. Heavy armor and heavier consequences: plan before you
   apply, pin your versions, and never let the world drift from the code.
 
-# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# Used by /spire:ascend to generate class-appropriate gate hooks.
 # "test" has no universal equivalent for infra; `terraform validate` is the
 # closest reliable proxy (config sanity, not behavior).
 commands:
@@ -46,5 +46,8 @@ cards:
       3. Recommend whether to reconcile in code or import the real state — do not
          silently overwrite live infrastructure.
 
-powers: []
+powers:
+  - event: Stop
+    name: plan-before-apply
+    description: "Before finishing infra edits, confirm a plan was produced and reviewed."
 agent: null

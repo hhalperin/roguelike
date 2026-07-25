@@ -29,7 +29,12 @@
     "typed-public-api",
     "no-mocks-in-prod"
   ],
-  "powers": [],
+  "powers": [
+    {
+      "event": "PostToolUse",
+      "name": "ruff-on-edit"
+    }
+  ],
   "rooms_cleared": [],
   "clean_room_streak": 0,
   "rewards": {

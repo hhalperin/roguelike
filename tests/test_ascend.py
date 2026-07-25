@@ -48,11 +48,11 @@ def test_apply_rejects_invalid_tier(tmp_path):
 
 def test_apply_without_deck_writes_no_side_effects(tmp_path):
     # No deck.json at all - apply must fail before touching settings.json or
-    # deck-builder-ascension.json, never leave a half-applied ascension.
+    # ascension.json, never leave a half-applied ascension.
     assert ascend.main(["apply", "--path", str(tmp_path), "--tier", "5",
                         "--lint-cmd", "ruff check ."]) == 1
     assert not (tmp_path / ".claude" / "settings.json").exists()
-    assert not (tmp_path / ".claude" / "deck-builder-ascension.json").exists()
+    assert not (tmp_path / ".spire" / "ascension.json").exists()
 
 
 def test_apply_updates_deck_ascension(tmp_path):
@@ -66,7 +66,7 @@ def test_apply_writes_ascension_config(tmp_path):
     _deal(tmp_path)
     ascend.main(["apply", "--path", str(tmp_path), "--tier", "10",
                  "--lint-cmd", "ruff check .", "--test-cmd", "pytest"])
-    config = json.loads((tmp_path / ".claude" / "deck-builder-ascension.json").read_text())
+    config = json.loads((tmp_path / ".spire" / "ascension.json").read_text())
     assert config == {
         "tier": 10, "lint_cmd": "ruff check .", "test_cmd": "pytest", "coverage_baseline": None,
     }
@@ -78,6 +78,7 @@ def test_apply_tier_5_adds_stop_hook(tmp_path):
     stop = _settings(tmp_path)["hooks"]["Stop"]
     assert len(stop) == 1
     assert "ascension_gate.py" in stop[0]["hooks"][0]["command"]
+    assert ".spire/bin/ascension_gate.py" in stop[0]["hooks"][0]["command"]
 
 
 def test_apply_tier_0_writes_no_stop_hook(tmp_path):
@@ -136,7 +137,7 @@ def test_reapply_preserves_coverage_baseline(tmp_path):
     _deal(tmp_path)
     ascend.main(["apply", "--path", str(tmp_path), "--tier", "15",
                  "--lint-cmd", "ruff check .", "--test-cmd", "pytest"])
-    config_path = tmp_path / ".claude" / "deck-builder-ascension.json"
+    config_path = tmp_path / ".spire" / "ascension.json"
     config = json.loads(config_path.read_text())
     config["coverage_baseline"] = 85.0
     config_path.write_text(json.dumps(config))

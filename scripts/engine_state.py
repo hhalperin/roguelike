@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""deck-builder :: engine_state.py — ephemeral engine bookkeeping.
+"""spire :: engine_state.py — ephemeral engine bookkeeping.
 
 Tracks activity between Stop-hook reward checks in
-``<repo>/.claude/deck-builder-state.json``. This is deliberately **separate**
-from ``deck.json`` (the versioned save file): state here is disposable
+``<repo>/.spire/state.json``. This is deliberately **separate** from
+``deck.json`` (the versioned save file): state here is disposable
 bookkeeping the engine uses to decide when to bother judging a reward, not
 part of the run a player would care about preserving. Pure stdlib.
 """
@@ -11,17 +11,20 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
-STATE_FILENAME = "deck-builder-state.json"
-PENDING_REWARD_FILENAME = "deck-pending-reward.json"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths  # noqa: E402
 
 
 def state_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", STATE_FILENAME)
+    paths.ensure_migrated(repo)
+    return paths.state_path(repo)
 
 
 def pending_reward_path(repo: str) -> str:
-    return os.path.join(repo, ".claude", PENDING_REWARD_FILENAME)
+    paths.ensure_migrated(repo)
+    return paths.pending_reward_path(repo)
 
 
 def load_pending_reward(repo: str) -> dict | None:
@@ -65,4 +68,4 @@ def save(repo: str, state: dict) -> None:
 
 
 def deck_exists(repo: str) -> bool:
-    return os.path.exists(os.path.join(repo, ".claude", "deck.json"))
+    return paths.deck_exists(repo)

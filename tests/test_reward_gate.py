@@ -38,8 +38,8 @@ def _save_state(tmp_path, **kwargs):
 
 
 def test_noop_without_deck(tmp_path):
-    reward_gate.run(str(tmp_path))  # must not raise even with no .claude/deck.json
-    assert not (tmp_path / ".claude" / "deck-pending-reward.json").exists()
+    reward_gate.run(str(tmp_path))  # must not raise even with no .spire/deck.json
+    assert not (tmp_path / ".spire" / "pending-reward.json").exists()
 
 
 def test_below_threshold_does_nothing(tmp_path, monkeypatch):
@@ -88,7 +88,12 @@ def test_candidate_by_activity_threshold_invokes_curator_and_resets_state(tmp_pa
     state = engine_state.load(str(tmp_path))
     assert state["activity_count"] == 0
     assert state["last_check_sha"]  # populated from git HEAD
-    assert not (tmp_path / ".claude" / "deck-pending-reward.json").exists()
+    assert not (tmp_path / ".spire" / "pending-reward.json").exists()
+    # A candidate clears a room even when the curator skips.
+    cleared = deck.load(str(tmp_path))
+    assert cleared["floor"] == 1
+    assert cleared["clean_room_streak"] == 1
+    assert len(cleared["rooms_cleared"]) == 1
 
 
 def test_offer_verdict_writes_pending_reward_and_bumps_counter(tmp_path, monkeypatch):
@@ -104,7 +109,7 @@ def test_offer_verdict_writes_pending_reward_and_bumps_counter(tmp_path, monkeyp
 
     reward_gate.run(str(tmp_path))
 
-    pending = json.loads((tmp_path / ".claude" / "deck-pending-reward.json").read_text())
+    pending = json.loads((tmp_path / ".spire" / "pending-reward.json").read_text())
     assert pending["offer"][0]["name"] == "new-card"
     assert pending["reason"] == "repeated pattern"
     assert deck.load(str(tmp_path))["rewards"]["offered"] == 1
@@ -113,7 +118,7 @@ def test_offer_verdict_writes_pending_reward_and_bumps_counter(tmp_path, monkeyp
 def test_pending_reward_blocks_new_curator_calls_until_resolved(tmp_path, monkeypatch):
     _git_repo(tmp_path)
     _deal(tmp_path)
-    pending_path = tmp_path / ".claude" / "deck-pending-reward.json"
+    pending_path = tmp_path / ".spire" / "pending-reward.json"
     pending_path.write_text(json.dumps({
         "created_at": "2026-07-01T00:00:00+00:00", "reason": "earlier offer",
         "offer": [{"name": "old-card", "type": "skill", "description": "d", "rationale": "r"}],
@@ -139,7 +144,7 @@ def test_corrupt_pending_reward_does_not_block_gate_forever(tmp_path, monkeypatc
     # treat it the same way status_line.py does: as nothing pending.
     _git_repo(tmp_path)
     _deal(tmp_path)
-    (tmp_path / ".claude" / "deck-pending-reward.json").write_text("{not valid json")
+    (tmp_path / ".spire" / "pending-reward.json").write_text("{not valid json")
     _save_state(tmp_path, activity_count=reward_gate.ACTIVITY_THRESHOLD)
     called = []
     skip_verdict = {"recommend": "skip", "reason": "", "offer": [], "remove": []}
@@ -156,7 +161,7 @@ def test_corrupt_pending_reward_does_not_block_gate_forever(tmp_path, monkeypatc
 def test_offerless_pending_reward_does_not_block_gate_forever(tmp_path, monkeypatch):
     _git_repo(tmp_path)
     _deal(tmp_path)
-    (tmp_path / ".claude" / "deck-pending-reward.json").write_text(json.dumps({
+    (tmp_path / ".spire" / "pending-reward.json").write_text(json.dumps({
         "reason": "", "offer": [], "remove": [],
     }))
     _save_state(tmp_path, activity_count=reward_gate.ACTIVITY_THRESHOLD)

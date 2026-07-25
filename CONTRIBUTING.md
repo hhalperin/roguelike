@@ -1,6 +1,6 @@
 # Contributing — the modding guide
 
-deck-builder is built to be modded. The most valuable contributions aren't
+spire is built to be modded. The most valuable contributions aren't
 Python — they're **classes** and **card packs**, written in markdown and YAML.
 Low barrier, high creativity. This is the Slay-the-Spire modding scene, on
 purpose.
@@ -18,7 +18,7 @@ name: The <Name>         # display name
 detected_by: [ ... ]     # human-readable list of the signals that pick this class
 flavor: >-               # one or two sentences of theme
   ...
-commands:                # used by /deck-builder:ascend to build gate hooks;
+commands:                # used by /spire:ascend to build gate hooks;
   lint: "..."            #   null if no command is universal enough for this
   test: "..."            #   class to enforce automatically (e.g. Colorless)
 relics:                  # rules written into the target repo's CLAUDE.md
@@ -36,9 +36,10 @@ agent: null              # optional standing subagent
 
 Keep starter decks **small and sharp** — a couple of relics and cards. Players
 earn more by clearing rooms; don't front-load. If you add a brand-new class name,
-also register it in `scripts/scan.py` (`FAMILY`, and detection signals) and
-`scripts/deck.py` (`CLASS_NAMES`); the tests in `tests/test_classes.py` enforce
-that the data and code agree. Only set `commands.lint`/`commands.test` to a
+also register it in `classes/detection.json` (family, priority, markers,
+display name). `scan.py` and `deck.py` load that file — no Python edits
+required for detection or display names. The tests in `tests/test_classes.py`
+enforce that the YAML, detection.json, and scripts agree. Only set `commands.lint`/`commands.test` to a
 command you're confident is reasonably universal for that class — `null` (and
 a warn-only gate at that tier) is the honest choice when it isn't.
 
@@ -46,9 +47,9 @@ a warn-only gate at that tier) is the honest choice when it isn't.
 
 A card pack is a themed set of cards (skills) that any class can draw from.
 Packs land under `packs/<name>/pack.yaml` — see [`packs/README.md`](packs/README.md)
-for the format. The loader that *deals* a pack ships with a later act; today,
-open a PR adding the pack data or propose one via the "class or card pack"
-issue template.
+for the format. Players draw via `/spire:shop`; `scripts/pack.py list` is the
+deterministic index. Open a PR adding the pack data or propose one via the
+"class or card pack" issue template.
 
 ### Improve the engine
 

@@ -15,7 +15,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 def test_plugin_manifest_valid():
     manifest = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert manifest["name"] == "deck-builder"
+    assert manifest["name"] == "spire"
     assert isinstance(manifest.get("version"), str)
     assert manifest.get("license") == "MIT"
 
@@ -25,7 +25,7 @@ def test_marketplace_manifest_valid():
     assert mp["name"]
     plugins = mp["plugins"]
     assert len(plugins) == 1
-    assert plugins[0]["name"] == "deck-builder"
+    assert plugins[0]["name"] == "spire"
     assert plugins[0]["source"] == "./"
 
 
@@ -49,7 +49,7 @@ def test_every_skill_has_valid_frontmatter():
 
 
 def test_command_skills_are_user_only():
-    # The two headline commands must not be model-invoked.
-    for name in ("deck-builder", "map"):
+    # Headline commands must not be model-invoked.
+    for name in ("spire", "map", "shop"):
         meta = _frontmatter(ROOT / "skills" / name / "SKILL.md")
         assert meta.get("disable-model-invocation") is True, f"{name} must be user-invoked only"

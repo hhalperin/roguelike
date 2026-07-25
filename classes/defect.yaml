@@ -7,7 +7,7 @@ flavor: >-
   Python and backend work. You fight with focus: type hints, a green test
   suite, and clean lint. Precision over flash.
 
-# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# Used by /spire:ascend to generate class-appropriate gate hooks.
 # null means "no reliably universal command for this class" — ascend.py must
 # fall back to warn-only for that gate rather than block on an unverified command.
 commands:
@@ -52,5 +52,11 @@ cards:
          case, following the repo's existing test style.
       4. Run the test suite and confirm the new test passes before finishing.
 
-powers: []   # no hooks in the Act 1 starter deck
+# Powers become entries in deck.json.powers (hooks the run tracks). Starter
+# powers are recorded at deal time; wiring into .claude/settings.json is
+# optional and separate from ascension gates.
+powers:
+  - event: PostToolUse
+    name: ruff-on-edit
+    description: "After editing Python files, run ruff on the touched paths before finishing."
 agent: null

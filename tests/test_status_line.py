@@ -23,11 +23,12 @@ def test_renders_class_and_counts(tmp_path):
     assert "The Defect" in text
     assert "1 cards" in text
     assert "1 relics" in text
+    assert "spire" in text
 
 
 def test_renders_pending_reward(tmp_path):
     deck.main(["init", "--path", str(tmp_path), "--class", "defect"])
-    pending = tmp_path / ".claude" / "deck-pending-reward.json"
+    pending = tmp_path / ".spire" / "pending-reward.json"
     pending.write_text(json.dumps({
         "reason": "repeated pattern",
         "offer": [{"name": "new-card", "type": "skill"}],
@@ -39,7 +40,7 @@ def test_renders_pending_reward(tmp_path):
 
 
 def test_malformed_deck_json_is_silent(tmp_path):
-    d = tmp_path / ".claude"
+    d = tmp_path / ".spire"
     d.mkdir()
     (d / "deck.json").write_text("{not valid")
     assert status_line.render(str(tmp_path)) is None

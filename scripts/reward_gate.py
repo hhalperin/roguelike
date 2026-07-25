@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""deck-builder :: reward_gate.py — Stop hook: did a room clear?
+"""spire :: reward_gate.py — Stop hook: did a room clear?
 
 The fast, deterministic half of the reward loop. Runs on every Stop event but
 does almost nothing most of the time: only when there's a real deterministic
@@ -10,12 +10,13 @@ actual evidence to judge.
 
 This hook must NEVER block or interrupt the session: reward offers are
 detected here but only *surfaced* at the next SessionStart
-(``status_line.py``) or via ``/deck-builder:campfire`` - never at Stop time.
+(``status_line.py``) or via ``/spire:campfire`` - never at Stop time.
 Any failure anywhere in this script degrades to a silent no-op.
 """
 from __future__ import annotations
 
 import datetime
+import json
 import os
 import subprocess
 import sys
@@ -79,7 +80,6 @@ def _write_pending_reward(repo: str, verdict: dict) -> None:
         "offer": verdict.get("offer", []),
         "remove": verdict.get("remove", []),
     }
-    import json
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2)
@@ -124,12 +124,16 @@ def run(repo: str) -> None:
     context = _diff_summary(repo, last_sha)
     verdict = curator.judge(the_deck, context, cwd=repo)
 
-    # We've now considered this batch of work either way - reset the window.
+    # We've now considered this batch of work either way - reset the window
+    # and advance the floor. A candidate IS a cleared room, whether or not
+    # the curator chooses to offer cards.
     engine_state.save(repo, {
         "last_check_sha": current_sha,
         "last_check_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "activity_count": 0,
     })
+    room_id = current_sha[:12] if current_sha else None
+    deck.clear_room(repo, room_id=room_id)
 
     if verdict.get("recommend") == "offer" and verdict.get("offer"):
         _write_pending_reward(repo, verdict)

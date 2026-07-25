@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""deck-builder :: curator.py — the reward judge.
+"""spire :: curator.py — the reward judge.
 
 Called by ``reward_gate.py`` (never directly by a hook) once the deterministic
 gate has already decided a session is worth judging. Uses the Python
@@ -68,7 +68,7 @@ OFFER_SCHEMA = {
 }
 
 SYSTEM_PROMPT = f"""\
-You are deck-builder's curator: a terse, disciplined judge of whether a
+You are spire's curator: a terse, disciplined judge of whether a
 coding session's work earns a new "card" (a Claude Code skill, relic, or
 power) for this repository's deck.
 

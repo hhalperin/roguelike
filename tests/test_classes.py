@@ -3,6 +3,7 @@
 Skipped automatically if PyYAML isn't installed, so the core scan/deck tests
 never depend on a third-party package.
 """
+import json
 import pathlib
 
 import pytest
@@ -45,9 +46,22 @@ def test_relics_and_cards_well_formed():
 
 
 def test_classes_are_known_to_the_scripts():
+    detection = json.loads((CLASSES_DIR / "detection.json").read_text())
+    detected = set(detection["classes"])
+    assert detected == EXPECTED
     for d in load_all().values():
         assert d["class"] in deck.CLASS_NAMES, f"{d['class']} missing from deck.CLASS_NAMES"
         assert d["class"] in scan.FAMILY, f"{d['class']} missing from scan.FAMILY"
+        assert d["class"] in detected
+
+
+def test_powers_well_formed():
+    for path, d in load_all().items():
+        assert isinstance(d["powers"], list), f"{path.name}: powers must be a list"
+        for p in d["powers"]:
+            assert {"event", "name"} <= set(p), f"{path.name}: power missing event/name"
+            assert isinstance(p["event"], str) and p["event"].strip()
+            assert isinstance(p["name"], str) and p["name"].strip()
 
 
 def test_commands_shape():

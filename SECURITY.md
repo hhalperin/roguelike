@@ -2,10 +2,11 @@
 
 ## Supported versions
 
-deck-builder is pre-1.0. Security fixes land on the latest `0.x` release.
+spire is pre-1.0. Security fixes land on the latest `0.x` release.
 
 | Version | Supported |
 |---|---|
+| 0.2.x | ✅ |
 | 0.1.x | ✅ |
 | < 0.1 | ❌ |
 
@@ -26,10 +27,10 @@ disclosure.
 
 ## Threat model notes
 
-deck-builder is a Claude Code plugin. Two properties shape its security surface:
+spire is a Claude Code plugin. Two properties shape its security surface:
 
-- **It writes config into your repository.** `/deck-builder` creates `CLAUDE.md`,
-  `.claude/deck.json`, and `.claude/skills/*` in the *target* project. It appends
+- **It writes config into your repository.** `/spire` creates `CLAUDE.md`,
+  `.spire/deck.json`, and `.claude/skills/*` in the *target* project. It appends
   to an existing `CLAUDE.md` rather than overwriting, and refuses to re-deal over
   an existing `deck.json`. Reports about unintended writes, overwrites, or path
   traversal are in scope.
@@ -38,6 +39,5 @@ deck-builder is a Claude Code plugin. Two properties shape its security surface:
   which keeps the runtime supply chain minimal. Reports about unsafe file
   handling or code execution in these scripts are in scope.
 
-Card and class content is plain markdown/YAML data; it is not executed by the
-engine. Treat community-contributed packs as untrusted content and review them
-before dealing them into a repository.
+Out of scope: vulnerabilities in Claude Code itself, or in optional soft
+dependencies such as `claude-agent-sdk` when used only for the reward loop.

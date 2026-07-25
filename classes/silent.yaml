@@ -7,7 +7,7 @@ flavor: >-
   TypeScript and frontend work. Small, sharp components and fast tests keep you
   quiet and deadly. Strict types, no loose ends.
 
-# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# Used by /spire:ascend to generate class-appropriate gate hooks.
 commands:
   lint: "npm run lint"
   test: "npm test"
@@ -43,5 +43,8 @@ cards:
          fix the root cause rather than the assertion unless the test is wrong.
       4. Re-run until green and report a one-line summary.
 
-powers: []
+powers:
+  - event: PostToolUse
+    name: lint-on-edit
+    description: "After editing TS/JS files, run the project linter on the touched paths before finishing."
 agent: null

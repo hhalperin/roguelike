@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wire · Map</title>
+  <link rel="stylesheet" href="wireframe.css" />
+  <style>:root { --facet: #3a5f7a; }</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav"><strong>SPIRE WIRES</strong><a href="index.html">Gallery</a><a href="title.html">Title</a><a href="map.html" aria-current="page">Map</a><a href="intent.html">Intent</a><a href="combat.html">Combat</a><a href="event.html">Event</a><a href="reward.html">Reward</a><a href="campfire.html">Campfire</a><a href="shop.html">Shop</a><a href="ascension.html">Ascension</a></nav>
+    <div class="chrome">
+  <span>Act I</span><span>·</span><span>Floor 3</span>
+  <span class="chip">Defect</span>
+  <span>Streak 2</span>
+</div>
+    <div class="frame">
+      <div class="facet-label">Map</div>
+      <div class="split" style="flex:1">
+        <div class="panel" style="border-bottom:none">
+          <h2>Path</h2>
+          <div class="path">
+            <div class="node circle" title="combat">bug</div><div class="link"></div>
+            <div class="node diamond" title="unknown"><span>?</span></div><div class="link"></div>
+            <div class="node camp" title="campfire">rest</div><div class="link"></div>
+            <div class="node circle" title="combat">feat</div><div class="link"></div>
+            <div class="node diamond" title="unknown"><span>?</span></div><div class="link"></div>
+            <div class="node hex" title="shop">shop</div><div class="link"></div>
+            <div class="node boss" title="boss">boss</div>
+          </div>
+          <p style="font-size:12px;color:var(--muted)">Shapes encode kind — color is secondary. Only reachable nodes hittable.</p>
+        </div>
+        <div class="panel" style="border-bottom:none;border-right:none">
+          <h2>Selected · ?</h2>
+          <p style="margin:0 0 8px;font-size:14px"><strong>Unknown node</strong></p>
+          <p style="margin:0;font-size:13px;color:var(--muted)">Prior bias: bug 36% · feature 22% · refactor 16%</p>
+          <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Hint only — not an order.</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn">Enter node</button>
+        <button class="btn ghost">Refresh prior</button>
+      </div>
+    </div>
+    <p class="note">Format: formats/map.md — hero is the graph; AI weights ? outcomes, player still picks.</p>
+  </div>
+</body>
+</html>

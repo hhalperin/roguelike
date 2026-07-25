@@ -1,57 +1,60 @@
-# deck-builder
+# spire
 
 **A roguelike deck for every repo.** A Claude Code plugin that scans any
 repository, deals it a starter deck of Claude config, and grows that deck as you
 clear rooms.
 
-> Your project is the run. Your Claude config is the deck. deck-builder is the
+> Your project is the run. Your Claude config is the deck. spire is the
 > game engine.
 
-| Slay the Spire | deck-builder |
+| Slay the Spire | spire |
 |---|---|
-| Card | Agent Skill (`SKILL.md`) |
+| Card | Agent Skill (`.claude/skills/…/SKILL.md`) |
 | Relic | `CLAUDE.md` rule |
 | Power | Hook |
 | Character class | Repo archetype (detected at init) |
-| Save file | `.claude/deck.json` in the target repo |
+| Save file | `.spire/deck.json` in the target repo |
 | Ascension | A0–A20 strictness ladder for the same hooks |
 
 ---
 
 ## What it does
 
-Run `/deck-builder` in any repo and it will:
+Run `/spire` in any repo and it will:
 
 1. **Scan** the repo to detect its *class* (archetype) — deterministically, from
    the files present.
 2. **Deal a starter deck** into the repo: `CLAUDE.md` rules (**relics**) and
    `.claude/skills/` procedures (**cards**) suited to that class.
-3. **Write a save file** at `.claude/deck.json` that tracks the run.
+3. **Write a save file** at `.spire/deck.json` that tracks the run.
 
 From there, the deck **grows on its own**: a `Stop` hook watches for real work
 (a new commit, meaningful activity) and — only when a pattern has genuinely
 repeated — a cheap-model curator offers up to three new cards. You review the
-offer at `/deck-builder:campfire`, where you can also prune cards nobody's
-touched. And `/deck-builder:ascend` lets you dial up how strictly the repo's
+offer at `/spire:campfire`, where you can also prune cards nobody's
+touched. And `/spire:ascend` lets you dial up how strictly the repo's
 own hooks enforce lint, tests, and coverage as the project matures.
 
 The plugin is the game engine and holds **zero project knowledge**; everything it
 knows about *your* project gets written into *your* repo, where it belongs.
+**Run knowledge** lives under `.spire/`; **agent primitives** (skills the agent
+must load) stay in `.claude/`.
 
 ## Install
 
 ```
 /plugin marketplace add hhalperin/roguelike
-/plugin install deck-builder@deck-builder
+/plugin install spire@spire
 ```
 
 Then, in any project:
 
 ```
-/deck-builder            # scan, detect class, deal the starter deck
-/deck-builder:map        # show run state + deck-health stats
-/deck-builder:campfire   # resolve a pending reward, or review the deck for pruning
-/deck-builder:ascend     # raise or lower the ascension tier (A0-A20)
+/spire            # scan, detect class, deal the starter deck
+/spire:map        # show run state + deck-health stats
+/spire:campfire   # resolve a pending reward, or review the deck for pruning
+/spire:shop       # draw optional cards from a community card pack
+/spire:ascend     # raise or lower the ascension tier (A0-A20)
 ```
 
 <sub>Developing locally? `claude --plugin-dir ./` loads it without a marketplace,
@@ -73,18 +76,22 @@ pip install claude-agent-sdk
 ```
 your-repo/
 ├── CLAUDE.md                       # relics: rules & conventions for the class
+├── .spire/                         # the run (save + bookkeeping + helpers)
+│   ├── deck.json                   # durable save file
+│   ├── state.json                  # ephemeral Stop-hook bookkeeping (gitignored)
+│   ├── pending-reward.json         # offer awaiting /campfire (gitignored)
+│   ├── ascension.json              # ascend's config (tier + lint/test commands)
+│   └── bin/
+│       ├── record_play.py          # self-contained helpers — keep working with
+│       └── ascension_gate.py       #   no engine/plugin installed at all
 └── .claude/
-    ├── deck.json                   # the save file
-    ├── settings.json               # only once you /deck-builder:ascend past A0
-    ├── deck-builder-ascension.json # ascend's config (tier + lint/test commands)
-    ├── deck-builder-state.json     # ephemeral Stop-hook bookkeeping
-    ├── deck-pending-reward.json    # a card offer awaiting a /campfire decision
-    ├── deck-builder/                # self-contained helpers a dealt card's own
-    │   ├── record_play.py           #   hooks call - keep working with no
-    │   └── ascension_gate.py        #   engine/plugin installed at all
-    └── skills/                     # cards: skills dealt from the class starter deck
+    ├── settings.json               # only once you /spire:ascend past A0
+    └── skills/                     # cards: skills the agent loads
         └── <card>/SKILL.md
 ```
+
+Pre-spire saves under `.claude/deck.json` (and related files) are migrated into
+`.spire/` automatically the next time an engine script runs.
 
 ## Classes
 
@@ -98,7 +105,7 @@ your-repo/
 
 Monorepos (strong signals across two language families) become **dual-class**
 runs and share one `deck.json`. Each class also declares a `lint`/`test`
-command (used by `/deck-builder:ascend`) — `null` where no command is
+command (used by `/spire:ascend`) — `null` where no command is
 universal enough to enforce automatically.
 
 ## The reward loop
@@ -110,11 +117,11 @@ activity, makes it worth asking the curator anything at all. When it does ask,
 offer only for a pattern that's genuinely repeated; past a ~12-card soft cap,
 every offer must name a card to trade away. An offer is never sprung on you
 mid-task: it's detected at `Stop` and surfaced quietly at your next session
-start, or whenever you run `/deck-builder:campfire`.
+start, or whenever you run `/spire:campfire`.
 
 ## The ascension ladder
 
-`/deck-builder:ascend` raises how strictly your *own* dealt hooks enforce
+`/spire:ascend` raises how strictly your *own* dealt hooks enforce
 quality, by rewriting your repo's `.claude/settings.json` (merging in just its
 own entry — anything else already there stays untouched):
 
@@ -128,7 +135,7 @@ own entry — anything else already there stays untouched):
 
 Ascension only ever moves when you ask — never automatically.
 
-## The save file — `deck.json`
+## The save file — `.spire/deck.json`
 
 ```json
 {
@@ -144,7 +151,7 @@ Ascension only ever moves when you ask — never automatically.
 ```
 
 The `taken / skipped` ratio is a deck-health metric. Good players skip most
-rewards — a lean deck is a strong deck. `/deck-builder:map` now also runs
+rewards — a lean deck is a strong deck. `/spire:map` now also runs
 `deck.py stats` for a deterministic read: total plays, the most-played card,
 which cards are unplayed (prune candidates), and the reward take rate.
 
@@ -152,20 +159,25 @@ which cards are unplayed (prune candidates), and the reward take rate.
 
 ## Status & roadmap
 
-**Act 1 — the starter deck (shipped).** `/deck-builder` init, deterministic
-`scan.py`, 5 classes, `deck.json`, and `/deck-builder:map`.
+**Act 1 — the starter deck (shipped).** `/spire` init, deterministic
+`scan.py`, 5 classes, `.spire/deck.json`, and `/spire:map`.
 
 **Act 2 — the engine (shipped).** The `Stop`-hook reward loop
 (`reward_gate.py` + `curator.py`), per-card play tracking via skill-scoped
-hooks, and `/deck-builder:campfire` for accepting/skipping offers and pruning
+hooks, and `/spire:campfire` for accepting/skipping offers and pruning
 via the `deck-curator` agent.
 
 **Act 3 — ascension (shipped).** The A0–A20 strictness ladder
-(`/deck-builder:ascend`), ascension shown in the session-start status line,
+(`/spire:ascend`), ascension shown in the session-start status line,
 and `deck.py stats` for deck-health numbers.
 
-**The Heart — community (planned).** Card packs, community classes, and deck
-export.
+**The Heart — community (started).** Card packs (`packs/testing-discipline`,
+`/spire:shop`, `pack.py list`), room/floor progression on cleared rooms,
+starter powers recorded in `deck.json`, and class detection driven by
+`classes/detection.json`. More community classes and deck export still planned.
+
+**Spire AI (design).** The longer arc — a project-building roguelike with an MCP
+app UI — lives in [`design/spire-ai/`](design/spire-ai/README.md).
 
 ## Contributing
 

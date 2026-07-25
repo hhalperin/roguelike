@@ -1,38 +1,15 @@
 #!/usr/bin/env python3
-"""deck-builder :: scan.py — deterministic repo stack detector.
+"""spire :: scan.py — deterministic repo stack detector.
 
 Walks a target repository and detects its roguelike "class" (archetype) purely
-from the files present. Standard library only: no third-party dependencies, no
-network, no LLM. Emits a JSON summary on stdout that the ``/deck-builder`` skill
-interprets to deal a starter deck.
-
-Classes
--------
-    defect     python / backend      (pyproject.toml, setup.py, requirements.txt)
-    silent     typescript / frontend (package.json, tsconfig.json, *.ts)
-    ironclad   infra / IaC           (Dockerfile, *.tf, terraform/, compose)
-    watcher    data / ML             (*.ipynb, notebooks/, ML deps, models/)
-    colorless  anything else         (minimal, safe default)
-
-Multiple classes within one language family (e.g. defect + watcher for a Python
-ML project) are reported together without being flagged a monorepo. A monorepo
-is when strong signals span two or more *families* (python / javascript / infra).
+from the files present. Detection rules live in ``classes/detection.json`` so
+adding an archetype is a data change, not a code change. Standard library
+only: no third-party dependencies, no network, no LLM. Emits a JSON summary
+on stdout that the ``/spire`` skill interprets to deal a starter deck.
 
 Usage
 -----
     python scan.py [PATH]        # PATH defaults to the current directory
-
-Output is indented JSON, always parseable, e.g.::
-
-    {
-      "path": "/abs/path",
-      "primary": "defect",
-      "classes": ["defect"],
-      "families": ["python"],
-      "monorepo": false,
-      "scores": {"defect": 4},
-      "signals": {"defect": ["pyproject.toml", "requirements.txt"]}
-    }
 """
 from __future__ import annotations
 
@@ -51,37 +28,35 @@ IGNORE_DIRS = frozenset({
     ".gradle", ".cache", "bower_components",
 })
 
-# ML/data-science libraries whose presence in a dependency file marks a Watcher.
-ML_LIBS = (
-    "numpy", "pandas", "scipy", "matplotlib", "seaborn", "scikit-learn",
-    "sklearn", "torch", "pytorch", "torchvision", "tensorflow", "keras",
-    "jax", "flax", "xgboost", "lightgbm", "catboost", "transformers",
-    "datasets", "accelerate", "jupyter", "jupyterlab", "notebook", "ipykernel",
-    "mlflow", "wandb", "statsmodels", "spacy", "nltk", "opencv-python",
-    "polars", "dask",
-)
-
-# Dependency manifests we read (bounded) to look for ML libraries.
-DEP_FILES = frozenset({
-    "pyproject.toml", "setup.py", "setup.cfg", "Pipfile", "environment.yml",
-    "environment.yaml",
-})
-
-# Map each class to its language family, used to decide monorepo status.
-FAMILY = {
-    "defect": "python",
-    "watcher": "python",
-    "silent": "javascript",
-    "ironclad": "infra",
-    "colorless": "none",
-}
-
-# Tie-break order when scores are equal: more specific archetypes win. Lower
-# sorts first, so an ML repo (watcher) outranks a generic Python repo (defect).
-PRIORITY = {"watcher": 0, "ironclad": 1, "silent": 2, "defect": 3}
-
 STRONG = 3          # score contributed by the first strong signal of a class
 MAX_READ = 200_000  # cap (bytes) when reading a dependency manifest
+
+_DETECTION_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "classes", "detection.json",
+)
+
+
+def _load_detection() -> dict:
+    with open(_DETECTION_PATH, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+_DETECTION = _load_detection()
+ML_LIBS = tuple(_DETECTION["ml_libs"])
+DEP_FILES = frozenset(_DETECTION["dep_files"])
+CLASS_SPECS = _DETECTION["classes"]
+
+# Public maps used by tests and deck.py — derived from detection.json.
+FAMILY = {name: spec["family"] for name, spec in CLASS_SPECS.items()}
+PRIORITY = {
+    name: spec["priority"]
+    for name, spec in CLASS_SPECS.items()
+    if not spec.get("fallback")
+}
+CLASS_NAMES = {
+    name: spec["display_name"]
+    for name, spec in CLASS_SPECS.items()
+}
 
 
 def _read_text(path: str) -> str:
@@ -101,19 +76,20 @@ def _dep_present(blob: str, lib: str) -> bool:
 def scan(root: str) -> dict:
     """Detect archetype signals under ``root`` and classify the repository."""
     root = os.path.abspath(root)
-    signals: dict[str, set[str]] = {c: set() for c in ("defect", "silent", "ironclad", "watcher")}
+    scorable = [c for c, s in CLASS_SPECS.items() if not s.get("fallback")]
+    signals: dict[str, set[str]] = {c: set() for c in scorable}
     ext_counts: dict[str, int] = {}
     dep_blobs: list[str] = []
 
     for dirpath, dirnames, filenames in os.walk(root):
-        # Prune ignored directories in place so os.walk skips them entirely.
         dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
 
         base = os.path.basename(dirpath)
-        if base == "terraform":
-            signals["ironclad"].add("terraform/ directory")
-        if base in ("notebooks", "models", "experiments"):
-            signals["watcher"].add(f"{base}/ directory")
+        for cls, spec in CLASS_SPECS.items():
+            if spec.get("fallback"):
+                continue
+            if base in spec.get("dir_markers", []):
+                signals[cls].add(f"{base}/ directory")
 
         for fn in filenames:
             low = fn.lower()
@@ -124,46 +100,35 @@ def scan(root: str) -> dict:
 
             is_req = low.startswith("requirements") and low.endswith(".txt")
 
-            # --- defect (python) ---
-            if fn in ("pyproject.toml", "setup.py", "setup.cfg", "Pipfile",
-                      "poetry.lock", "tox.ini") or is_req:
-                signals["defect"].add(fn)
+            for cls, spec in CLASS_SPECS.items():
+                if spec.get("fallback"):
+                    continue
+                if fn in spec.get("exact_files", []):
+                    signals[cls].add(fn)
+                if spec.get("requirements_txt") and is_req:
+                    signals[cls].add(fn)
+                if spec.get("dockerfile") and (fn == "Dockerfile" or low.startswith("dockerfile.")):
+                    signals[cls].add("Dockerfile")
+                for prefix in spec.get("config_prefixes", []):
+                    if low.startswith(prefix):
+                        signals[cls].add(fn)
+                        break
+                label = spec.get("ext_markers", {}).get(ext)
+                if label:
+                    signals[cls].add(label)
 
-            # --- silent (typescript / javascript) ---
-            if (fn in ("package.json", "tsconfig.json", "pnpm-lock.yaml", "yarn.lock",
-                       "angular.json", "svelte.config.js", "deno.json", "bun.lockb")
-                    or low.startswith("next.config.")
-                    or low.startswith("vite.config.")
-                    or low.startswith("nuxt.config.")):
-                signals["silent"].add(fn)
-
-            # --- ironclad (infra / IaC) ---
-            if fn == "Dockerfile" or low.startswith("dockerfile."):
-                signals["ironclad"].add("Dockerfile")
-            elif fn in ("docker-compose.yml", "docker-compose.yaml", "compose.yml",
-                        "compose.yaml", "Chart.yaml"):
-                signals["ironclad"].add(fn)
-            elif ext in (".tf", ".tfvars", ".hcl"):
-                signals["ironclad"].add(f"*{ext}")
-
-            # --- watcher (data / ML) ---
-            if ext == ".ipynb":
-                signals["watcher"].add("*.ipynb")
-            elif ext in (".parquet", ".h5", ".hdf5", ".ckpt", ".pkl", ".pt",
-                         ".onnx", ".safetensors"):
-                signals["watcher"].add(f"*{ext} (model/data artifact)")
-
-            # Collect dependency manifests to scan for ML libraries.
             if fn in DEP_FILES or is_req:
                 blob = _read_text(os.path.join(dirpath, fn))
                 if blob:
                     dep_blobs.append(blob.lower())
 
-    # ML dependency detection across all manifests found.
     depblob = "\n".join(dep_blobs)
-    for lib in ML_LIBS:
-        if _dep_present(depblob, lib):
-            signals["watcher"].add(f"{lib} (dependency)")
+    for cls, spec in CLASS_SPECS.items():
+        if not spec.get("ml_deps"):
+            continue
+        for lib in ML_LIBS:
+            if _dep_present(depblob, lib):
+                signals[cls].add(f"{lib} (dependency)")
 
     return _classify(signals, ext_counts, root)
 
@@ -175,12 +140,21 @@ def _classify(signals: dict[str, set[str]], ext_counts: dict[str, int], root: st
         if sig:
             scores[cls] = STRONG + (len(sig) - 1)
 
-    # Weak extension-prevalence bonus (never enough to create a class alone).
-    if ext_counts.get(".py", 0) >= 3:
-        scores["defect"] = scores.get("defect", 0) + 1
-    js = sum(ext_counts.get(e, 0) for e in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"))
-    if js >= 3:
-        scores["silent"] = scores.get("silent", 0) + 1
+    for cls, spec in CLASS_SPECS.items():
+        if spec.get("fallback"):
+            continue
+        bonus = spec.get("ext_bonus") or {}
+        if not bonus:
+            continue
+        if spec.get("ext_bonus_shared"):
+            total = sum(ext_counts.get(e, 0) for e in bonus)
+            threshold = next(iter(bonus.values()))
+            if total >= threshold:
+                scores[cls] = scores.get(cls, 0) + 1
+        else:
+            for ext, threshold in bonus.items():
+                if ext_counts.get(ext, 0) >= threshold:
+                    scores[cls] = scores.get(cls, 0) + 1
 
     classes = sorted(
         (c for c, s in scores.items() if s >= STRONG),
@@ -209,7 +183,7 @@ def _classify(signals: dict[str, set[str]], ext_counts: dict[str, int], root: st
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="scan.py",
-        description="Detect a repository's deck-builder class from its files.",
+        description="Detect a repository's spire class from its files.",
     )
     parser.add_argument("path", nargs="?", default=".", help="repo root to scan (default: .)")
     args = parser.parse_args(argv)

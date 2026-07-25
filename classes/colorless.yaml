@@ -8,7 +8,7 @@ flavor: >-
   Unknown terrain. A minimal, safe deck: small diffs, no powers, and no
   assumptions about the stack until you've mapped it.
 
-# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# Used by /spire:ascend to generate class-appropriate gate hooks.
 # Both null: an unclassified repo has no known lint/test command, so
 # ascend.py stays warn-only for both gates regardless of ascension tier.
 commands:
