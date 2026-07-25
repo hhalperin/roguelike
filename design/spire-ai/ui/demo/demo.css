@@ -88,6 +88,10 @@
 
 * { box-sizing: border-box; }
 
+/* class selectors like .chrome/.banner/.fanfare set display, which would
+   otherwise beat the [hidden] UA rule — keep hidden authoritative. */
+[hidden] { display: none !important; }
+
 html, body { height: 100%; }
 
 body {

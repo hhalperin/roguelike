@@ -330,7 +330,7 @@
     $("combat-telegraph").textContent = e.telegraph;
     var pct = Math.max(0, Math.min(100, Math.round((state.enemyHp / e.maxHp) * 100)));
     $("combat-hp-fill").style.width = pct + "%";
-    $("combat-hp-text").textContent = "Stability " + (e.maxHp - state.enemyHp) + " / " + e.maxHp;
+    $("combat-hp-text").textContent = "Stability " + state.enemyHp + " / " + e.maxHp;
     orbRow(els.combatOrbs, state.energy, state.energyMax);
     orbRow(els.chromeOrbs, state.energy, state.energyMax);
 
