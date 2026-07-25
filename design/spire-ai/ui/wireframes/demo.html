@@ -461,6 +461,7 @@
           if (ret) {
             ret.addEventListener("click", function (e) {
               e.preventDefault();
+              beginCombatState("Log: returned to combat · hand unlocked");
               showScreen("combat");
               render();
             });
@@ -710,6 +711,23 @@
         showScreen(next || "map");
       }
 
+      function beginCombatState(logText) {
+        state.energy = state.energyMax;
+        state.playedThisTurn = [];
+        state.combatHp = 1;
+        document.getElementById("combat-log").textContent =
+          logText || "Log: combat begun · hand unlocked";
+      }
+
+      function restoreDefaultDeck() {
+        DECK.length = 0;
+        DECK.push(
+          { id: "d1", name: "orient", plays: 0, when: "floor 0" },
+          { id: "d2", name: "add-endpoint", plays: 0, when: "floor 0" },
+          { id: "d3", name: "run-tests", plays: 4, when: "today" }
+        );
+      }
+
       function enterNode() {
         var node = selectedNode();
         if (!node) return;
@@ -754,10 +772,7 @@
             return;
           }
           if (go === "combat") {
-            state.energy = state.energyMax;
-            state.playedThisTurn = [];
-            state.combatHp = 1;
-            document.getElementById("combat-log").textContent = "Log: combat begun · hand unlocked";
+            beginCombatState();
           }
           showScreen(go);
           return;
@@ -769,6 +784,7 @@
           state.tokens = 4;
           state.taken = 0;
           state.skips = 0;
+          restoreDefaultDeck();
           NODES.forEach(function (n, i) {
             n.done = false;
             n.reachable = i === 0;
@@ -903,12 +919,7 @@
           n.done = i === 0;
           n.reachable = i === 1;
         });
-        DECK.length = 0;
-        DECK.push(
-          { id: "d1", name: "orient", plays: 0, when: "floor 0" },
-          { id: "d2", name: "add-endpoint", plays: 0, when: "floor 0" },
-          { id: "d3", name: "run-tests", plays: 4, when: "today" }
-        );
+        restoreDefaultDeck();
         toast("Run reset");
         showScreen("title");
       });
