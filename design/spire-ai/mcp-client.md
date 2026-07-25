@@ -14,6 +14,8 @@ The Spire **game client** is an MCP app with UI. The plugin/engine remains sourc
 
 ## Screens (v0 demo)
 
+Formats + wireframes: [`ui/`](ui/README.md) (open `ui/wireframes/index.html`).
+
 1. **Title / Continue** — load save or start climb template  
 2. **Map** — nodes (combat, `?`, campfire, shop, boss); show act, floor, streak  
 3. **Room — Intent** — enemy/event art + intent text + acceptance criteria  

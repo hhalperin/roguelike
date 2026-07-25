@@ -17,6 +17,7 @@ implementation can stay aligned without re-deriving the ideology each time.
 | [non-goals.md](non-goals.md) | What we refuse so the game stays a game |
 | [act-templates/ship-the-stub.md](act-templates/ship-the-stub.md) | Stage 2 vertical demo outline |
 | [fixtures/pressure-vector.example.json](fixtures/pressure-vector.example.json) | Example prior payload |
+| [ui/](ui/README.md) | Per-facet formats, design system, HTML wireframes |
 
 **One-line pitch:** Your project is the run. Your agent config is the deck. Spire is the game.
 
