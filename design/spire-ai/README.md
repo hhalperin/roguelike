@@ -15,7 +15,11 @@ implementation can stay aligned without re-deriving the ideology each time.
 | [mcp-client.md](mcp-client.md) | Cursor MCP app UI surfaces + turn protocol |
 | [wedge.md](wedge.md) | Build order: plugin → demo Act → company |
 | [non-goals.md](non-goals.md) | What we refuse so the game stays a game |
+| [act-templates/ship-the-stub.md](act-templates/ship-the-stub.md) | Stage 2 vertical demo outline |
+| [fixtures/pressure-vector.example.json](fixtures/pressure-vector.example.json) | Example prior payload |
 
 **One-line pitch:** Your project is the run. Your agent config is the deck. Spire is the game.
 
 **Discipline pitch:** One room at a time. Entertainment pays for focus. AI weights the dungeon; the player still picks the path.
+
+**Working agreement:** Ideology change → update GDD + non-goals in the same PR. `?` behavior change → update room-prior-contract + fixture.

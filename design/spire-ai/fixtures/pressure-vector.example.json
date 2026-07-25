@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-25T12:00:00+00:00",
+  "floor": 3,
+  "weights": {
+    "feature": 0.22,
+    "bug": 0.36,
+    "refactor": 0.16,
+    "design": 0.08,
+    "docs": 0.06,
+    "infra": 0.06,
+    "orient": 0.06
+  },
+  "evidence": [
+    {
+      "sensor": "tests_failing",
+      "detail": "pytest exit 1 on auth/test_login.py",
+      "delta": {"bug": 0.4}
+    },
+    {
+      "sensor": "diff_src_no_tests",
+      "detail": "12 src hunks, 0 test hunks since last clear",
+      "delta": {"bug": 0.1, "feature": 0.1}
+    }
+  ],
+  "model": {
+    "rationale": "Failing auth test dominates; feature work can wait one room.",
+    "suggested_intents": [
+      {
+        "room_type": "bug",
+        "intent": "Login regression will block any ship room this floor."
+      }
+    ]
+  }
+}
