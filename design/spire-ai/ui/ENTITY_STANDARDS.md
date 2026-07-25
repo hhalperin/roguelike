@@ -81,6 +81,10 @@ Every object gets a silhouette, an accent source, and a required metadata line.
 Silhouette carries the meaning, so the objects stay distinguishable in
 greyscale and for colour-blind readers. Accent is secondary.
 
+No two node kinds may share a silhouette, which is why Shop is a hexagon and
+Unknown owns the diamond. An earlier draft gave both a diamond and broke its own
+rule. Node shapes follow [formats/map.md](formats/map.md).
+
 | Object | Silhouette | Glyph | Accent from | Required metadata |
 | --- | --- | --- | --- | --- |
 | Card | Tall rounded rectangle, cost pip top-left, rarity notch top-right | none | Room types it is legal in | cost, legal rooms, plays |
@@ -92,9 +96,9 @@ greyscale and for colour-blind readers. Accent is secondary.
 | Elite | Larger circle, double ring | `✸` | Room type, intensified | room type, acceptance, reward |
 | Boss | Largest circle, filled ring | `☠` | Ink | act, acceptance |
 | Rest | Rounded square | `▲` | Campfire warm | options available |
-| Shop | Diamond | `◆` | Shop violet | currency held |
+| Shop | Hexagon | `◆` | Shop violet | currency held |
 | Treasure | Small square | `▮` | Gold | what it contains |
-| Unknown | Diamond outline | `?` | Muted until resolved | prior, once resolved the real glyph |
+| Unknown | Diamond | `?` | Muted until resolved | prior, once resolved the real glyph |
 
 ### Room type palette
 
@@ -145,6 +149,14 @@ that has been filed wrong.
    their cost stated.
 8. **No object may be added without a pool id.** Content lives in `content/`
    and `packs/`, never inline in a script.
+
+   *Scope, stated plainly because this rule currently convicts our own demo.*
+   It binds the engine and anything that reads a real repository. The wireframe
+   under `demo/` still holds its cards, enemies and events inline in `demo.js`,
+   which violates the spirit of the rule. Bosses have moved to
+   `content/bosses.json`; the rest is outstanding debt, not an exemption on
+   principle. Extract the remaining pools before anything in `demo/` is treated
+   as more than a sketch.
 
 ## Metrics surfaces
 

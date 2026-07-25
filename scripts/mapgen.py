@@ -54,23 +54,25 @@ BOSSES_PATH = pathlib.Path(__file__).resolve().parent.parent / "content" / "boss
 # How much the demo ships. One source of truth for the generator and the
 # staleness test, so they cannot check different things.
 EMIT_SEEDS = 3
-EMIT_ACTS = 6
+EMIT_ACTS = 8
 
 # Unknown-node resolution. Checked in this order; each base climbs by its own
 # value every time it fails to fire, and resets when it fires.
 RAMP_ORDER = ("monster", "shop", "treasure")
 RAMP_BASE = {"monster": 0.10, "shop": 0.03, "treasure": 0.02}
 
-_BASE_OFFSETS = {1: 1, 2: 200, 3: 600, 4: 1000}
+def act_seed(seed: int, act: int) -> int:
+    """Derive the per-act seed.
 
-
-def act_offset(act: int) -> int:
-    """Seed offset per act, defined for every act so the climb never ends."""
+    Hashed rather than added. Adding a per-act offset collides across acts:
+    with offsets 1 and 200, seed 199 act 1 produced a graph identical to
+    seed 0 act 2, which quietly breaks the promise that a seed and an act
+    name one map.
+    """
     if act < 1:
         raise ValueError(f"act must be >= 1, got {act}")
-    if act in _BASE_OFFSETS:
-        return _BASE_OFFSETS[act]
-    return 1000 + (act - HEART_ACT) * 400
+    digest = hashlib.sha256(f"{seed}:{act}".encode()).digest()
+    return int.from_bytes(digest[:8], "big")
 
 
 def load_bosses() -> dict:
@@ -143,7 +145,14 @@ class SpireMap:
         return [self.nodes[k] for k in sorted(self.nodes) if k[0] == row]
 
     def next_nodes(self, node: Node) -> list[Node]:
-        return [self.nodes[(node.row + 1, c)] for c in node.next_cols]
+        # Skips edges pointing at nothing rather than raising, so
+        # check_invariants can report a malformed map instead of crashing on it.
+        out = []
+        for col in node.next_cols:
+            child = self.nodes.get((node.row + 1, col))
+            if child is not None:
+                out.append(child)
+        return out
 
     def parents(self, node: Node) -> list[Node]:
         if node.row == 0:
@@ -164,7 +173,7 @@ class SpireMap:
         Exported so a client can resolve an unknown node itself without
         reimplementing the RNG. Only the ramp thresholds are shared.
         """
-        rng = floor_rng(self.seed + act_offset(self.act), node.row)
+        rng = floor_rng(act_seed(self.seed, self.act), node.row)
         return [rng.random() for _ in RAMP_ORDER]
 
     def to_dict(self) -> dict:
@@ -374,11 +383,10 @@ def _repair_rejoins(
 ) -> None:
     """Remove edges that let two branches rejoin one floor after they split.
 
-    The walker only *prefers* non-rejoining steps. When all three options
-    collide it has to take one, so the rule needs enforcing afterwards rather
-    than claiming the walker guarantees it. Working from the splitting node
-    lets us drop whichever of the two offending edges is safe to lose, which
-    the earlier per-edge pass could not do.
+    _walk_paths retries a whole path that would add one, which removes almost
+    all of them. This catches the residue: a path whose every option collided
+    on all of its retries. Working from the splitting node lets us drop
+    whichever of the two offending edges is safe to lose.
     """
     for _ in range(3):  # a repair can expose another; this reaches a fixed point
         keys = set(edges) | set(parents)
@@ -540,7 +548,7 @@ def generate(seed: int, act: int, ascension: int = 0) -> SpireMap:
     `act` is unbounded. Acts past the Heart keep generating, with elite
     density climbing, so a run has no level limit.
     """
-    rng = random.Random(seed + act_offset(act))
+    rng = random.Random(act_seed(seed, act))
     edges = _walk_paths(rng)
     nodes = _assign_kinds(rng, edges, act, ascension)
     pool = boss_pool(load_bosses(), act)
@@ -558,7 +566,7 @@ def resolve_unknown(spire_map: SpireMap, node: Node, ramp: Ramp) -> dict:
     if node.key in spire_map._unknown:
         return spire_map._unknown[node.key]
 
-    rng = floor_rng(spire_map.seed + act_offset(spire_map.act), node.row)
+    rng = floor_rng(act_seed(spire_map.seed, spire_map.act), node.row)
     outcome = "event"
     for kind in RAMP_ORDER:
         if rng.random() < ramp.chance(kind):
@@ -701,6 +709,29 @@ def check_invariants(spire_map: SpireMap) -> list[str]:
         run = run + 1 if kinds == {"monster"} else 0
         if run >= 4:
             fail(f"four consecutive monster-only floors ending at row {row}")
+
+    # Quota bounds. Without these a map of almost pure monster rooms is
+    # "legal", which is how a zero-elite act would slip past. Bands are wide
+    # because the bag rounds and the placement rules reject some slots, but
+    # they are tight enough to catch a kind going missing. Measured ranges sit
+    # comfortably inside them.
+    assignable = [
+        n for n in m.nodes.values() if not _is_forced_row(n.row) and n.kind != "boss"
+    ]
+    if assignable:
+        for kind, share in QUOTAS.items():
+            target = share
+            if kind == "elite":
+                target *= elite_multiplier(m.act, m.ascension)
+            actual = sum(1 for n in assignable if n.kind == kind) / len(assignable)
+            if not target * 0.35 <= actual <= target * 1.9:
+                fail(f"{kind} share {actual:.3f} is outside the band around {target:.3f}")
+
+    # Routing has to exist. A map with almost no branch points is a corridor,
+    # whatever its room mix, and the whole point of the facet is choosing.
+    forks = sum(1 for n in m.nodes.values() if len(n.next_cols) > 1)
+    if forks < 3:
+        fail(f"only {forks} branch point(s), so there is nothing to route")
 
     reached: set[tuple[int, int]] = set()
     frontier = list(entries)

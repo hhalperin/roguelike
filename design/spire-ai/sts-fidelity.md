@@ -188,6 +188,14 @@ edge against its neighbours' outgoing edges. And two branches that just split
 may not rejoin one floor later, enforced by re-rolling sideways when a
 prospective parent shares an ancestor fewer than 3 rows back.
 
+> **What we implement is narrower than that.** Our generator enforces only the
+> immediate case, where two children of the same node share a child. The
+> stronger "shares an ancestor within 3 rows" rule is not enforced and not
+> checked, so it still occurs. Enforcing the immediate rule alone gets route
+> distinctness where it is visible; the wider rule was not worth a backtracking
+> walker. Recorded here so nobody reads this section as a description of the
+> code.
+
 Forced floors are applied before anything random. Floor 1 is all monster and any
 node on it is a legal entry. A mid-act floor is all treasure. The pre-boss floor
 is all rest site. Every pre-boss node connects to the single boss node.
@@ -199,11 +207,19 @@ Unknown 22 percent, and monster takes the remainder at roughly 53 percent. The
 consequence is that the *count* of each type per act is near-deterministic and
 only the placement varies.
 
-Dealing proceeds row by row. For each node the generator takes the first type in
-the bag that satisfies three rules. Rest and Elite may not appear on floors 1
-through 5. Rest, Treasure, Shop and Elite may not take a type any parent already
-has. And no node may take a type already held by a sibling, meaning any node
-reachable from any of its parents.
+Dealing proceeds row by row in the original. For each node the generator takes
+the first type in the bag that satisfies three rules. Rest and Elite may not
+appear on floors 1 through 5. Rest, Treasure, Shop and Elite may not take a type
+any parent already has. And no node may take a type already held by a sibling,
+meaning any node reachable from any of its parents.
+
+> **We deviate here, deliberately.** Dealing strictly row by row starves the top
+> of the map, because the early floors are the only ones that can legally take
+> Shop and Unknown and they consume every one before the upper floors are
+> reached. Measured on our grid it produced a pure monster corridor on floors 11
+> to 14 in 600 of 600 maps. We assign each bag item to a random legal slot
+> across the whole climb instead, which preserves the totals and spreads the
+> variety. The three placement rules are unchanged.
 
 **When no type in the bag is legal the node is left empty and becomes a monster
 room.** It is not re-rolled until something fits. The failure mode of an
@@ -359,7 +375,8 @@ accident. **Defer** means wanted, blocked on a prerequisite.
 | Per-turn energy budget | **Emulate** | Energy is the session's attention budget. Set not added, so it expires unused |
 | Small closed turn | **Emulate** | The room must be solvable in one sitting with the budget on screen |
 | Draw, discard, exhaust piles | **Defer** | Wanted, and it needs a real card layer with costs and legality first. Today's "hand" is the room-legal subset of a permanent collection |
-| Block, HP, damage math | **Refuse** | HP has no honest analogue in project work. A health bar the player knows is fictional makes every routing decision fictional too, and the repo non-goals already forbid mandatory gamification |
+| Player HP, block, damage math | **Refuse** | No honest analogue in project work. A health bar the player knows is fictional makes every routing decision fictional too. Nothing damages the player, and no meter carries between rooms |
+| A per-room progress meter | **Adapt** | Distinct from HP and worth stating, because the two get confused. A room shows how much of its acceptance is met, it fills upward as you play cards, and it resets with the room. The demo calls the field `clearAt` rather than `maxHp` so the code does not imply hit points either |
 | A persistent depleting resource | **Open** | Pillar 3 is genuinely unfilled and we should not fake it. The only honest candidates are measurable. Calendar time to a deadline, CI minutes, reviewer capacity, error budget. Until one is bound, risk and reward stays advisory. This is the most important open question in the design |
 | Buffs and debuffs | **Refuse for now** | They only mean something on top of damage math we are refusing |
 | Status cards | **Refuse** | A per-combat clog card needs piles to clog |
@@ -367,7 +384,8 @@ accident. **Defer** means wanted, blocked on a prerequisite.
 | Card rarity | **Adapt** | Rarity should gate offer probability, including the rare-drought offset. Today it only colours a notch |
 | Card upgrade | **Adapt** | One upgrade per card, bought at a campfire, which is exactly Smith |
 | Relics as run-long modifiers | **Adapt** | Ours are standing policy lines rather than combat hooks. Keep that. Add the `ascension_min` gate that the schema already declares and nothing reads |
-| Potions | **Refuse** | A single-use consumable needs an economy that does not exist yet |
+| Potions, the vocabulary | **Adapt** | A one-shot diagnostic really is a potion, and naming it one is useful now. The Deck facet lists them for that reason |
+| Potions, the mechanic | **Defer** | Slots, drop rates, and spending one mid-room need an economy that does not exist yet. Nothing is consumable in the demo. Splitting this row from the one above because shipping the panel while the ledger said "refuse potions" read as a contradiction, and fairly so |
 | Gold economy | **Defer** | Needed before removal can cost anything |
 | Escalating removal cost | **Emulate** | This is the mechanism that gives the deck cap teeth. Free removal makes bloat costless and the whole lean-deck tension collapses |
 | Map generation, branching, commit to edge | **Emulate fully** | Load-bearing pillar 5, fully specified, pure arithmetic, and completely checkable. This is what we build first |

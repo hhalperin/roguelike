@@ -22,7 +22,7 @@
 
   var MONSTERS = [
     {
-      name: "Nit Cluster", room: "refactor", maxHp: 2,
+      name: "Nit Cluster", room: "refactor", clearAt: 2,
       intent: "Will bury the real review comment under twelve style nits.",
       blurb: "Clear by fixing the nits mechanically and separating the real note.",
       acceptance: "ruff check .  →  exit 0",
@@ -30,7 +30,7 @@
       turnEffect: "Three more nits arrive on the same file."
     },
     {
-      name: "Regression Bug", room: "bug", maxHp: 3,
+      name: "Regression Bug", room: "bug", clearAt: 3,
       intent: "Will reappear next release if you patch the symptom.",
       blurb: "Clear by pinning it with a failing test, then fixing the cause.",
       acceptance: "python -m pytest -q  →  exit 0",
@@ -38,7 +38,7 @@
       turnEffect: "The bug reproduces on a second code path."
     },
     {
-      name: "Missing Test", room: "bug", maxHp: 2,
+      name: "Missing Test", room: "bug", clearAt: 2,
       intent: "Will let the next change break silently.",
       blurb: "Clear by covering the untested branch.",
       acceptance: "coverage on the touched file  →  no regression",
@@ -46,7 +46,7 @@
       turnEffect: "Another untested branch appears."
     },
     {
-      name: "Dependency Bump", room: "infra", maxHp: 3,
+      name: "Dependency Bump", room: "infra", clearAt: 3,
       intent: "Will break the build in a transitive package you do not own.",
       blurb: "Clear by pinning the version and recording why.",
       acceptance: "lockfile committed + build green",
@@ -57,7 +57,7 @@
 
   var ELITES = [
     {
-      name: "Flaky Suite", room: "bug", maxHp: 4,
+      name: "Flaky Suite", room: "bug", clearAt: 4,
       intent: "Will fail CI randomly if ignored.",
       blurb: "Clear by stabilizing the suite, not by quarantining tests.",
       acceptance: "python -m pytest -q  ×3  →  exit 0",
@@ -65,7 +65,7 @@
       turnEffect: "A red test blinks green and hides itself."
     },
     {
-      name: "Duplication Hydra", room: "refactor", maxHp: 4,
+      name: "Duplication Hydra", room: "refactor", clearAt: 4,
       intent: "Will grow a third copy while you edit the second.",
       blurb: "Clear by collapsing the copies behind one caller.",
       acceptance: "one definition, all callers migrated",
@@ -157,6 +157,10 @@
   }
 
   var MAPS = window.SPIRE_MAPS || [];
+  // Derived from the data rather than hardcoded, so cycling climbs can never
+  // ask for a seed or act that was never emitted.
+  var SEED_COUNT = Math.max(1, new Set(MAPS.map(function (m) { return m.seed; })).size);
+  var ACT_COUNT = Math.max(1, new Set(MAPS.map(function (m) { return m.act; })).size);
 
   /* ------------------------------ state ------------------------------ */
   var DEFAULTS = {
@@ -165,7 +169,7 @@
     currentId: null, selectedId: null,
     deckSize: 6, tokens: 4, taken: 1, skips: 4, focus: 0, curses: 0, actsCleared: 0,
     streak: 2, ascension: 10, ascPick: 10,
-    currentEnemy: null, enemyHp: 0, energy: 3, energyMax: 3, playedThisTurn: [],
+    currentEnemy: null, progress: 0, energy: 3, energyMax: 3, playedThisTurn: [],
     campMode: "prune", campPick: null, shopId: null,
     rewardMode: "card",
     theme: "light"
@@ -181,7 +185,11 @@
   }
 
   function loadAct(seed, act) {
-    MAP = mapFor(seed, act) || MAPS[0];
+    var found = mapFor(seed, act);
+    if (!found) {
+      console.warn("No map for seed " + seed + " act " + act + "; falling back to the first.");
+    }
+    MAP = found || MAPS[0];
     MAP.byId = {};
     MAP.cleared = {};
     for (var i = 0; i < MAP.nodes.length; i++) {
@@ -258,7 +266,7 @@
   function enemyFor(n) {
     if (n.kind === "boss") {
       return {
-        name: MAP.boss.name, room: MAP.boss.room || FALLBACK_BOSS_ROOM, maxHp: 5,
+        name: MAP.boss.name, room: MAP.boss.room || FALLBACK_BOSS_ROOM, clearAt: 5,
         intent: MAP.boss.intent || "Will block ship until someone owns the decision.",
         blurb: actLabel(MAP.act) + " boss. Known from floor 1, so build for it.",
         acceptance: MAP.boss.acceptance || "decision recorded + checks green",
@@ -681,9 +689,9 @@
     var e = state.currentEnemy;
     $("combat-name").textContent = e.name;
     $("combat-telegraph").textContent = e.telegraph;
-    var pct = Math.max(0, Math.min(100, Math.round((state.enemyHp / e.maxHp) * 100)));
-    $("combat-hp-fill").style.width = pct + "%";
-    $("combat-hp-text").textContent = "Stability " + state.enemyHp + " / " + e.maxHp;
+    var pct = Math.max(0, Math.min(100, Math.round((state.progress / e.clearAt) * 100)));
+    $("combat-clear-fill").style.width = pct + "%";
+    $("combat-clear-text").textContent = "Stability " + state.progress + " / " + e.clearAt;
     orbRow(els.combatOrbs, state.energy, state.energyMax);
     orbRow(els.chromeOrbs, state.energy, state.energyMax);
 
@@ -752,10 +760,10 @@
     if (state.energy < c.cost) return;
     state.energy -= c.cost;
     state.playedThisTurn.push(c.id);
-    state.enemyHp = Math.min(state.currentEnemy.maxHp, state.enemyHp + c.progress);
+    state.progress = Math.min(state.currentEnemy.clearAt, state.progress + c.progress);
     btn.classList.add("committing");
     $("combat-log").textContent = "Log: played " + c.title + " (+" + c.progress + " progress)";
-    var done = state.enemyHp >= state.currentEnemy.maxHp;
+    var done = state.progress >= state.currentEnemy.clearAt;
     setTimeout(function () {
       renderCombat();
       if (done) toast("Room stabilized — run acceptance");
@@ -911,7 +919,8 @@
       if (mapFor(state.seed, nextAct)) {
         loadAct(state.seed, nextAct);
       } else {
-        toast("Cleared every act in this demo build · regenerate with more --acts");
+        toast("Cleared all " + ACT_COUNT + " acts bundled in this build. The generator " +
+          "is unbounded; re-run emit-js with a higher --acts to keep climbing.");
         state.currentId = null;
       }
     }
@@ -938,7 +947,7 @@
 
     if (kind === "monster" || kind === "elite" || kind === "boss") {
       state.currentEnemy = enemyFor(kind === n.kind ? n : Object.assign({}, n, { kind: kind }));
-      state.enemyHp = 0;
+      state.progress = 0;
       state.energy = state.energyMax;
       state.playedThisTurn = [];
       showScreen("intent");
@@ -970,7 +979,7 @@
 
   function runAcceptance() {
     var e = state.currentEnemy;
-    if (state.enemyHp < e.maxHp) {
+    if (state.progress < e.clearAt) {
       $("combat-log").textContent = "Log: acceptance failed · room not yet stable";
       toast("Acceptance failed — keep playing");
       return;
@@ -1022,7 +1031,7 @@
     switch (action) {
       case "new-climb":
         var theme = state.theme;
-        var seed = (state.seed + 1) % 4;
+        var seed = (state.seed + 1) % SEED_COUNT;
         resetState();
         state.theme = theme;
         state.seed = seed;
@@ -1160,7 +1169,7 @@
      of content mistake that should not reach a player. */
   function auditContent() {
     var rooms = {};
-    MONSTERS.concat(ELITES).forEach(function (e) { rooms[e.room] = Math.max(rooms[e.room] || 0, e.maxHp); });
+    MONSTERS.concat(ELITES).forEach(function (e) { rooms[e.room] = Math.max(rooms[e.room] || 0, e.clearAt); });
     MAPS.forEach(function (m) {
       if (m.boss && m.boss.room) rooms[m.boss.room] = Math.max(rooms[m.boss.room] || 0, 5);
     });

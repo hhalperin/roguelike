@@ -333,6 +333,68 @@ def test_act_zero_is_rejected():
         mapgen.generate(1, 0)
 
 
+def test_seed_and_act_do_not_collide():
+    """An additive per-act offset made seed 199 act 1 equal seed 0 act 2."""
+    prints = {}
+    for seed in range(120):
+        for act in range(1, 7):
+            fp = mapgen.generate(seed, act).fingerprint()
+            assert fp not in prints, f"({seed},{act}) collides with {prints.get(fp)}"
+            prints[fp] = (seed, act)
+
+
+# --------------------------------------------------------------------------
+# the checker has to catch a broken map, not just bless a generated one
+# --------------------------------------------------------------------------
+
+
+def test_invariants_catch_a_missing_kind():
+    m = mapgen.generate(4, 1)
+    for key, node in list(m.nodes.items()):
+        if node.kind == "elite":
+            m.nodes[key] = node.replace(kind="monster")
+    problems = mapgen.check_invariants(m)
+    assert any("elite share" in p for p in problems), problems
+
+
+def test_invariants_catch_a_corridor():
+    """A single-lane map has no routing decision, whatever its room mix."""
+    nodes = {}
+    for row in range(mapgen.ROWS):
+        if row == mapgen.TREASURE_ROW:
+            kind = "treasure"
+        elif row == mapgen.ROWS - 1:
+            kind = "rest"
+        else:
+            kind = "monster"
+        nxt = (mapgen.BOSS_COL,) if row == mapgen.ROWS - 1 else (3,)
+        nodes[(row, 3)] = mapgen.Node(row=row, col=3, kind=kind, next_cols=nxt)
+    nodes[(mapgen.BOSS_ROW, mapgen.BOSS_COL)] = mapgen.Node(
+        row=mapgen.BOSS_ROW, col=mapgen.BOSS_COL, kind="boss"
+    )
+    corridor = mapgen.SpireMap(seed=0, act=1, ascension=0, nodes=nodes, boss={"name": "X"})
+    problems = mapgen.check_invariants(corridor)
+    assert any("branch point" in p for p in problems), problems
+    assert any("no choice" in p for p in problems), problems
+
+
+def test_check_invariants_never_raises_on_a_malformed_map():
+    """It is the artifact a reviewer runs, so it must report rather than crash."""
+    m = mapgen.generate(4, 1)
+    victim = m.row_nodes(3)[0]
+    occupied = {n.col for n in m.row_nodes(4)}
+    absent = next(c for c in range(mapgen.COLS) if c not in occupied)
+    m.nodes[victim.key] = victim.replace(next_cols=(absent,))
+    problems = mapgen.check_invariants(m)
+    assert any("missing node" in p for p in problems), problems
+
+
+def test_generated_maps_have_enough_branch_points():
+    for m in all_maps():
+        forks = sum(1 for n in m.nodes.values() if len(n.next_cols) > 1)
+        assert forks >= 3, f"seed {m.seed} act {m.act} has {forks} branch points"
+
+
 # --------------------------------------------------------------------------
 # unknown resolution
 # --------------------------------------------------------------------------

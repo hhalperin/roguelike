@@ -353,7 +353,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .mnode.k-elite { width: 30px; height: 30px; font-size: 13px; box-shadow: inset 0 0 0 2px var(--paper-2); }
 .mnode.k-boss { width: 34px; height: 34px; font-size: 15px; border-width: 3px; border-color: var(--ink); color: var(--ink); }
 .mnode.k-rest { border-radius: 7px; }
-.mnode.k-shop { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); border-radius: 0; }
+.mnode.k-shop {
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+  border-radius: 0;
+}
+.mnode.k-unknown { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); border-radius: 0; }
 .mnode.k-treasure { border-radius: 3px; }
 
 /* Unreachable nodes recede hard, so the reachable set reads instantly. */
@@ -446,16 +450,16 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .enemy-block { display: flex; gap: 16px; align-items: center; }
 .enemy-info { flex: 1; }
 .enemy-info .enemy-name { font-size: 24px; }
-.hp-meter {
+.clear-meter {
   position: relative; height: 20px; margin: 8px 0;
   border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; background: var(--panel-2);
 }
-.hp-fill {
+.clear-fill {
   position: absolute; inset: 0; right: auto; width: 100%;
   background: linear-gradient(90deg, var(--facet-combat), color-mix(in srgb, var(--facet-combat) 70%, var(--danger)));
   transition: width var(--t-slow) var(--ease);
 }
-.hp-text {
+.clear-text {
   position: absolute; inset: 0; display: grid; place-items: center;
   font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--paper);
   mix-blend-mode: difference;
@@ -783,6 +787,15 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 }
 .bar-label { font-family: var(--font-ui); font-size: 10px; color: var(--muted); }
 .bar-value { font-family: var(--font-ui); font-size: 11px; font-weight: 600; }
+.illustrative, .live {
+  font-family: var(--font-ui); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle;
+}
+/* A fake number has to be labelled where the number is, not in a footnote. */
+.illustrative { color: var(--paper); background: var(--danger); }
+.live { color: var(--paper); background: var(--safe); }
+
 .metric-foot {
   display: flex; justify-content: space-between; gap: 10px; margin-top: 12px;
   padding-top: 10px; border-top: 1px solid var(--line);

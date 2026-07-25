@@ -154,9 +154,9 @@
             <div class="enemy-sigil sm" id="combat-sigil" aria-hidden="true"></div>
             <div class="enemy-info">
               <h2 class="enemy-name" id="combat-name">Flaky Suite</h2>
-              <div class="hp-meter" title="Room stability">
-                <div class="hp-fill" id="combat-hp-fill"></div>
-                <span class="hp-text" id="combat-hp-text">HP</span>
+              <div class="clear-meter" title="Progress toward this room's acceptance">
+                <div class="clear-fill" id="combat-clear-fill"></div>
+                <span class="clear-text" id="combat-clear-text">Stability</span>
               </div>
               <div class="telegraph" id="combat-telegraph">Telegraph: CI roulette</div>
             </div>
@@ -300,8 +300,9 @@
         <div class="facet-tab">Metrics · run report</div>
         <div class="metrics-grid">
           <section class="metric-card">
-            <h3 class="section-h">Cost</h3>
-            <p class="grp-note">What this climb has spent. Trends, not snapshots.</p>
+            <h3 class="section-h">Cost <span class="illustrative">illustrative</span></h3>
+            <p class="grp-note">What this climb has spent. Trends, not snapshots.
+              Not wired to a real meter yet.</p>
             <div class="bars" id="m-cost"></div>
             <div class="metric-foot">
               <span>Total <strong id="m-cost-total">—</strong></span>
@@ -309,19 +310,22 @@
             </div>
           </section>
           <section class="metric-card">
-            <h3 class="section-h">Quality</h3>
-            <p class="grp-note">Is the codebase better than when the climb started.</p>
+            <h3 class="section-h">Quality <span class="illustrative">illustrative</span></h3>
+            <p class="grp-note">Is the codebase better than when the climb started.
+              These series are placeholders, not readings from this repo.</p>
             <div class="trends" id="m-quality"></div>
           </section>
           <section class="metric-card">
-            <h3 class="section-h">Discipline</h3>
-            <p class="grp-note">Whether the run is being played well.</p>
+            <h3 class="section-h">Discipline <span class="live">live</span></h3>
+            <p class="grp-note">Whether the run is being played well. These four come from
+              the run state, so they move as you climb.</p>
             <div class="gauges" id="m-discipline"></div>
           </section>
         </div>
         <p class="caption">
           Any metric that cannot be measured from the repository or the run log does not belong
-          here. The numbers below are illustrative for the demo.
+          here. Cost and Quality above are marked illustrative because nothing reads the
+          repository yet. Discipline is real run state.
         </p>
       </section>
 
