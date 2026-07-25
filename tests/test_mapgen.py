@@ -149,9 +149,19 @@ def test_no_rest_directly_below_the_preboss_rest():
             assert node.kind != "rest"
 
 
+def bag_assigned(m):
+    """Nodes dealt from the quota bag, i.e. everything off a forced floor.
+
+    Forced floors are uniform by design (all monster, all treasure, all rest),
+    so the parent and sibling rules do not apply to them.
+    """
+    forced = (0, mapgen.TREASURE_ROW, m.rows - 1)
+    return [n for n in m.nodes.values() if n.row not in forced]
+
+
 def test_parent_rule():
     for m in all_maps():
-        for node in m.nodes.values():
+        for node in bag_assigned(m):
             if node.kind not in mapgen.PARENT_UNIQUE_KINDS:
                 continue
             for parent in m.parents(node):
@@ -160,9 +170,20 @@ def test_parent_rule():
 
 def test_sibling_rule():
     for m in all_maps():
-        for node in m.nodes.values():
+        forced = (0, mapgen.TREASURE_ROW, m.rows - 1)
+        for node in bag_assigned(m):
+            if node.kind not in mapgen.SIBLING_UNIQUE_KINDS:
+                continue
             for sibling in m.siblings(node):
+                if sibling.row in forced:
+                    continue
                 assert sibling.kind != node.kind, f"sibling clash at {node.key}"
+
+
+def test_monster_is_exempt_from_the_sibling_rule():
+    """Monster is the fallback for an over-constrained node, so it may repeat."""
+    assert "monster" not in mapgen.SIBLING_UNIQUE_KINDS
+    assert "monster" not in mapgen.PARENT_UNIQUE_KINDS
 
 
 def test_ascension_increases_elite_density():
