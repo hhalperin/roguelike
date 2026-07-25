@@ -8,6 +8,13 @@ flavor: >-
   Infrastructure and IaC. Heavy armor and heavier consequences: plan before you
   apply, pin your versions, and never let the world drift from the code.
 
+# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# "test" has no universal equivalent for infra; `terraform validate` is the
+# closest reliable proxy (config sanity, not behavior).
+commands:
+  lint: "terraform fmt -check -recursive"
+  test: "terraform validate"
+
 relics:
   - id: plan-before-apply
     rule: "Always produce and review a plan (terraform plan or equivalent) before applying infrastructure changes."

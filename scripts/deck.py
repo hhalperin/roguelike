@@ -9,12 +9,19 @@ this script rather than editing the JSON directly.
 
 Subcommands
 -----------
-    init        create a new deck.json for a detected class (idempotent)
-    add-card    record a dealt card (skill/relic/power) in the deck
-    add-relic   record a relic (a CLAUDE.md rule) in the deck
-    add-power   record a power (a hook) in the deck
-    show        render human-readable run state (backs /deck-builder:map)
-    validate    check the deck.json schema; exit non-zero if invalid
+    init          create a new deck.json for a detected class (idempotent)
+    add-card      record a dealt card (skill/relic/power) in the deck
+    add-relic     record a relic (a CLAUDE.md rule) in the deck
+    add-power     record a power (a hook) in the deck
+    remove-card   remove a card (campfire prune / curator-recommended trade)
+    remove-relic  remove a relic
+    record-play   credit a play to a card (name, plays++, last_played=today)
+    mark-offered  bump rewards.offered (by --count, default 1)
+    mark-taken    bump rewards.taken (by --count, default 1)
+    mark-skipped  bump rewards.skipped (by --count, default 1)
+    show          render human-readable run state (backs /deck-builder:map)
+    stats         aggregate deck-health stats (plays, unplayed, reward rate)
+    validate      check the deck.json schema; exit non-zero if invalid
 
 Examples
 --------
@@ -29,6 +36,7 @@ import argparse
 import datetime
 import json
 import os
+import shutil
 import sys
 
 SCHEMA_VERSION = 1
@@ -207,6 +215,110 @@ def cmd_add_power(args: argparse.Namespace) -> int:
     return 0
 
 
+def bump_reward(repo: str, field: str, amount: int = 1) -> int:
+    """Bump deck['rewards'][field] by amount; returns the new value."""
+    d = load(repo)
+    d.setdefault("rewards", {"offered": 0, "taken": 0, "skipped": 0})
+    d["rewards"][field] = d["rewards"].get(field, 0) + amount
+    save(repo, d)
+    return d["rewards"][field]
+
+
+def _is_safe_card_name(name: str) -> bool:
+    """A card name must be a single plain path segment.
+
+    Card names can originate from a curator's model-generated offer, not
+    just a human typing a kebab-case slug - so before it's ever used to
+    build a filesystem path, refuse anything containing a path separator
+    or `.`/`..`, however it was produced. Without this, a name like
+    ``"../../etc"`` (or an absolute path, which ``os.path.join`` would
+    otherwise let override the intended directory entirely) could point
+    ``shutil.rmtree`` outside ``.claude/skills/``.
+    """
+    if not name or name in (os.curdir, os.pardir):
+        return False
+    if os.sep in name or (os.altsep and os.altsep in name):
+        return False
+    return True
+
+
+def remove_card(repo: str, name: str) -> bool:
+    """Remove a card by name, deleting its dealt skill directory too.
+
+    Returns True if a card was actually removed. A "removed" skill card
+    left on disk at ``.claude/skills/<name>/`` would still load as a skill,
+    defeating the point of a campfire prune - so the directory goes first
+    (fail toward over-removed, never toward a phantom still-loadable skill).
+    The deck.json removal always proceeds even if the name isn't safe to
+    use as a path segment; only the disk deletion is skipped in that case.
+    """
+    d = load(repo)
+    matches = [c for c in d["cards"] if c.get("name") == name]
+    if not matches:
+        return False
+    if _is_safe_card_name(name):
+        for card in matches:
+            if card.get("type", "skill") == "skill":
+                shutil.rmtree(os.path.join(repo, ".claude", "skills", name), ignore_errors=True)
+    d["cards"] = [c for c in d["cards"] if c.get("name") != name]
+    save(repo, d)
+    return True
+
+
+def remove_relic(repo: str, relic_id: str) -> bool:
+    """Remove a relic by id. Returns True if a relic was actually removed."""
+    d = load(repo)
+    if relic_id not in d["relics"]:
+        return False
+    d["relics"].remove(relic_id)
+    save(repo, d)
+    return True
+
+
+def record_play(repo: str, name: str) -> bool:
+    """Credit a play to a card. Returns True if the card was found."""
+    d = load(repo)
+    for c in d["cards"]:
+        if c.get("name") == name:
+            c["plays"] = c.get("plays", 0) + 1
+            c["last_played"] = _today()
+            save(repo, d)
+            return True
+    return False
+
+
+def cmd_remove_card(args: argparse.Namespace) -> int:
+    if remove_card(args.path, args.name):
+        print(f"Removed card {args.name!r}")
+        return 0
+    print(f"card {args.name!r} not found; nothing removed")
+    return 1
+
+
+def cmd_remove_relic(args: argparse.Namespace) -> int:
+    if remove_relic(args.path, args.id):
+        print(f"Removed relic {args.id!r}")
+        return 0
+    print(f"relic {args.id!r} not found; nothing removed")
+    return 1
+
+
+def cmd_record_play(args: argparse.Namespace) -> int:
+    if record_play(args.path, args.name):
+        print(f"Recorded a play for {args.name!r}")
+        return 0
+    print(f"card {args.name!r} not found; no play recorded", file=sys.stderr)
+    return 1
+
+
+def _cmd_mark(field: str):
+    def _cmd(args: argparse.Namespace) -> int:
+        new_value = bump_reward(args.path, field, args.count)
+        print(f"rewards.{field} = {new_value}")
+        return 0
+    return _cmd
+
+
 def cmd_show(args: argparse.Namespace) -> int:
     try:
         deck = load(args.path)
@@ -248,6 +360,63 @@ def cmd_show(args: argparse.Namespace) -> int:
         f"Rewards: {r.get('offered', 0)} offered / {r.get('taken', 0)} taken"
         f" / {r.get('skipped', 0)} skipped"
     )
+    print("\n".join(lines))
+    return 0
+
+
+ASCENSION_LABELS = {
+    0: "A0 — warn only", 5: "A5 — lint blocks", 10: "A10 — +tests block",
+    15: "A15 — +coverage regression blocks", 20: "A20 — full gate + every-room review",
+}
+
+
+def stats_summary(d: dict) -> dict:
+    """Aggregate deck-health numbers, shared by cmd_stats and its tests."""
+    cards = d.get("cards", [])
+    total_plays = sum(c.get("plays", 0) for c in cards)
+    unplayed = [c["name"] for c in cards if c.get("plays", 0) == 0]
+    by_plays = sorted(cards, key=lambda c: c.get("plays", 0), reverse=True)
+    r = d.get("rewards", {"offered": 0, "taken": 0, "skipped": 0})
+    offered = r.get("offered", 0)
+    return {
+        "card_count": len(cards),
+        "relic_count": len(d.get("relics", [])),
+        "total_plays": total_plays,
+        "most_played": (by_plays[0]["name"], by_plays[0].get("plays", 0)) if by_plays else None,
+        "unplayed": unplayed,
+        "reward_take_rate": (r.get("taken", 0) / offered) if offered else None,
+        "ascension": d.get("ascension", 0),
+        "over_soft_cap": len(cards) >= 12,
+    }
+
+
+def cmd_stats(args: argparse.Namespace) -> int:
+    try:
+        d = load(args.path)
+    except FileNotFoundError:
+        print("No deck yet. Run /deck-builder to deal a starter deck.", file=sys.stderr)
+        return 1
+
+    s = stats_summary(d)
+    tier_label = ASCENSION_LABELS.get(s["ascension"], f"A{s['ascension']}")
+    lines = [
+        "📊 deck-builder — stats",
+        f"Ascension: {tier_label}",
+        f"Cards: {s['card_count']}"
+        + ("  (at/over the ~12-card soft cap)" if s["over_soft_cap"] else ""),
+        f"Relics: {s['relic_count']}",
+        f"Total plays across all cards: {s['total_plays']}",
+    ]
+    if s["most_played"]:
+        lines.append(f"Most played: {s['most_played'][0]} (×{s['most_played'][1]})")
+    lines.append(
+        f"Unplayed cards ({len(s['unplayed'])}): " + (", ".join(s["unplayed"]) or "none")
+        + ("  — candidates for a campfire prune" if s["unplayed"] else "")
+    )
+    if s["reward_take_rate"] is None:
+        lines.append("Reward take rate: no rewards offered yet")
+    else:
+        lines.append(f"Reward take rate: {s['reward_take_rate']:.0%}")
     print("\n".join(lines))
     return 0
 
@@ -308,9 +477,34 @@ def build_parser() -> argparse.ArgumentParser:
     p_power.add_argument("--name", required=True)
     p_power.set_defaults(func=cmd_add_power)
 
+    p_rm_card = sub.add_parser("remove-card", help="remove a card")
+    add_path(p_rm_card)
+    p_rm_card.add_argument("--name", required=True)
+    p_rm_card.set_defaults(func=cmd_remove_card)
+
+    p_rm_relic = sub.add_parser("remove-relic", help="remove a relic")
+    add_path(p_rm_relic)
+    p_rm_relic.add_argument("--id", required=True)
+    p_rm_relic.set_defaults(func=cmd_remove_relic)
+
+    p_play = sub.add_parser("record-play", help="credit a play to a card")
+    add_path(p_play)
+    p_play.add_argument("--name", required=True)
+    p_play.set_defaults(func=cmd_record_play)
+
+    for field in ("offered", "taken", "skipped"):
+        p_mark = sub.add_parser(f"mark-{field}", help=f"bump rewards.{field}")
+        add_path(p_mark)
+        p_mark.add_argument("--count", type=int, default=1)
+        p_mark.set_defaults(func=_cmd_mark(field))
+
     p_show = sub.add_parser("show", help="render run state")
     add_path(p_show)
     p_show.set_defaults(func=cmd_show)
+
+    p_stats = sub.add_parser("stats", help="show aggregate deck-health stats")
+    add_path(p_stats)
+    p_stats.set_defaults(func=cmd_stats)
 
     p_val = sub.add_parser("validate", help="validate the deck.json schema")
     add_path(p_val)

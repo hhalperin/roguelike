@@ -8,6 +8,14 @@ flavor: >-
   Data and machine learning. Calm and deliberate: log every experiment, seed
   everything, and gate progress on evaluation, not vibes.
 
+# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+# "test" is null: notebook-heavy ML repos often have no pytest-collectible
+# suite, so ascend.py falls back to warn-only for that gate on this class
+# rather than block on a command that may not exist.
+commands:
+  lint: "ruff check ."
+  test: null
+
 relics:
   - id: log-experiments
     rule: "Record params, data version, and metrics for every experiment so runs can be compared and reproduced."

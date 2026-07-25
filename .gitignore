@@ -220,3 +220,8 @@ __marimo__/
 # Claude Code: personal/local overrides should not be committed.
 # .claude/settings.json IS committed (shared, repo-wide config).
 .claude/settings.local.json
+
+# deck-builder: ephemeral engine bookkeeping, not part of the versioned save
+# file (deck.json and deck-builder-ascension.json ARE committed).
+.claude/deck-builder-state.json
+.claude/deck-pending-reward.json

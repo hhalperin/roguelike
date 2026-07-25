@@ -7,6 +7,11 @@ flavor: >-
   TypeScript and frontend work. Small, sharp components and fast tests keep you
   quiet and deadly. Strict types, no loose ends.
 
+# Used by /deck-builder:ascend to generate class-appropriate gate hooks.
+commands:
+  lint: "npm run lint"
+  test: "npm test"
+
 relics:
   - id: strict-ts
     rule: "Keep tsconfig strict; do not introduce `any` in new code."
