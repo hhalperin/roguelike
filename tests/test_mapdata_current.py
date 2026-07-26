@@ -21,17 +21,22 @@ MAPDATA = (
 
 
 def committed_payload():
-    """Parse the two globals mapdata.js assigns."""
-    out = {}
-    for line in MAPDATA.read_text().splitlines():
-        for name in ("window.SPIRE_MAPS", "window.SPIRE_RAMP"):
-            if line.startswith(name):
-                out[name] = line.split("=", 1)[1].strip().rstrip(";")
-    # SPIRE_MAPS spans many lines; re-parse it from the whole file.
-    text = MAPDATA.read_text()
-    body = text.split("window.SPIRE_MAPS =", 1)[1]
-    body = body.rsplit("window.SPIRE_RAMP", 1)[0].strip().rstrip(";")
-    return json.loads(body), json.loads(out["window.SPIRE_RAMP"])
+    """Parse the two globals mapdata.js assigns.
+
+    Deliberately strict. A format change should fail with a readable message
+    rather than an IndexError from a bare split.
+    """
+    text = MAPDATA.read_text(encoding="utf-8")
+    parts = {}
+    for name in ("window.SPIRE_MAPS", "window.SPIRE_RAMP"):
+        marker = name + " ="
+        assert marker in text, f"{MAPDATA.name} no longer assigns {name}"
+        parts[name] = text.split(marker, 1)[1]
+    maps_body = parts["window.SPIRE_MAPS"].rsplit("window.SPIRE_RAMP", 1)[0]
+    return (
+        json.loads(maps_body.strip().rstrip(";")),
+        json.loads(parts["window.SPIRE_RAMP"].strip().rstrip(";")),
+    )
 
 
 def committed_maps():
@@ -61,7 +66,16 @@ def test_ramp_config_is_exported_not_duplicated():
     assert ramp["base"] == dict(mapgen.RAMP_BASE)
 
 
-def test_committed_maps_are_legal():
+def test_committed_nodes_match_the_generator_node_for_node():
+    """Checks the shipped nodes, not a regenerated stand-in.
+
+    An earlier version regenerated the map and validated that instead, which
+    would have passed even if mapdata.js held completely different nodes.
+    """
     for payload in committed_maps():
         spire_map = mapgen.generate(payload["seed"], payload["act"])
         assert mapgen.check_invariants(spire_map) == []
+        assert payload["nodes"] == spire_map.to_dict()["nodes"], (
+            f"committed nodes differ for seed {payload['seed']} act {payload['act']}"
+        )
+        assert payload["boss"] == spire_map.boss

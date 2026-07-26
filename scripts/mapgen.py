@@ -19,6 +19,7 @@ import pathlib
 import random
 from dataclasses import dataclass, field
 from dataclasses import replace as dc_replace
+from typing import Any
 
 ROWS = 15
 COLS = 7
@@ -50,6 +51,9 @@ ENDLESS_ELITE_STEP = 0.12
 ENDLESS_ELITE_CAP = 2.5
 
 BOSSES_PATH = pathlib.Path(__file__).resolve().parent.parent / "content" / "bosses.json"
+
+# (row, col) -> set of columns on the next row.
+EdgeMap = dict["tuple[int, int]", "set[int]"]
 
 # How much the demo ships. One source of truth for the generator and the
 # staleness test, so they cannot check different things.
@@ -117,7 +121,7 @@ class Node:
     def id(self) -> str:
         return f"r{self.row}c{self.col}"
 
-    def replace(self, **changes: object) -> Node:
+    def replace(self, **changes: Any) -> Node:
         return dc_replace(self, **changes)
 
     def to_dict(self) -> dict:
@@ -259,18 +263,19 @@ def _rejoins_immediately(
 
 
 WALK_ATTEMPTS = 24
+GENERATE_ATTEMPTS = 12
 
 
 def _count_rejoins(edges: dict[tuple[int, int], set[int]]) -> int:
     total = 0
-    for (row, _col), kids in edges.items():
+    for (row, _col), children in edges.items():
         if row + 2 >= BOSS_ROW:
             continue
-        kids = sorted(kids)
-        for i in range(len(kids)):
-            for j in range(i + 1, len(kids)):
-                a = edges.get((row + 1, kids[i]), set())
-                b = edges.get((row + 1, kids[j]), set())
+        ordered = sorted(children)
+        for i in range(len(ordered)):
+            for j in range(i + 1, len(ordered)):
+                a = edges.get((row + 1, ordered[i]), set())
+                b = edges.get((row + 1, ordered[j]), set())
                 total += len(a & b)
     return total
 
@@ -311,7 +316,7 @@ def _walk_paths(rng: random.Random) -> dict[tuple[int, int], set[int]]:
 
     for path in range(PATHS):
         before = _count_rejoins(edges)
-        best: tuple[int, dict, dict] | None = None
+        best: tuple[int, EdgeMap, EdgeMap, int] | None = None
 
         for _ in range(WALK_ATTEMPTS):
             trial_edges, trial_parents = _copy(edges), _copy(parents)
@@ -388,14 +393,16 @@ def _repair_rejoins(
     on all of its retries. Working from the splitting node lets us drop
     whichever of the two offending edges is safe to lose.
     """
-    for _ in range(3):  # a repair can expose another; this reaches a fixed point
+    # A repair can expose another, so iterate. This is best effort, not a
+    # guarantee: generate() checks the result and re-walks if any survive.
+    for _ in range(3):
         keys = set(edges) | set(parents)
         for row in range(ROWS - 2):
             for col in sorted({c for (r, c) in edges if r == row}):
-                kids = sorted(edges.get((row, col), set()))
-                for i in range(len(kids)):
-                    for j in range(i + 1, len(kids)):
-                        a, b = kids[i], kids[j]
+                siblings = sorted(edges.get((row, col), set()))
+                for i in range(len(siblings)):
+                    for j in range(i + 1, len(siblings)):
+                        a, b = siblings[i], siblings[j]
                         shared = edges.get((row + 1, a), set()) & edges.get((row + 1, b), set())
                         for target in sorted(shared):
                             if _drop_edge(edges, parents, row + 1, a, target):
@@ -404,9 +411,20 @@ def _repair_rejoins(
                                 continue
                             # Both siblings have only this child. Give one
                             # another way up, then the drop is safe.
+                            added = False
                             for src in (a, b):
                                 if _try_add_child(edges, parents, keys, row + 1, src, target):
                                     _drop_edge(edges, parents, row + 1, src, target)
+                                    added = True
+                                    break
+                            if added:
+                                continue
+                            # Last resort: unsplit. When a node has more
+                            # children than the next row has distinct columns,
+                            # no edit on the children's row can help, so drop
+                            # one of this node's own out-edges instead.
+                            for src in (a, b):
+                                if _drop_edge(edges, parents, row, col, src):
                                     break
 
 
@@ -548,8 +566,22 @@ def generate(seed: int, act: int, ascension: int = 0) -> SpireMap:
     `act` is unbounded. Acts past the Heart keep generating, with elite
     density climbing, so a run has no level limit.
     """
-    rng = random.Random(act_seed(seed, act))
-    edges = _walk_paths(rng)
+    base = act_seed(seed, act)
+    # The walker retries individual paths and the repair pass cleans up the
+    # residue, but neither is a guarantee: a node can have more children than
+    # the next row has columns. Re-walk from a perturbed seed until the graph
+    # is clean, and fail loudly rather than returning an illegal map. Attempt 0
+    # succeeds for all but a handful of seeds, so clean maps are unchanged.
+    for attempt in range(GENERATE_ATTEMPTS):
+        rng = random.Random(base + attempt)
+        edges = _walk_paths(rng)
+        if _count_rejoins(edges) == 0:
+            break
+    else:
+        raise RuntimeError(
+            f"could not generate a rejoin-free map for seed={seed} act={act} "
+            f"in {GENERATE_ATTEMPTS} attempts"
+        )
     nodes = _assign_kinds(rng, edges, act, ascension)
     pool = boss_pool(load_bosses(), act)
     boss = dict(pool[rng.randrange(len(pool))])

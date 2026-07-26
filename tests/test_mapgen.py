@@ -6,16 +6,30 @@ rather than fixtures, because the generator's contract is "every seed produces
 a legal map", not "seed 7 produces this map".
 """
 import itertools
+import json
 
 import mapgen
+import pytest
 
-SEEDS = list(range(40))
-ACTS = (1, 2, 3)
+SEEDS = list(range(60))
+ACTS = (1, 2, 3, 4, 5)
+
+# Seeds whose walk needed the repair path or a re-walk. A 200-seed sweep called
+# these legal for a while, so they are pinned by name.
+KNOWN_HARD = ((2520, 5), (1631, 4))
+
+# Generated once. Most tests sweep the whole set, so regenerating per test made
+# widening the sweep expensive and kept it too narrow to catch a 1-in-12,000 bug.
+_CACHE: dict[int, list] = {}
 
 
 def all_maps(ascension=0):
-    for seed, act in itertools.product(SEEDS, ACTS):
-        yield mapgen.generate(seed, act, ascension=ascension)
+    if ascension not in _CACHE:
+        _CACHE[ascension] = [
+            mapgen.generate(seed, act, ascension=ascension)
+            for seed, act in itertools.product(SEEDS, ACTS)
+        ]
+    return _CACHE[ascension]
 
 
 # --------------------------------------------------------------------------
@@ -37,7 +51,7 @@ def test_distinct_seeds_mostly_differ():
 
 def test_acts_differ_for_one_seed():
     shapes = {mapgen.generate(99, a).fingerprint() for a in ACTS}
-    assert len(shapes) == 3
+    assert len(shapes) == len(ACTS)
 
 
 # --------------------------------------------------------------------------
@@ -203,9 +217,22 @@ def test_sibling_rule():
 
 
 def test_monster_is_exempt_from_the_sibling_rule():
-    """Monster is the fallback for an over-constrained node, so it may repeat."""
-    assert "monster" not in mapgen.SIBLING_UNIQUE_KINDS
-    assert "monster" not in mapgen.PARENT_UNIQUE_KINDS
+    """Monster is the fallback for an over-constrained node, so it may repeat.
+
+    Asserted as behaviour: some generated map has two monster siblings. If the
+    rules ever covered monster, the generator could not satisfy them.
+    """
+    found = False
+    for m in all_maps():
+        for node in bag_assigned(m):
+            if node.kind != "monster":
+                continue
+            if any(s.kind == "monster" for s in m.siblings(node)):
+                found = True
+                break
+        if found:
+            break
+    assert found, "expected monster siblings somewhere"
 
 
 def test_ascension_increases_elite_density():
@@ -327,8 +354,6 @@ def test_endless_acts_have_distinct_maps():
 
 
 def test_act_zero_is_rejected():
-    import pytest
-
     with pytest.raises(ValueError):
         mapgen.generate(1, 0)
 
@@ -434,9 +459,13 @@ def test_unknown_outcomes_track_the_ramp_over_a_run():
 
 
 def replay_with_rolls(rolls, ramp):
-    """The client-side resolution in demo.js, mirrored.
+    """Resolve from exported rolls alone, the way any client must.
 
-    Guards against the JS copy drifting from resolve_unknown.
+    This does not execute demo.js, so it cannot catch the client drifting. What
+    it proves is that unknown_rolls exports exactly the values resolve_unknown
+    consumes, in order, so a client that applies the exported ramp thresholds
+    reaches the same outcome. The thresholds themselves are shipped in
+    mapdata.js and asserted by tests/test_mapdata_current.py.
     """
     for i, kind in enumerate(mapgen.RAMP_ORDER):
         if rolls[i] < mapgen.RAMP_BASE[kind] * (ramp.misses[kind] + 1):
@@ -486,22 +515,29 @@ def test_event_is_the_common_unknown_outcome():
 def test_any_entry_is_legal_then_only_edges_are():
     m = mapgen.generate(7, 1)
     entries = m.row_nodes(0)
-    assert mapgen.legal_moves(m, None) == entries
+    assert {n.id for n in mapgen.legal_moves(m, None)} == {n.id for n in entries}
+
     node = entries[0]
     moves = mapgen.legal_moves(m, node)
-    assert moves == m.next_nodes(node)
-    assert moves
+    assert moves, "an entry must lead somewhere"
+    # every move is one row up and joined by an edge
+    for move in moves:
+        assert move.row == node.row + 1
+        assert move.col in node.next_cols
+    # and nothing else on that row is legal
+    unreachable = [n for n in m.row_nodes(node.row + 1) if n.col not in node.next_cols]
+    for n in unreachable:
+        assert not mapgen.is_legal_move(m, node, n)
 
 
 def test_illegal_move_is_rejected():
     m = mapgen.generate(7, 1)
     start = m.row_nodes(0)[0]
     reachable = {n.key for n in m.next_nodes(start)}
-    off_path = [
-        n for n in m.row_nodes(1) if n.key not in reachable
-    ]
-    if off_path:
-        assert not mapgen.is_legal_move(m, start, off_path[0])
+    off_path = [n for n in m.row_nodes(1) if n.key not in reachable]
+    assert off_path, "seed 7 row 1 should have a node off the entry's edges"
+    for n in off_path:
+        assert not mapgen.is_legal_move(m, start, n)
     assert mapgen.is_legal_move(m, start, m.next_nodes(start)[0])
     assert not mapgen.is_legal_move(m, start, start)
 
@@ -540,6 +576,26 @@ def test_check_invariants_passes_for_generated_maps():
         assert mapgen.check_invariants(m) == []
 
 
+def test_known_hard_seeds_generate_legal_maps():
+    """Regression pins.
+
+    These two produced an illegal graph: a node with three children on a row
+    whose next row had only two columns, so no edit on the children's row could
+    separate them. The repair pass now unsplits the parent, and generate()
+    re-walks and raises rather than returning an illegal map.
+    """
+    for seed, act in KNOWN_HARD:
+        m = mapgen.generate(seed, act)
+        assert mapgen.check_invariants(m) == [], f"seed {seed} act {act}"
+
+
+def test_generate_never_returns_an_illegal_map_over_a_wide_sweep():
+    for seed in range(400, 700):
+        for act in (4, 5, 6):
+            m = mapgen.generate(seed, act)
+            assert mapgen.check_invariants(m) == [], f"seed {seed} act {act}"
+
+
 def test_check_invariants_catches_a_broken_map():
     m = mapgen.generate(3, 1)
     victim = m.row_nodes(1)[0]
@@ -553,8 +609,6 @@ def test_verify_cli_reports_clean(capsys):
 
 
 def test_show_cli_emits_json(capsys):
-    import json
-
     assert mapgen.main(["show", "--seed", "8", "--act", "1", "--json"]) == 0
     data = json.loads(capsys.readouterr().out)
     assert data["rows"] == 15
