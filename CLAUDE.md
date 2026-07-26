@@ -55,6 +55,7 @@ scripts/          scan.py, deck.py, ascend.py, paths.py, pack.py — stdlib only
                   record_play.py, ascension_gate.py — dealt into target repos
                   under .spire/bin/, self-contained, no engine imports
 classes/          archetypes as YAML + detection.json (stdlib-loaded markers)
+content/          run content as JSON (bosses.json; loaded by mapgen.py)
 packs/            community card packs (pack.yaml; dealt via /spire:shop)
 tests/            pytest over the scripts + class schema + manifests
 ```
