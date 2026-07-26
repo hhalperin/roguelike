@@ -16,6 +16,11 @@
   --danger: #8f2d2d;
   --safe: #2f5d3a;
   --gold: #9a7b34;
+  /* Darker variants for small text. The accents above stay as fills, where
+     they pass; as 10-13px text they measured between 2.7:1 and 3.9:1. */
+  --safe-text: #1f4a2b;
+  --gold-text: #6b5320;
+  --campfire-text: #7d4520;
 
   /* class accents */
   --class-defect: #3a5f7a;
@@ -29,7 +34,7 @@
   --facet-intent: #8a4b2e;
   --facet-combat: #8f2d2d;
   --facet-reward: #2f5d3a;
-  --facet-campfire: #a65d2e;
+  --facet-campfire: #9c5527;
   --facet-shop: #5c4d7a;
   --facet-ascension: #1c1916;
   --facet-event: #4a6741;
@@ -79,6 +84,9 @@
   --danger: #d06a5b;
   --safe: #6fae7d;
   --gold: #d8b25f;
+  --safe-text: #8fd3a1;
+  --gold-text: #e4c47c;
+  --campfire-text: #eaa86e;
 
   --class-defect: #7fb0d0;
   --facet-map: #7fb0d0;
@@ -217,8 +225,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .banner-mark { color: var(--facet-combat); animation: pulse 1.6s var(--ease) infinite; }
 .banner-text { font-weight: 600; letter-spacing: 0.02em; }
 .banner-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
-.banner-actions a { color: var(--ink); font-weight: 600; cursor: pointer; }
-.banner-actions .flee-link { color: var(--danger); }
+.banner-btn {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+  border: 1px solid var(--ink); border-radius: var(--radius);
+  background: var(--paper); color: var(--ink); padding: 4px 10px; cursor: pointer;
+}
+.banner-btn:hover { background: var(--panel-2); }
+.banner-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.banner-btn.flee-link { border-color: var(--danger); color: var(--danger); background: transparent; }
 
 /* ============================ STAGE ============================ */
 .stage {
@@ -450,8 +464,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .enemy-block { display: flex; gap: 16px; align-items: center; }
 .enemy-info { flex: 1; }
 .enemy-info .enemy-name { font-size: 24px; }
+.clear-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
 .clear-meter {
-  position: relative; height: 20px; margin: 8px 0;
+  position: relative; flex: 1; height: 16px;
   border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; background: var(--panel-2);
 }
 .clear-fill {
@@ -459,10 +474,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   background: linear-gradient(90deg, var(--facet-combat), color-mix(in srgb, var(--facet-combat) 70%, var(--danger)));
   transition: width var(--t-slow) var(--ease);
 }
+/* Beside the bar, not over it. Overlaying needed mix-blend-mode, which
+   inverted to near-black on a near-black track in dark theme. */
 .clear-text {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--paper);
-  mix-blend-mode: difference;
+  flex: none; min-width: 8.5em;
+  font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: var(--ink);
 }
 .telegraph { font-family: var(--font-ui); font-size: 13px; color: var(--facet-combat); font-weight: 600; }
 .combat-log { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 0; min-height: 1.4em; }
@@ -565,7 +581,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 }
 .skip-hero:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .skip-hero:focus-visible { outline: 3px solid var(--safe); outline-offset: 3px; }
-.skip-kicker { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--safe); }
+.skip-kicker { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--safe-text); }
 .skip-main { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 /* Refusal has to pay a number, or discipline never feels like a win. */
 .skip-payout {
@@ -620,7 +636,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .deck-row:disabled { cursor: default; }
 .deck-row.selected { background: color-mix(in srgb, var(--facet-campfire) 16%, var(--panel)); box-shadow: inset 3px 0 0 var(--facet-campfire); }
 .deck-row .meta { font-family: var(--font-ui); font-size: 12px; color: var(--muted); }
-.deck-row .unplayed { color: var(--facet-campfire); font-weight: 600; }
+.deck-row .unplayed { color: var(--campfire-text); font-weight: 600; }
 
 /* ============================ SHOP ============================ */
 .pack-hero { display: flex; gap: 16px; align-items: center; }
@@ -644,7 +660,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .ware .kind { font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .ware .price {
   position: absolute; top: 12px; right: 12px;
-  font-family: var(--font-ui); font-weight: 700; font-size: 13px; color: var(--gold);
+  font-family: var(--font-ui); font-weight: 700; font-size: 13px; color: var(--gold-text);
   display: inline-flex; align-items: center; gap: 4px;
 }
 .ware .price::before { content: "◆"; }

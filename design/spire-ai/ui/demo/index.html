@@ -19,7 +19,7 @@
         <span class="wordmark-sub">one room at a time</span>
       </div>
       <div class="topbar-right">
-        <nav class="jump" aria-label="Jump to facet">
+        <nav class="jump" aria-label="Debug harness: jump to facet">
           <button type="button" class="jump-btn" data-go="title">Title</button>
           <button type="button" class="jump-btn" data-go="map">Map</button>
           <button type="button" class="jump-btn" data-go="intent">Intent</button>
@@ -32,7 +32,7 @@
           <button type="button" class="jump-btn" data-go="deck">Deck</button>
           <button type="button" class="jump-btn" data-go="metrics">Metrics</button>
         </nav>
-        <button type="button" class="icon-btn" id="btn-theme" aria-label="Toggle dark theme" title="Toggle theme">
+        <button type="button" class="icon-btn" id="btn-theme" title="Switch colour theme">
           <span class="theme-dot"></span><span id="theme-label">Dark</span>
         </button>
         <button type="button" class="icon-btn" id="btn-reset" title="Reset run">Reset</button>
@@ -70,7 +70,7 @@
           <div class="title-wordmark">SPIRE</div>
           <p class="title-tag">Your project is the run. Your config is the deck.</p>
 
-          <article class="climb-card" tabindex="0">
+          <article class="climb-card">
             <div class="climb-card-tag">Climb template</div>
             <h2>Ship the stub</h2>
             <p>Act I · class detects on begin. The hero is the climb card, not splash art.</p>
@@ -154,9 +154,11 @@
             <div class="enemy-sigil sm" id="combat-sigil" aria-hidden="true"></div>
             <div class="enemy-info">
               <h2 class="enemy-name" id="combat-name">Flaky Suite</h2>
-              <div class="clear-meter" title="Progress toward this room's acceptance">
-                <div class="clear-fill" id="combat-clear-fill"></div>
+              <div class="clear-row">
                 <span class="clear-text" id="combat-clear-text">Stability</span>
+                <div class="clear-meter" title="Progress toward this room's acceptance">
+                  <div class="clear-fill" id="combat-clear-fill"></div>
+                </div>
               </div>
               <div class="telegraph" id="combat-telegraph">Telegraph: CI roulette</div>
             </div>

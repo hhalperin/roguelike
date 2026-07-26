@@ -167,6 +167,9 @@
     screen: "title", returnScreen: "map",
     seed: 0, act: 1,
     currentId: null, selectedId: null,
+    // chrome.md: one room at a time. Non-null means a room is open and the map
+    // is locked until it is cleared or fled.
+    activeRoom: null,
     deckSize: 6, tokens: 4, taken: 1, skips: 4, focus: 0, curses: 0, actsCleared: 0,
     streak: 2, ascension: 10, ascPick: 10,
     currentEnemy: null, progress: 0, energy: 3, energyMax: 3, playedThisTurn: [],
@@ -334,51 +337,79 @@
     document.querySelectorAll(".screen").forEach(function (s) {
       s.classList.toggle("is-active", s.getAttribute("data-screen") === name);
     });
-    var active = document.querySelector('.screen[data-screen="' + name + '"]');
-    if (active) {
-      var facet = getComputedStyle(active)
-        .getPropertyValue("--facet-" + active.getAttribute("data-facet")).trim();
-      document.documentElement.style.setProperty("--facet", facet || "var(--facet-map)");
-    }
+    applyFacet(name);
 
     els.chrome.hidden = name === "title";
-    var inRoom = name === "intent" || name === "combat";
     els.chromeEnergy.hidden = name !== "combat";
-    els.banner.hidden = !inRoom;
-    if (inRoom) renderBanner(name);
+
+    // The banner is the single-task policy made visible, so it shows on every
+    // facet while a room is open, not just inside the room.
+    els.banner.hidden = !state.activeRoom || name === "title";
+    if (!els.banner.hidden) renderBanner(name);
 
     document.querySelectorAll(".jump-btn").forEach(function (b) {
-      b.classList.toggle("is-current", b.getAttribute("data-go") === name);
+      var target = b.getAttribute("data-go");
+      b.classList.toggle("is-current", target === name);
+      // No opening a second room while one is active. Read-only surfaces stay
+      // reachable, which is what the banner is for.
+      var blocked = Boolean(state.activeRoom) &&
+        ROOM_SCREENS.indexOf(target) !== -1 &&
+        target !== state.activeRoom.screen;
+      b.disabled = blocked;
+      b.title = blocked ? "A room is active. Return to it or flee first." : "";
     });
 
     bindStats();
     render();
+    focusPrimary(name);
+  }
+
+  var ROOM_SCREENS = ["map", "intent", "combat", "event", "reward", "campfire", "shop"];
+
+  // reward.md wants focus to land on Skip. More generally, a screen change that
+  // drops focus to <body> makes a keyboard user re-tab the whole nav each time.
+  var PRIMARY = {
+    reward: "btn-skip", map: "btn-enter", ascension: "btn-apply-asc",
+    campfire: "btn-camp-confirm", shop: "btn-buy"
+  };
+
+  function focusPrimary(name) {
+    var id = PRIMARY[name];
+    var el = id ? $(id) : null;
+    if (el && !el.disabled) {
+      el.focus({ preventScroll: true });
+      return;
+    }
+    var screen = document.querySelector('.screen[data-screen="' + name + '"]');
+    var fallback = screen && screen.querySelector("button:not([disabled])");
+    if (fallback) fallback.focus({ preventScroll: true });
+  }
+
+  function bannerButton(label, cls, onClick) {
+    // A real button, so Enter and Space work. An <a> without href has neither.
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "banner-btn " + cls;
+    btn.textContent = label;
+    btn.addEventListener("click", onClick);
+    return btn;
   }
 
   function renderBanner(name) {
-    var e = state.currentEnemy;
-    els.bannerText.textContent = "ROOM ACTIVE: " + e.name + " · " + e.room;
+    var room = state.activeRoom;
+    els.bannerText.textContent = "ROOM ACTIVE: " + room.name + " · " + room.room;
     els.bannerActions.innerHTML = "";
-    if (name === "intent") {
-      var ret = document.createElement("a");
-      ret.textContent = "Return";
-      ret.setAttribute("role", "button");
-      ret.tabIndex = 0;
-      ret.addEventListener("click", function () { showScreen("combat"); });
-      els.bannerActions.appendChild(ret);
+    if (name !== room.screen) {
+      els.bannerActions.appendChild(
+        bannerButton("Return to room", "", function () { showScreen(room.screen); })
+      );
     } else {
-      var span = document.createElement("span");
-      span.className = "hint";
-      span.textContent = "Energy locked to this room";
-      els.bannerActions.appendChild(span);
+      var note = document.createElement("span");
+      note.className = "hint";
+      note.textContent = "This is the only room you can act in.";
+      els.bannerActions.appendChild(note);
     }
-    var flee = document.createElement("a");
-    flee.className = "flee-link";
-    flee.textContent = "Flee…";
-    flee.setAttribute("role", "button");
-    flee.tabIndex = 0;
-    flee.addEventListener("click", doFlee);
-    els.bannerActions.appendChild(flee);
+    els.bannerActions.appendChild(bannerButton("Flee\u2026", "flee-link", doFlee));
   }
 
   /* ------------------------------ renderers ------------------------------ */
@@ -580,7 +611,8 @@
     svg.setAttribute("class", "map-edges");
     svg.setAttribute("viewBox", "0 0 100 100");
     svg.setAttribute("preserveAspectRatio", "none");
-    var legalIds = legalNodes().map(function (n) { return n.id; });
+    var locked = Boolean(state.activeRoom);
+    var legalIds = locked ? [] : legalNodes().map(function (n) { return n.id; });
 
     MAP.nodes.forEach(function (n) {
       nextNodes(n).forEach(function (t) {
@@ -646,6 +678,14 @@
   };
 
   function updateMapDetail() {
+    if (state.activeRoom) {
+      els.enter.disabled = true;
+      $("map-kind").textContent = "locked";
+      $("map-title").innerHTML = "<strong>" + state.activeRoom.name + " is still open</strong>";
+      $("map-prior").textContent =
+        "One room at a time. Return to it or flee before choosing another node.";
+      return;
+    }
     var n = node(state.selectedId);
     els.enter.disabled = !n || !isLegal(n.id);
     if (!n) {
@@ -812,11 +852,16 @@
       btn.innerHTML = '<span class="notch" aria-hidden="true"></span>' +
         "<h4>" + o.title + "</h4><span class='rarity'>" + o.note + "</span>";
       btn.addEventListener("click", function () {
+        if (state.deckSize >= SOFT_CAP) {
+          // The shop already refuses at the cap; reward used to let the deck
+          // grow past it, so the two paths disagreed.
+          toast("Deck is at the soft cap (" + state.deckSize + "/" + SOFT_CAP +
+            "). Prune at a campfire before taking another card.");
+          return;
+        }
         state.taken += 1;
         state.deckSize += 1;
-        toast(state.deckSize >= SOFT_CAP
-          ? "Took " + o.title + " · at the soft cap, prune soon"
-          : "Took " + o.title);
+        toast("Took " + o.title);
         completeNode();
       });
       els.rewardOffers.appendChild(btn);
@@ -833,6 +878,7 @@
       var row = document.createElement("button");
       row.type = "button";
       row.className = "deck-row" + (state.campPick === card.id ? " selected" : "");
+      row.setAttribute("aria-pressed", state.campPick === card.id ? "true" : "false");
       var unplayed = card.plays === 0;
       var already = state.campMode === "smith" && card.upgraded;
       row.disabled = already;
@@ -860,6 +906,7 @@
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "ware" + (state.shopId === w.id ? " selected" : "");
+      btn.setAttribute("aria-pressed", state.shopId === w.id ? "true" : "false");
       btn.innerHTML = '<span class="price">' + w.price + "</span>" +
         '<span class="kind">' + w.kind + "</span>" +
         "<h4>" + w.title + "</h4>";
@@ -885,6 +932,7 @@
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "rung" + (r.level === state.ascPick ? " picked" : "");
+      btn.setAttribute("aria-pressed", r.level === state.ascPick ? "true" : "false");
       btn.innerHTML = '<span class="tier">A' + r.level + "</span><span>" +
         shortAsc(r.level) + "</span>" +
         (r.level === state.ascension ? '<span class="applied-tag">applied</span>' : "");
@@ -903,6 +951,7 @@
   /* ------------------------------ transitions ------------------------------ */
   function completeNode() {
     if (state.currentId) MAP.cleared[state.currentId] = true;
+    state.activeRoom = null;
     state.selectedId = null;
     state.streak += 1;
     var cur = node(state.currentId);
@@ -935,6 +984,7 @@
   }
 
   function enterNode() {
+    if (state.activeRoom) return; // map is locked while a room is open
     var n = node(state.selectedId);
     if (!n || !isLegal(n.id)) return;
     state.currentId = n.id;
@@ -950,26 +1000,41 @@
       state.progress = 0;
       state.energy = state.energyMax;
       state.playedThisTurn = [];
-      showScreen("intent");
+      openRoom(state.currentEnemy.name, state.currentEnemy.room, "intent");
       return;
     }
-    if (kind === "event") { showScreen("event"); return; }
+    if (kind === "event") {
+      openRoom(EVENT.title, "design", "event");
+      return;
+    }
     if (kind === "treasure") {
       state.rewardMode = "treasure";
-      showScreen("reward");
+      openRoom("Chest", "infra", "reward");
       return;
     }
     if (kind === "rest") {
       state.campMode = "prune";
       state.campPick = null;
       syncCampModeButtons();
-      showScreen("campfire");
+      openRoom("Campfire", "orient", "campfire");
       return;
     }
-    if (kind === "shop") { state.shopId = null; showScreen("shop"); }
+    if (kind === "shop") {
+      state.shopId = null;
+      openRoom("Merchant", "orient", "shop");
+    }
+  }
+
+  function openRoom(name, room, screen) {
+    state.activeRoom = { name: name, room: room, screen: screen };
+    showScreen(screen);
   }
 
   function doFlee() {
+    if (!window.confirm("Flee this room? The room stays uncleared and your streak resets.")) {
+      return;
+    }
+    state.activeRoom = null;
     toast("Fled · streak broken, the room stays uncleared");
     state.streak = 0;
     state.currentId = null;
@@ -1002,13 +1067,26 @@
 
   function syncCampModeButtons() {
     document.querySelectorAll('[data-action="camp-mode"]').forEach(function (b) {
-      b.classList.toggle("is-on", b.getAttribute("data-mode") === state.campMode);
+      var on = b.getAttribute("data-mode") === state.campMode;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
     });
+  }
+
+  function applyFacet(name) {
+    var active = document.querySelector('.screen[data-screen="' + name + '"]');
+    if (!active) return;
+    var facet = getComputedStyle(active)
+      .getPropertyValue("--facet-" + active.getAttribute("data-facet")).trim();
+    document.documentElement.style.setProperty("--facet", facet || "var(--facet-map)");
   }
 
   function applyTheme() {
     document.documentElement.setAttribute("data-theme", state.theme);
     $("theme-label").textContent = state.theme === "light" ? "Dark" : "Light";
+    // --facet was resolved to a literal hex under the old theme, so it has to
+    // be recomputed or the facet tab keeps the wrong colour and drops below AA.
+    applyFacet(state.screen);
   }
 
   /* ------------------------------ wiring ------------------------------ */
@@ -1076,17 +1154,6 @@
     };
 
     document.querySelector(".app-shell").addEventListener("click", onClick);
-    document.querySelectorAll(".jump-btn").forEach(function (b) {
-      b.addEventListener("click", function () {
-        var name = b.getAttribute("data-go");
-        if (name === "combat" || name === "intent") {
-          if (!state.currentEnemy) state.currentEnemy = enemyFor(entries()[0]);
-          if (name === "combat") beginCombat();
-        }
-        showScreen(name);
-      });
-    });
-
     els.enter.addEventListener("click", enterNode);
 
     els.campConfirm.addEventListener("click", function () {
