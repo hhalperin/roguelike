@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spire · Interactive demo</title>
+  <meta name="description" content="Interactive click-through demo of the Spire roguelike UI — every facet, one room at a time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="demo.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ====== TOP BAR ====== -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="wordmark">SPIRE</span>
+        <span class="wordmark-sub">one room at a time</span>
+      </div>
+      <div class="topbar-right">
+        <nav class="jump" aria-label="Jump to facet">
+          <button type="button" class="jump-btn" data-go="title">Title</button>
+          <button type="button" class="jump-btn" data-go="map">Map</button>
+          <button type="button" class="jump-btn" data-go="intent">Intent</button>
+          <button type="button" class="jump-btn" data-go="combat">Combat</button>
+          <button type="button" class="jump-btn" data-go="event">Event</button>
+          <button type="button" class="jump-btn" data-go="reward">Reward</button>
+          <button type="button" class="jump-btn" data-go="campfire">Campfire</button>
+          <button type="button" class="jump-btn" data-go="shop">Shop</button>
+          <button type="button" class="jump-btn" data-go="ascension">Ascension</button>
+        </nav>
+        <button type="button" class="icon-btn" id="btn-theme" aria-label="Toggle dark theme" title="Toggle theme">
+          <span class="theme-dot"></span><span id="theme-label">Dark</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-reset" title="Reset run">Reset</button>
+      </div>
+    </header>
+
+    <!-- ====== RUN CHROME ====== -->
+    <div class="chrome" id="chrome" hidden>
+      <span class="chrome-item">Act <strong id="chrome-act">I</strong></span>
+      <span class="dot">·</span>
+      <span class="chrome-item">Floor <strong id="chrome-floor">3</strong></span>
+      <span class="chip class-chip" id="chrome-class">Defect</span>
+      <span class="chrome-item">Streak <strong id="chrome-streak">2</strong></span>
+      <span class="chrome-item chrome-asc">Ascension <strong id="chrome-asc">10</strong></span>
+      <span class="chrome-energy" id="chrome-energy" hidden>
+        <span class="chrome-energy-label">Energy</span>
+        <span class="orb-row" id="chrome-orbs"></span>
+      </span>
+    </div>
+
+    <!-- ====== ACTIVE-ROOM BANNER ====== -->
+    <div class="banner" id="banner" role="status" hidden>
+      <span class="banner-mark" aria-hidden="true">●</span>
+      <span class="banner-text" id="banner-text">ROOM ACTIVE</span>
+      <span class="banner-actions" id="banner-actions"></span>
+    </div>
+
+    <!-- ====== STAGE ====== -->
+    <main class="stage" id="stage">
+
+      <!-- ---------- TITLE ---------- -->
+      <section class="screen is-active" data-screen="title" data-facet="map" aria-label="Title screen">
+        <div class="title-hero">
+          <div class="title-wordmark">SPIRE</div>
+          <p class="title-tag">Your project is the run. Your config is the deck.</p>
+
+          <article class="climb-card" tabindex="0">
+            <div class="climb-card-tag">Climb template</div>
+            <h2>Ship the stub</h2>
+            <p>Act I · class detects on begin. The hero is the climb card, not splash art.</p>
+            <ul class="climb-meta">
+              <li>Discover → Build → Harden</li>
+              <li>Deterministic sensors before generative typing</li>
+            </ul>
+          </article>
+
+          <div class="save-strip" id="save-strip">
+            <span class="save-dot" aria-hidden="true"></span>
+            <span>Save found · Floor <span data-bind="floor">3</span> · Defect · <span data-bind="deck">6</span> cards · streak <span data-bind="streak">2</span></span>
+          </div>
+
+          <div class="title-actions">
+            <button type="button" class="btn btn-solid" data-go="map">Continue</button>
+            <button type="button" class="btn btn-ghost" data-action="new-climb">New climb</button>
+            <button type="button" class="btn btn-link" data-go="ascension">Ascension preview</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- MAP ---------- -->
+      <section class="screen" data-screen="map" data-facet="map" aria-label="Map">
+        <div class="facet-tab">Map</div>
+        <div class="map-layout">
+          <div class="map-graph-wrap">
+            <h3 class="section-h">The climb</h3>
+            <div class="map-graph" id="map-graph" role="group" aria-label="Map nodes"></div>
+            <p class="hint">Shapes encode kind — color is secondary. Only reachable nodes are hittable.</p>
+          </div>
+          <aside class="map-rail">
+            <h3 class="section-h">Selected · <span id="map-kind">—</span></h3>
+            <p class="map-title" id="map-title"><strong>Pick a node</strong></p>
+            <p class="map-prior" id="map-prior"></p>
+            <p class="hint" id="map-hint">Hint only — not an order.</p>
+            <div class="rail-actions">
+              <button type="button" class="btn btn-solid" id="btn-enter" disabled>Enter node</button>
+              <button type="button" class="btn btn-ghost" data-action="refresh-prior">Refresh prior</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ---------- INTENT ---------- -->
+      <section class="screen" data-screen="intent" data-facet="intent" aria-label="Intent">
+        <div class="facet-tab">Intent</div>
+        <div class="intent-hero">
+          <div class="enemy-sigil" id="intent-sigil" aria-hidden="true"></div>
+          <div class="enemy-meta">
+            <div class="enemy-kind" id="intent-kind">Elite · bug room</div>
+            <h1 class="enemy-name" id="intent-name">Flaky Suite</h1>
+          </div>
+        </div>
+        <div class="intent-bar" id="intent-bar">
+          <span class="intent-icon" aria-hidden="true">⚠</span>
+          <span><strong>Intent:</strong> <span id="intent-text">Will fail CI randomly if ignored.</span></span>
+        </div>
+        <p class="intent-blurb" id="intent-blurb">Clear by stabilizing the suite — not by quarantining tests.</p>
+        <div class="acceptance">
+          <div class="acceptance-label">Acceptance</div>
+          <code id="intent-acceptance">python -m pytest -q → exit 0</code>
+        </div>
+        <div class="screen-actions">
+          <button type="button" class="btn btn-solid" data-go="combat">Begin combat</button>
+          <button type="button" class="btn btn-danger" data-action="flee">Flee</button>
+        </div>
+      </section>
+
+      <!-- ---------- COMBAT ---------- -->
+      <section class="screen" data-screen="combat" data-facet="combat" aria-label="Combat">
+        <div class="facet-tab">Combat</div>
+        <div class="combat-stage">
+          <div class="enemy-block">
+            <div class="enemy-sigil sm" id="combat-sigil" aria-hidden="true"></div>
+            <div class="enemy-info">
+              <h2 class="enemy-name" id="combat-name">Flaky Suite</h2>
+              <div class="hp-meter" title="Room stability">
+                <div class="hp-fill" id="combat-hp-fill"></div>
+                <span class="hp-text" id="combat-hp-text">HP</span>
+              </div>
+              <div class="telegraph" id="combat-telegraph">Telegraph: CI roulette</div>
+            </div>
+          </div>
+          <p class="combat-log" id="combat-log">Log: waiting for a play…</p>
+        </div>
+
+        <div class="hand-dock">
+          <div class="hand-dock-head">
+            <span class="section-h">Hand · legal only</span>
+            <span class="energy-inline">Energy <span class="orb-row" id="combat-orbs"></span></span>
+          </div>
+          <div class="hand-fan" id="combat-hand"></div>
+        </div>
+
+        <div class="screen-actions">
+          <button type="button" class="btn btn-solid" data-action="run-acceptance">Run acceptance</button>
+          <button type="button" class="btn btn-ghost" data-action="end-turn">End turn</button>
+          <button type="button" class="btn btn-danger" data-action="flee">Flee</button>
+        </div>
+      </section>
+
+      <!-- ---------- EVENT ---------- -->
+      <section class="screen" data-screen="event" data-facet="event" aria-label="Event">
+        <div class="facet-tab">Event</div>
+        <div class="event-hero">
+          <h1 id="event-title">Just One More Requirement</h1>
+          <p id="event-body">A stakeholder adds a “tiny” must-have before ship. Accepting expands this feature room into an elite.</p>
+        </div>
+        <div class="choice-stack" id="event-choices"></div>
+        <p class="caption">This still counts as the room.</p>
+      </section>
+
+      <!-- ---------- REWARD ---------- -->
+      <section class="screen" data-screen="reward" data-facet="reward" aria-label="Reward">
+        <div class="facet-tab">Reward · Room cleared</div>
+        <button type="button" class="skip-hero" id="btn-skip" data-action="skip-reward">
+          <span class="skip-kicker">Skipping is skilled play</span>
+          <span class="skip-main">Skip — take nothing</span>
+        </button>
+        <h3 class="section-h offers-h">Offers</h3>
+        <div class="offer-row" id="reward-offers"></div>
+        <p class="caption" id="reward-caption">Run stats · taken <span data-bind="taken">1</span> / skipped <span data-bind="skips">4</span> · deck <span data-bind="deck">6</span>/12</p>
+      </section>
+
+      <!-- ---------- CAMPFIRE ---------- -->
+      <section class="screen" data-screen="campfire" data-facet="campfire" aria-label="Campfire">
+        <div class="facet-tab">Campfire</div>
+        <div class="camp-hero">
+          <div class="camp-flame" aria-hidden="true">🔥</div>
+          <div>
+            <h1>Rest</h1>
+            <div class="mode-switch" id="camp-modes" role="group" aria-label="Campfire mode">
+              <button type="button" class="mode-btn is-on" data-action="camp-mode" data-mode="prune">Prune</button>
+              <button type="button" class="mode-btn" data-action="camp-mode" data-mode="upgrade">Upgrade</button>
+              <button type="button" class="mode-btn" data-action="camp-mode" data-mode="rest">Rest only</button>
+            </div>
+            <p class="hint" id="camp-hint">Burn dead weight. Unplayed cards sort first.</p>
+          </div>
+        </div>
+        <div class="camp-list" id="camp-list"></div>
+        <div class="screen-actions">
+          <button type="button" class="btn btn-solid" id="btn-camp-confirm" disabled>Confirm prune</button>
+          <button type="button" class="btn btn-ghost" data-action="camp-leave">Leave</button>
+        </div>
+      </section>
+
+      <!-- ---------- SHOP ---------- -->
+      <section class="screen" data-screen="shop" data-facet="shop" aria-label="Shop">
+        <div class="facet-tab">Shop · Focus tokens <span data-bind="tokens">4</span></div>
+        <div class="pack-hero">
+          <div class="pack-brand" aria-hidden="true">TD</div>
+          <div>
+            <h1>Testing Discipline</h1>
+            <p>Pack identity — cards that keep a suite honest.</p>
+          </div>
+        </div>
+        <div class="ware-grid" id="shop-wares"></div>
+        <p class="caption" id="shop-cap">Deck <span data-bind="deck">6</span>/12 · soft cap warns before overflow.</p>
+        <div class="screen-actions">
+          <button type="button" class="btn btn-solid" id="btn-buy" disabled>Buy selected</button>
+          <button type="button" class="btn btn-ghost" data-action="shop-leave">Leave shop</button>
+        </div>
+      </section>
+
+      <!-- ---------- ASCENSION ---------- -->
+      <section class="screen" data-screen="ascension" data-facet="ascension" aria-label="Ascension">
+        <div class="facet-tab">Ascension</div>
+        <div class="asc-layout">
+          <div class="asc-ladder" id="asc-ladder" role="group" aria-label="Ascension ladder"></div>
+          <aside class="asc-detail">
+            <h3 class="section-h">Selected · <span id="asc-label">A10</span></h3>
+            <p id="asc-blurb">Lint and tests can block Stop. Coverage not yet enforced. Ascension only moves when you apply.</p>
+            <div class="rail-actions">
+              <button type="button" class="btn btn-solid" id="btn-apply-asc">Apply A10</button>
+              <button type="button" class="btn btn-ghost" data-action="asc-cancel">Cancel</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="foot">
+      <span>Click-through demo of the core loop: Title → Map → (Intent → Combat → Reward) | Event | Campfire | Shop → Map.</span>
+    </footer>
+  </div>
+
+  <!-- clear fanfare overlay -->
+  <div class="fanfare" id="fanfare" hidden><span class="fanfare-stamp">ROOM CLEARED</span></div>
+
+  <!-- toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="demo.js"></script>
+</body>
+</html>

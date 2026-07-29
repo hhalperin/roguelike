@@ -8,7 +8,8 @@ type hierarchy, motion budget, and do/don't list — then a wireframe that encod
 | --- | --- |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Tokens, type, class colors, motion, accessibility |
 | [formats/](formats/) | Per-facet layout + copy + interaction rules |
-| [wireframes/demo.html](wireframes/demo.html) | **Working click-through demo** of the core loop |
+| [demo/index.html](demo/index.html) | **Polished interactive demo** — every facet, StS-style feel, light/dark theme |
+| [wireframes/demo.html](wireframes/demo.html) | Low-fi click-through demo of the core loop |
 | [wireframes/](wireframes/index.html) | Browsable low-fi HTML wireframes (static per facet) |
 | [templates/facet-format.md](templates/facet-format.md) | Blank template when adding a new facet |
 
