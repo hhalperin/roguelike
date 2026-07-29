@@ -18,6 +18,30 @@ clear rooms.
 
 ---
 
+## UI preview
+
+Spire AI's interactive demo — every facet of the run, one room at a time.
+Open [`design/spire-ai/ui/demo/`](design/spire-ai/ui/demo/index.html) locally
+(no build step) to click through the full loop.
+
+<p align="center">
+  <img src="docs/screenshots/title.jpg" alt="Title screen: SPIRE climb template" width="720" />
+</p>
+
+| Map | Combat |
+| --- | --- |
+| <img src="docs/screenshots/map.jpg" alt="Branching act map with reachable floor-1 nodes" width="360" /> | <img src="docs/screenshots/combat.jpg" alt="Combat: hand of legal cards against a Regression Bug" width="360" /> |
+
+| Reward | Deck |
+| --- | --- |
+| <img src="docs/screenshots/reward.jpg" alt="Reward screen with Skip as the skilled-play hero" width="360" /> | <img src="docs/screenshots/deck.jpg" alt="Deck facet: codebase as cards, relics, and powers" width="360" /> |
+
+| Campfire | Shop |
+| --- | --- |
+| <img src="docs/screenshots/campfire.jpg" alt="Campfire prune and rest options" width="360" /> | <img src="docs/screenshots/shop.jpg" alt="Shop with optional pack cards" width="360" /> |
+
+---
+
 ## What it does
 
 Run `/spire` in any repo and it will:
