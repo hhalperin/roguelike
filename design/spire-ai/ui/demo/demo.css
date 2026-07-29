@@ -16,6 +16,11 @@
   --danger: #8f2d2d;
   --safe: #2f5d3a;
   --gold: #9a7b34;
+  /* Darker variants for small text. The accents above stay as fills, where
+     they pass; as 10-13px text they measured between 2.7:1 and 3.9:1. */
+  --safe-text: #1f4a2b;
+  --gold-text: #6b5320;
+  --campfire-text: #7d4520;
 
   /* class accents */
   --class-defect: #3a5f7a;
@@ -29,13 +34,23 @@
   --facet-intent: #8a4b2e;
   --facet-combat: #8f2d2d;
   --facet-reward: #2f5d3a;
-  --facet-campfire: #a65d2e;
+  --facet-campfire: #9c5527;
   --facet-shop: #5c4d7a;
   --facet-ascension: #1c1916;
   --facet-event: #4a6741;
 
   --facet: var(--facet-map);
   --facet-tint: color-mix(in srgb, var(--facet) 12%, var(--paper));
+
+  /* Room type is the most repeated signal in the UI, so it owns its own scale
+     and nothing else may use these hues as a primary. */
+  --room-bug: #8f2d2d;
+  --room-feature: #3a5f7a;
+  --room-refactor: #5c4d7a;
+  --room-design: #4a4a6a;
+  --room-docs: #4a6741;
+  --room-infra: #8a4b2e;
+  --room-orient: #6b645c;
 
   /* structure */
   --radius: 6px;
@@ -69,6 +84,9 @@
   --danger: #d06a5b;
   --safe: #6fae7d;
   --gold: #d8b25f;
+  --safe-text: #8fd3a1;
+  --gold-text: #e4c47c;
+  --campfire-text: #eaa86e;
 
   --class-defect: #7fb0d0;
   --facet-map: #7fb0d0;
@@ -84,6 +102,14 @@
   --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55);
   --shadow-card: 0 14px 34px rgba(0, 0, 0, 0.6);
   --facet-tint: color-mix(in srgb, var(--facet) 16%, var(--paper));
+
+  --room-bug: #d76a5f;
+  --room-feature: #7fb0d0;
+  --room-refactor: #a996d6;
+  --room-design: #9a9ad0;
+  --room-docs: #8fb583;
+  --room-infra: #d79a6a;
+  --room-orient: #9a9084;
 }
 
 * { box-sizing: border-box; }
@@ -199,8 +225,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .banner-mark { color: var(--facet-combat); animation: pulse 1.6s var(--ease) infinite; }
 .banner-text { font-weight: 600; letter-spacing: 0.02em; }
 .banner-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
-.banner-actions a { color: var(--ink); font-weight: 600; cursor: pointer; }
-.banner-actions .flee-link { color: var(--danger); }
+.banner-btn {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+  border: 1px solid var(--ink); border-radius: var(--radius);
+  background: var(--paper); color: var(--ink); padding: 4px 10px; cursor: pointer;
+}
+.banner-btn:hover { background: var(--panel-2); }
+.banner-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.banner-btn.flee-link { border-color: var(--danger); color: var(--danger); background: transparent; }
 
 /* ============================ STAGE ============================ */
 .stage {
@@ -209,7 +241,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   border-radius: var(--radius-lg);
   background: var(--paper-2);
   box-shadow: var(--shadow-2);
-  min-height: 560px;
+  min-height: 620px;
   overflow: hidden;
   flex: 1;
 }
@@ -219,7 +251,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
   flex-direction: column;
   gap: 16px;
   padding: 26px 28px 24px;
-  min-height: 560px;
+  min-height: 620px;
 }
 .screen.is-active { display: flex; animation: screen-in var(--t-mid) var(--ease); }
 
@@ -286,52 +318,105 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .title-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
 
 /* ============================ MAP ============================ */
-.map-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; flex: 1; }
-.map-graph-wrap { display: flex; flex-direction: column; gap: 12px; }
+/* The graph is wide, so it gets its own full-width row and the detail rail
+   sits beneath it rather than squeezing it into a column. */
+.map-layout { display: flex; flex-direction: column; gap: 16px; flex: 1; min-height: 0; }
+.map-graph-wrap { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+
+.boss-header {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  border: 1px solid var(--line); border-top: 3px solid var(--facet-map);
+  border-radius: var(--radius); background: var(--panel); padding: 10px 14px;
+}
+.boss-label {
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--facet-map);
+}
+.boss-header strong { font-family: var(--font-display); font-size: 18px; }
+.boss-header .hint { margin-left: auto; }
+
+/* No inner scrollbar. The whole act is visible and the page scrolls if it has
+   to, because two nested scroll areas is one too many and cramming 15 floors
+   into a short panel put the click targets on top of each other. */
 .map-graph {
-  position: relative; flex: 1;
-  display: flex; align-items: center; gap: 0; flex-wrap: nowrap;
-  padding: 24px 8px; overflow-x: auto;
+  position: relative;
   border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background:
-    linear-gradient(90deg, transparent, color-mix(in srgb, var(--facet-map) 5%, transparent)),
-    var(--panel);
+  background: var(--panel);
+  padding: 16px 10px;
 }
-.map-seg { display: flex; align-items: center; }
-.map-link { width: 34px; height: 3px; background: var(--line); border-radius: 3px; }
-.map-link.lit { background: var(--facet-map); }
-.node {
-  position: relative; flex: none;
-  width: 52px; height: 52px;
+/* Lane spacing has to clear the node diameter with room to spare, or adjacent
+   lanes become one click target. */
+.map-canvas { position: relative; height: calc(var(--lanes, 7) * 42px); }
+.map-edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.map-edge { stroke: var(--line); stroke-width: 1.5; opacity: 0.55; }
+.map-edge.lit { stroke: var(--facet-map); stroke-width: 2.5; opacity: 1; }
+/* The edges you may actually take next. */
+.map-edge.open { stroke: var(--facet-map); stroke-width: 3; opacity: 1; }
+
+.mnode {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 24px; height: 24px; padding: 0; font-size: 11px;
   display: grid; place-items: center;
-  border: 2px solid var(--ink); background: var(--panel-2);
-  color: var(--ink); font-family: var(--font-ui); font-size: 11px; font-weight: 600;
-  cursor: pointer; appearance: none;
-  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+  border: 2px solid var(--line); border-radius: 50%;
+  background: var(--paper-2); color: var(--muted);
+  font-family: var(--font-ui); font-size: 13px; line-height: 1;
+  cursor: not-allowed; appearance: none;
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
-.node.circle { border-radius: 50%; }
-.node.diamond { border-radius: 4px; transform: rotate(45deg); }
-.node.diamond span { transform: rotate(-45deg); }
-.node.hex { clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%); }
-.node.camp { border-radius: 12px; }
-.node.boss { width: 66px; height: 66px; border-width: 3px; border-radius: 50%; box-shadow: inset 0 0 0 3px var(--paper-2); }
-.node.done { opacity: 0.4; border-style: dashed; }
-.node.reachable { border-color: var(--facet-map); box-shadow: 0 0 0 4px color-mix(in srgb, var(--facet-map) 22%, transparent); animation: node-pulse 2s var(--ease) infinite; }
-.node.reachable.circle, .node.reachable.diamond, .node.reachable.hex, .node.reachable.camp, .node.reachable.boss { color: var(--facet-map); }
-.node:hover:not(:disabled) { transform: scale(1.08); }
-.node.diamond:hover:not(:disabled) { transform: rotate(45deg) scale(1.08); }
-.node.selected { background: var(--facet-map); color: var(--paper); border-color: var(--facet-map); animation: none; }
-.node.selected span { color: var(--paper); }
-.node:disabled { cursor: not-allowed; }
-.node:not(.reachable):not(.selected):disabled { opacity: 0.34; }
-.node:focus-visible { outline: 2px solid var(--facet-map); outline-offset: 3px; }
+.mnode.k-elite { width: 30px; height: 30px; font-size: 13px; box-shadow: inset 0 0 0 2px var(--paper-2); }
+.mnode.k-boss { width: 34px; height: 34px; font-size: 15px; border-width: 3px; border-color: var(--ink); color: var(--ink); }
+.mnode.k-rest { border-radius: 7px; }
+.mnode.k-shop {
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+  border-radius: 0;
+}
+.mnode.k-unknown { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); border-radius: 0; }
+.mnode.k-treasure { border-radius: 3px; }
+
+/* Unreachable nodes recede hard, so the reachable set reads instantly. */
+.mnode { opacity: 0.28; }
+.mnode.cleared {
+  opacity: 0.8; border-color: var(--facet-map); color: var(--facet-map);
+  background: var(--panel-2);
+}
+.mnode.current {
+  opacity: 1; border-color: var(--ink); color: var(--paper); background: var(--ink);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--facet-map) 30%, transparent);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+.mnode.legal {
+  opacity: 1; cursor: pointer; border-color: var(--facet-map); color: var(--ink);
+  background: var(--paper); border-width: 3px;
+  animation: node-pulse 2.2s var(--ease) infinite;
+}
+.mnode.legal:hover { transform: translate(-50%, -50%) scale(1.3); }
+.mnode.selected {
+  opacity: 1; background: var(--facet-map); color: var(--paper);
+  border-color: var(--facet-map);
+  animation: none; transform: translate(-50%, -50%) scale(1.3);
+}
+.mnode:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Sits below the current node, in space already walked, so it never covers a
+   node you still have to click. */
+.you-are-here {
+  position: absolute; transform: translate(-50%, 0);
+  font-family: var(--font-ui); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--paper); background: var(--ink);
+  padding: 1px 6px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+}
 
 .map-rail {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background: var(--panel); padding: 18px; display: flex; flex-direction: column;
+  background: var(--panel); padding: 16px 18px;
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; align-items: center;
 }
-.map-title { font-family: var(--font-body); font-size: 18px; margin: 8px 0 6px; }
-.map-prior { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+.map-rail .section-h { grid-column: 1; }
+.map-rail .rail-actions { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
+.map-title { font-family: var(--font-body); font-size: 17px; margin: 0; grid-column: 1; }
+.map-prior { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin: 0; grid-column: 1; }
+.map-rail .hint { grid-column: 1; }
 
 /* ============================ INTENT ============================ */
 .intent-hero { display: flex; align-items: center; gap: 18px; }
@@ -379,19 +464,21 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .enemy-block { display: flex; gap: 16px; align-items: center; }
 .enemy-info { flex: 1; }
 .enemy-info .enemy-name { font-size: 24px; }
-.hp-meter {
-  position: relative; height: 20px; margin: 8px 0;
+.clear-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+.clear-meter {
+  position: relative; flex: 1; height: 16px;
   border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; background: var(--panel-2);
 }
-.hp-fill {
+.clear-fill {
   position: absolute; inset: 0; right: auto; width: 100%;
   background: linear-gradient(90deg, var(--facet-combat), color-mix(in srgb, var(--facet-combat) 70%, var(--danger)));
   transition: width var(--t-slow) var(--ease);
 }
-.hp-text {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--paper);
-  mix-blend-mode: difference;
+/* Beside the bar, not over it. Overlaying needed mix-blend-mode, which
+   inverted to near-black on a near-black track in dark theme. */
+.clear-text {
+  flex: none; min-width: 8.5em;
+  font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: var(--ink);
 }
 .telegraph { font-family: var(--font-ui); font-size: 13px; color: var(--facet-combat); font-weight: 600; }
 .combat-log { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 0; min-height: 1.4em; }
@@ -440,9 +527,30 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .play-card h4 { font-family: var(--font-display); font-size: 15px; margin: 8px 0 6px; }
 .play-card .body { font-size: 13px; color: var(--ink-soft); }
 .play-card .rtype { position: absolute; bottom: 10px; left: 12px; font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.play-card:disabled { cursor: not-allowed; }
-.play-card.illegal { filter: grayscale(0.85); opacity: 0.5; }
-.play-card.too-costly { opacity: 0.55; }
+.play-card:disabled { cursor: not-allowed; opacity: 0.3; }
+/* Legal but unaffordable. Still clickable so it can say why. */
+.play-card[aria-disabled="true"] { filter: grayscale(0.6); opacity: 0.6; cursor: help; }
+.play-card[aria-disabled="true"]:hover {
+  transform: translateX(var(--tx)) translateY(-10px) rotate(var(--rot));
+  opacity: 0.85;
+}
+
+/* Cards that are not legal in this room. Deliberately not card-shaped, so
+   nobody mistakes them for something they can play. */
+.hand-bench {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding-top: 10px; border-top: 1px dashed var(--line);
+}
+.bench-label {
+  font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.bench-chip {
+  font-family: var(--font-ui); font-size: 12px; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 4px;
+  padding: 3px 9px; background: var(--panel);
+}
+.bench-rooms { opacity: 0.65; font-size: 10px; }
 .play-card.committing { animation: card-commit var(--t-slow) var(--ease); }
 
 /* ============================ EVENT ============================ */
@@ -473,8 +581,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 }
 .skip-hero:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .skip-hero:focus-visible { outline: 3px solid var(--safe); outline-offset: 3px; }
-.skip-kicker { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--safe); }
+.skip-kicker { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--safe-text); }
 .skip-main { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
+/* Refusal has to pay a number, or discipline never feels like a win. */
+.skip-payout {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 600;
+  color: var(--paper); background: var(--safe);
+  padding: 3px 12px; border-radius: 999px;
+}
 .offers-h { margin-top: 4px; }
 .offer-row { display: flex; gap: 14px; flex-wrap: wrap; }
 .offer {
@@ -522,7 +636,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .deck-row:disabled { cursor: default; }
 .deck-row.selected { background: color-mix(in srgb, var(--facet-campfire) 16%, var(--panel)); box-shadow: inset 3px 0 0 var(--facet-campfire); }
 .deck-row .meta { font-family: var(--font-ui); font-size: 12px; color: var(--muted); }
-.deck-row .unplayed { color: var(--facet-campfire); font-weight: 600; }
+.deck-row .unplayed { color: var(--campfire-text); font-weight: 600; }
 
 /* ============================ SHOP ============================ */
 .pack-hero { display: flex; gap: 16px; align-items: center; }
@@ -546,7 +660,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .ware .kind { font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .ware .price {
   position: absolute; top: 12px; right: 12px;
-  font-family: var(--font-ui); font-weight: 700; font-size: 13px; color: var(--gold);
+  font-family: var(--font-ui); font-weight: 700; font-size: 13px; color: var(--gold-text);
   display: inline-flex; align-items: center; gap: 4px;
 }
 .ware .price::before { content: "◆"; }
@@ -567,6 +681,166 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 .rung .applied-tag { margin-left: auto; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--safe); }
 .asc-detail { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); padding: 18px; display: flex; flex-direction: column; }
 .asc-detail p { color: var(--ink-soft); }
+
+/* ============================ ENTITY STANDARDS ============================
+   Silhouette carries the meaning so objects survive greyscale. Accent is
+   always secondary. See ../ENTITY_STANDARDS.md. */
+
+.deck-intro { max-width: 68ch; }
+.deck-grid { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+.deck-group { border-top: 1px solid var(--line); padding-top: 12px; }
+.grp-count {
+  font-family: var(--font-ui); font-size: 11px; color: var(--paper);
+  background: var(--muted); border-radius: 999px; padding: 1px 8px; margin-left: 6px;
+}
+.grp-note { font-family: var(--font-ui); font-size: 12px; color: var(--muted); margin: 4px 0 10px; max-width: 70ch; }
+.obj-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+
+/* Card: tall rounded rectangle, cost pip, rarity notch. */
+.o-card {
+  position: relative; width: 150px; min-height: 132px;
+  border: 1px solid var(--ink); border-radius: 12px;
+  background: linear-gradient(180deg, var(--paper), var(--panel));
+  padding: 14px 12px 24px; box-shadow: var(--shadow-1);
+}
+.o-card .cost {
+  position: absolute; top: -10px; left: -10px;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-ui); font-weight: 700; font-size: 13px;
+  color: var(--paper); background: var(--ink);
+  border: 2px solid var(--paper); box-shadow: var(--shadow-1);
+}
+.o-card .notch {
+  position: absolute; top: 10px; right: 10px;
+  width: 10px; height: 10px; transform: rotate(45deg); border: 1.5px solid var(--ink);
+}
+.o-card.uncommon .notch { background: var(--class-defect); border-color: var(--class-defect); }
+.o-card.rare .notch { background: var(--gold); border-color: var(--gold); }
+.o-card h4 { font-family: var(--font-display); font-size: 14px; margin: 6px 0 6px; }
+.o-card .rooms { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.o-card .meta {
+  position: absolute; bottom: 8px; left: 12px;
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* Relic: circle with a ring. */
+.o-relic { display: flex; gap: 10px; align-items: flex-start; width: 260px; }
+.o-relic .sil {
+  width: 38px; height: 38px; flex: none; border-radius: 50%;
+  border: 2px solid var(--class-defect);
+  box-shadow: inset 0 0 0 3px var(--paper-2);
+  display: grid; place-items: center; color: var(--class-defect); font-size: 14px;
+  background: var(--panel);
+}
+.o-relic .rule { font-size: 13px; line-height: 1.4; }
+.o-relic .name { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+
+/* Power: hexagon. */
+.o-power { display: flex; gap: 10px; align-items: flex-start; width: 260px; }
+.o-power .sil {
+  width: 38px; height: 38px; flex: none;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+  background: var(--facet-campfire); color: var(--paper);
+  display: grid; place-items: center; font-size: 14px;
+}
+.o-power .name { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+.o-power .evt { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* Potion: downward flask with a narrow base. */
+.o-potion { width: 132px; text-align: center; }
+.o-potion .sil {
+  width: 44px; height: 44px; margin: 0 auto 6px;
+  clip-path: polygon(12% 0, 88% 0, 62% 46%, 62% 100%, 38% 100%, 38% 46%);
+  background: var(--facet-reward);
+}
+.o-potion.diag .sil { background: var(--facet-shop); }
+.o-potion.perf .sil { background: var(--facet-intent); }
+.o-potion .name { font-family: var(--font-display); font-size: 13px; font-weight: 600; }
+.o-potion .uses { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
+
+/* Curse: torn rectangle, dashed, danger. */
+.o-curse {
+  width: 240px; padding: 10px 12px;
+  border: 2px dashed var(--danger); color: var(--ink);
+  background: color-mix(in srgb, var(--danger) 8%, var(--paper));
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%);
+}
+.o-curse .name {
+  font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--danger);
+}
+.o-curse .cost-line { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
+
+/* Room-type chips. Colour is never the only signal. */
+.room-chip {
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.04em;
+  padding: 1px 7px; border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.rt-bug { color: var(--room-bug); }
+.rt-feature { color: var(--room-feature); }
+.rt-refactor { color: var(--room-refactor); }
+.rt-design { color: var(--room-design); }
+.rt-docs { color: var(--room-docs); }
+.rt-infra { color: var(--room-infra); }
+.rt-orient { color: var(--room-orient); }
+
+.empty-note { font-family: var(--font-ui); font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* ============================ METRICS ============================ */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.metric-card {
+  border: 1px solid var(--line); border-top: 3px solid var(--facet);
+  border-radius: var(--radius-lg); background: var(--panel); padding: 16px;
+}
+.bars { display: flex; align-items: flex-end; gap: 10px; height: 130px; margin-top: 8px; }
+.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.bar {
+  width: 100%; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--facet), color-mix(in srgb, var(--facet) 55%, var(--panel)));
+  transition: height var(--t-slow) var(--ease);
+}
+.bar-label { font-family: var(--font-ui); font-size: 10px; color: var(--muted); }
+.bar-value { font-family: var(--font-ui); font-size: 11px; font-weight: 600; }
+.illustrative, .live {
+  font-family: var(--font-ui); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle;
+}
+/* A fake number has to be labelled where the number is, not in a footnote. */
+.illustrative { color: var(--paper); background: var(--danger); }
+.live { color: var(--paper); background: var(--safe); }
+
+.metric-foot {
+  display: flex; justify-content: space-between; gap: 10px; margin-top: 12px;
+  padding-top: 10px; border-top: 1px solid var(--line);
+  font-family: var(--font-ui); font-size: 12px; color: var(--muted);
+}
+.metric-foot strong { color: var(--ink); }
+
+.trends { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.trend { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.trend-name { font-family: var(--font-ui); font-size: 12px; }
+.trend-val { font-family: var(--font-ui); font-size: 12px; font-weight: 700; }
+.trend-val.up { color: var(--safe); }
+.trend-val.down { color: var(--danger); }
+.spark { grid-column: 1 / -1; display: flex; align-items: flex-end; gap: 2px; height: 26px; }
+.spark span { flex: 1; background: var(--muted); border-radius: 1px; opacity: 0.55; }
+.spark span:last-child { background: var(--facet); opacity: 1; }
+
+.gauges { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.gauge { display: flex; flex-direction: column; gap: 4px; }
+.gauge-head {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-ui); font-size: 12px;
+}
+.gauge-head strong { font-weight: 700; }
+.gauge-track { height: 8px; border-radius: 999px; background: var(--panel-2); overflow: hidden; }
+.gauge-fill { height: 100%; border-radius: 999px; background: var(--facet); }
+.gauge-fill.warn { background: var(--danger); }
+.gauge-fill.good { background: var(--safe); }
+.gauge-note { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
 
 /* ============================ FANFARE / TOAST ============================ */
 .fanfare {
@@ -598,7 +872,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
 @keyframes intent-reveal { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes card-commit { 0% { transform: translateY(-28px) scale(1.06); } 40% { transform: translateY(-90px) scale(1.1); opacity: 1; } 100% { transform: translateY(-140px) scale(0.9); opacity: 0; } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-@keyframes node-pulse { 0%, 100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--facet-map) 22%, transparent); } 50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--facet-map) 10%, transparent); } }
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--facet-map) 26%, transparent); }
+  50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--facet-map) 10%, transparent); }
+}
 @keyframes stamp { 0% { opacity: 0; transform: rotate(-6deg) scale(1.5); } 30% { opacity: 1; } 100% { opacity: 1; transform: rotate(-6deg) scale(1); } }
 
 /* ============================ RESPONSIVE ============================ */

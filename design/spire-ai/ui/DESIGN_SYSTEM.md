@@ -35,7 +35,7 @@ Deckbuilder clarity, not dashboard chrome and not generic AI purple.
 --facet-intent: #8a4b2e;
 --facet-combat: #8f2d2d;
 --facet-reward: #2f5d3a;
---facet-campfire: #a65d2e;
+--facet-campfire: #9c5527;
 --facet-shop: #5c4d7a;
 --facet-ascension: #1c1916;
 --facet-event: #4a6741;
@@ -43,6 +43,13 @@ Deckbuilder clarity, not dashboard chrome and not generic AI purple.
 
 **Rules**
 
+- Any accent used as a fill behind small text must clear 4.5:1 against
+  `--spire-paper`. Campfire was `#a65d2e` and measured 4.33:1 under the facet
+  tab, so it is `#9c5527` (4.89:1). Accents that only ever carry large text or
+  act as borders are exempt.
+- Accents used *as* small text need their own darker variant rather than reuse
+  of the fill value. See `--safe-text`, `--gold-text`, `--campfire-text` in the
+  demo stylesheet.
 - Never purple-on-white gradient theme. Watcher violet is an accent pip only.
 - Never make Skip look disabled. On Reward, Skip is the visual default.
 - Danger only for flee / fail / curse — not for primary navigation.

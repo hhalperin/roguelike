@@ -1,0 +1,58 @@
+{
+  "_comment": "Act bosses as data. The engine holds no project knowledge, so boss content lives here rather than in scripts/. Pools are chosen by act; acts past the Heart draw from 'endless'.",
+  "1": [
+    {"id": "unclear-requirements", "name": "Unclear Requirements", "room": "design",
+     "intent": "Will block ship until someone owns the decision.",
+     "acceptance": "decision recorded + checks green"},
+    {"id": "undecided-architecture", "name": "The Undecided Architecture", "room": "design",
+     "intent": "Will make every module wait on a choice nobody made.",
+     "acceptance": "ADR committed + one path spiked"},
+    {"id": "scope-without-a-spec", "name": "Scope Without a Spec", "room": "feature",
+     "intent": "Will keep growing until Done is undefined.",
+     "acceptance": "written Done + a vertical slice shipped"}
+  ],
+  "2": [
+    {"id": "the-integration", "name": "The Integration", "room": "feature",
+     "intent": "Will pass in isolation and fail together.",
+     "acceptance": "end-to-end path green in CI"},
+    {"id": "half-migrated-schema", "name": "The Half-Migrated Schema", "room": "infra",
+     "intent": "Will strand you between two shapes of the same table.",
+     "acceptance": "migration applied + rollback rehearsed"},
+    {"id": "cross-service-deadline", "name": "Cross-Service Deadline", "room": "infra",
+     "intent": "Will make your timeline depend on a team you do not control.",
+     "acceptance": "contract agreed + stub deployed"}
+  ],
+  "3": [
+    {"id": "launch", "name": "Launch", "room": "infra",
+     "intent": "Will expose everything you deferred.",
+     "acceptance": "runbook + rollback + monitoring live"},
+    {"id": "scale-cliff", "name": "The Scale Cliff", "room": "refactor",
+     "intent": "Will hold until traffic doubles, then fail all at once.",
+     "acceptance": "load test at 2x + a named bottleneck"},
+    {"id": "compliance-gate", "name": "The Compliance Gate", "room": "docs",
+     "intent": "Will not negotiate, and does not care about your sprint.",
+     "acceptance": "audit trail complete + sign-off recorded"}
+  ],
+  "4": [
+    {"id": "the-heart", "name": "The Heart of the Codebase", "room": "refactor",
+     "intent": "Will reveal that the thing everyone feared touching is load-bearing.",
+     "acceptance": "the core path is covered, understood, and changed safely"}
+  ],
+  "endless": [
+    {"id": "the-next-quarter", "name": "The Next Quarter", "room": "feature",
+     "intent": "Will arrive whether or not you finished the last one.",
+     "acceptance": "a shippable increment, again"},
+    {"id": "the-inherited-service", "name": "The Inherited Service", "room": "infra",
+     "intent": "Will belong to you the moment its author leaves.",
+     "acceptance": "you can deploy it and explain it"},
+    {"id": "the-rewrite-proposal", "name": "The Rewrite Proposal", "room": "design",
+     "intent": "Will promise that starting over is cheaper. It is not.",
+     "acceptance": "a written comparison and a decision either way"},
+    {"id": "the-slow-erosion", "name": "The Slow Erosion", "room": "refactor",
+     "intent": "Will take one percent of your velocity every month, forever.",
+     "acceptance": "a measured trend that stops going down"},
+    {"id": "the-oncall-week", "name": "The On-Call Week", "room": "bug",
+     "intent": "Will interrupt whatever you planned.",
+     "acceptance": "every page resolved and one made impossible"}
+  ]
+}
