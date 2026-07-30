@@ -1,8 +1,8 @@
 # spire
 
-**A roguelike deck for every repo.** A Claude Code plugin that scans any
-repository, deals it a starter deck of Claude config, and grows that deck as you
-clear rooms.
+**Your project is the run. Your Claude config is the deck.** A Claude Code plugin
+that scans any repository, deals it a starter deck of Claude config, and grows
+that deck as you clear rooms.
 
 > Your project is the run. Your Claude config is the deck. spire is the
 > game engine.
@@ -67,7 +67,7 @@ must load) stay in `.claude/`.
 ## Install
 
 ```
-/plugin marketplace add hhalperin/roguelike
+/plugin marketplace add hhalperin/spire
 /plugin install spire@spire
 ```
 

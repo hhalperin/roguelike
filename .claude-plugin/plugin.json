@@ -1,15 +1,14 @@
 {
   "name": "spire",
-  "description": "A roguelike deck for every repo — scan a project, deal it a starter deck of Claude config, and grow that deck as you clear rooms.",
+  "description": "Spire — a Claude Code plugin that scans a project, deals a starter deck of Claude config, and grows that deck as you clear rooms.",
   "version": "0.2.0",
   "author": {
     "name": "hhalperin"
   },
-  "homepage": "https://github.com/hhalperin/roguelike",
-  "repository": "https://github.com/hhalperin/roguelike",
+  "homepage": "https://github.com/hhalperin/spire",
+  "repository": "https://github.com/hhalperin/spire",
   "license": "MIT",
   "keywords": [
-    "roguelike",
     "spire",
     "deck-builder",
     "claude-config",
