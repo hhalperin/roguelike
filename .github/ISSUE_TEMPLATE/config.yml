@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Questions & deck sharing
-    url: https://github.com/hhalperin/roguelike/discussions
+    url: https://github.com/hhalperin/spire/discussions
     about: Ask questions, share a proven deck, or float an idea before filing an issue.
   - name: Report a security vulnerability
-    url: https://github.com/hhalperin/roguelike/security/advisories/new
+    url: https://github.com/hhalperin/spire/security/advisories/new
     about: Please report vulnerabilities privately — see SECURITY.md.
